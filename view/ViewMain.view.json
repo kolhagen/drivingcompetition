@@ -1,0 +1,11 @@
+{
+	"Type":"sap.ui.core.mvc.JSONView",
+	"controllerName":"view.ViewMain",
+	"content": [{
+		"Type":"sap.m.Page",
+		"title":"Title",
+		"content":[
+		
+		]
+	}]
+}
