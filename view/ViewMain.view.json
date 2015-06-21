@@ -3,7 +3,7 @@
 	"controllerName":"view.ViewMain",
 	"content": [{
 		"Type":"sap.m.Page",
-		"title":"Title",
+		"title":"Driving Competition",
 		"content":[
 		
 		]
