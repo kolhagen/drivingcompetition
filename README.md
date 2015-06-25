@@ -1,2 +1,2 @@
-# drivingcomptetition
-SAP Hana Driving Comptetition
+# drivingcompetition
+SAP Hana Driving Competition
