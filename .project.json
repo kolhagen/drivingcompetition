@@ -1,14 +1,20 @@
 {
-  "generation": [
-    {
-      "templateId": "ui5template.basicSAPUI5ApplicationProject",
-      "templateVersion": "1.4.0",
-      "dateTimeStamp": "Sun, 21 Jun 2015 17:50:57 GMT"
+  "dataBinding": {
+    "/view/Master.view.xml": {
+      "entitySet": ""
+    },
+    "/view/Detail.view.xml": {
+      "entitySet": ""
+    },
+    "/view/NotFound.view.xml": {
+      "entitySet": "UNBINDKEY"
+    },
+    "/view/App.view.xml": {
+      "entitySet": "UNBINDKEY"
     }
-  ],
+  },
   "translation": {
-    "translationDomain": "",
-    "supportedLanguages": "en,fr,de",
+    "supportedLanguages": "de,en",
     "defaultLanguage": "en",
     "defaultI18NPropertyFile": "i18n.properties",
     "resourceModelName": "i18n"

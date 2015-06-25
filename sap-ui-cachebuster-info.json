@@ -1,0 +1,18 @@
+{
+  "css/style.css": "1435069978000",
+  "i18n/language_de.properties": "1435071306000",
+  "i18n/language.properties": "1435071313000",
+  "model/data.json": "1435262694000",
+  "view/App.controller.js": "1435263624000",
+  "view/App.view.xml": "1435263627000",
+  "view/Detail.controller.js": "1435264231000",
+  "view/Detail.view.xml": "1435263642000",
+  "view/Master.controller.js": "1435263667000",
+  "view/Master.view.xml": "1435263671000",
+  "view/NotFound.controller.js": "1435263674000",
+  "view/NotFound.view.xml": "1435263678000",
+  "Component.js": "1435263722000",
+  "README.md": "1435264035000",
+  "index.html": "1435263710000",
+  "Router.js": "1435263776000"
+}
