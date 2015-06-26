@@ -39,15 +39,27 @@
                         press="onSelect" 
                         type="{device>/listItemType}" 
                         counter="0"
-						title="yo"
-						number=""
-						numberUnit=""
+						title="Max"
+						number="1"
+						numberUnit="Rang"
                         markFavorite="false" 
                         markFlagged="false" 
                         showMarkers="false">
                         <core:ExtensionPoint 
                             name="extListItemInfo"/>
-                    </ObjectListItem>
+                    </ObjectListItem> 
+                    <ObjectListItem 
+                        id="testListItem" 
+                        press="onSelect" 
+                        type="{device>/listItemType}" 
+                        counter="0"
+						title="TestObject"
+						number="2"
+						numberUnit="Rang"
+                        markFavorite="false" 
+                        markFlagged="false" 
+                        showMarkers="false">
+                    </ObjectListItem> 
                 </items>
             </List>
         </content>
