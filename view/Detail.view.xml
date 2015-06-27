@@ -13,7 +13,7 @@
         <content>
             <ObjectHeader 
                 id="detailHeader"
-				title=""
+				title="{Name}"
 				number=""
 				numberUnit=""
                 introActive="false" 
@@ -37,6 +37,7 @@
             </ObjectHeader>
             <IconTabBar 
                 id="idIconTabBar" 
+                select="onDetailSelect"
                 expanded="{device>/isNoPhone}">
     			<items 
     			    id="detailsItems">
@@ -58,82 +59,33 @@
 								<f:content>
 									<Label 
 										id="label1" 
-										text="">
+										text="Spritverbrauch ">
 									</Label>
 									<Text 
 										id="text1"
-										text=""
+										text="{consumption}"
 										maxLines="0">
 									</Text>
 									<Label 
 										id="label2" 
-										text="">
+										text="label2">
 									</Label>
 									<Text 
 										id="text2"
-										text=""
+										text="text 3"
 										maxLines="0">
 									</Text>
 									<Label 
 										id="label3" 
-										text="">
+										text="label 3">
 									</Label>
 									<Text 
 										id="text3"
-										text=""
+										text="text 3"
 										maxLines="0">
 									</Text>
 									<core:ExtensionPoint 
 										name="extIconTabFilterForm1"/>
-								</f:content>
-							</f:SimpleForm>
-                        </content>
-                    </IconTabFilter>
-                    <IconTabFilter 
-                        id="iconTabFilter2" 
-                        key="" 
-                        icon="sap-icon://enter-more">
-                        <content>
-							<f:SimpleForm 
-								id="iconTabFilter2form" 
-								minWidth="1024" 
-								editable="false" 
-								layout="ResponsiveGridLayout" 
-								labelSpanL="3" 
-								labelSpanM="3" 
-								emptySpanL="4" 
-								emptySpanM="4" 
-								columnsL="1">
-								<f:content>
-									<Label 
-										id="label4" 
-										text="">
-									</Label>
-									<Text 
-										id="text4"
-										text=""
-										maxLines="0">
-									</Text>
-									<Label 
-										id="label5" 
-										text="">
-									</Label>
-									<Text 
-										id="text5"
-										text=""
-										maxLines="0">
-									</Text>
-									<Label 
-										id="label6" 
-										text="">
-									</Label>
-									<Text 
-										id="text6"
-										text=""
-										maxLines="0">
-									</Text>
-									<core:ExtensionPoint 
-										name="extIconTabFilterForm2"/>
 								</f:content>
 							</f:SimpleForm>
                         </content>
