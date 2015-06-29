@@ -26,7 +26,14 @@ sap.ui.core.mvc.Controller.extend("drivingcompetition.view.Master", {
             })
         }); */
         // - END MAX
-
+        
+        //youngi
+        /*var jsonModel = new sap.ui.model.json.JSONModel();
+        jsonModel.loadData("data.json");
+        //sap.ui.getCore().setModel(jsonModel);
+        oList.setModel(jsonModel);
+		*/
+		
 		//On phone devices, there is nothing to select from the list. There is no need to attach events.
 		if (sap.ui.Device.system.phone) {
 			return;
