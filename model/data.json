@@ -17,7 +17,7 @@
         { 
             "id":0, 
     		"name":"Max",
-    		"rang":1
+    		"rang":4
         },
         {
             "id":1, 
@@ -30,7 +30,7 @@
         },{
             "id":3, 
     		"name":"Young-Hwan",
-    		"rang":4
+    		"rang":1
         }
         ]
 }
