@@ -25,7 +25,7 @@
                         <ObjectListItem
                             title="{name}"
                             press="onListItemPress"
-                            number="{number}"
+                            number="{rang}"
                             numberUnit="{i18n>masterListRank}">
     					</ObjectListItem>
                 </items>

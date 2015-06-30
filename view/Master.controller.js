@@ -29,10 +29,18 @@ sap.ui.core.mvc.Controller.extend("drivingcompetition.view.Master", {
         });*/
         // - END MAX
         
+        //sortier für die spätere umranking geschichte
+        var oSorter = new sap.ui.model.Sorter("property");
+        oSorter.fnCompare = function(value1, value2) {
+            if (value1 < value2) {return -1;}
+            if (value1 === value2) {return 0;}
+            if (value1 > value2) {return 1;}
+        };
         //data binding to json data
 		var jsonModel = new sap.ui.model.json.JSONModel("/model/data.json");
 		this.getView().byId("list").setModel(jsonModel);
-		
+		//change some rangs
+	
 		
 		//On phone devices, there is nothing to select from the list. There is no need to attach events.
 		if (sap.ui.Device.system.phone) {
