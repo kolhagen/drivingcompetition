@@ -16,29 +16,21 @@
     "cars": [
         { 
             "id":0, 
-            "counter":0,
-    		"title":"Max",
-    		"number":1,
-    		"numberUnit":"Rang"
+    		"name":"Max",
+    		"rang":1
         },
         {
             "id":1, 
-            "counter":1,
-    		"title":"Markus",
-    		"number":2,
-    		"numberUnit":"Rang"
+    		"name":"Markus",
+    		"rang":2
         },{
             "id":2, 
-            "counter":2,
-    		"title":"Young-Hwan",
-    		"number":3,
-    		"numberUnit":"Rang"
+    		"name":"Young-Hwan",
+    		"rang":3
         },{
             "id":3, 
-            "counter":3,
-    		"title":"Young-Hwan",
-    		"number":4,
-    		"numberUnit":"Rang"
+    		"name":"Young-Hwan",
+    		"rang":4
         }
         ]
 }

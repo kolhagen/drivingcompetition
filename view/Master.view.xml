@@ -23,10 +23,10 @@
 				<items
                     id="masterList">
                         <ObjectListItem
-                            title="{title}"
+                            title="{name}"
                             press="onListItemPress"
                             number="{number}"
-                            numberUnit="Rang">
+                            numberUnit="{i18n>masterListRank}">
     					</ObjectListItem>
                 </items>
             </List>
