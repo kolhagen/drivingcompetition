@@ -13,26 +13,26 @@ sap.ui.core.mvc.Controller.extend("drivingcompetition.view.Master", {
 		}, this);
 
 		// - START MAX
-		//var jsonModel = sap.ui.getCore().getModel('jsonModel');
-        //var aData = jsonModel.getProperty('/driver');
-		//oList.setModel(jsonModel);
-		/*oList.bindItems({
+	/*	var jsonModel = sap.ui.getCore().getModel();
+        var aData = jsonModel.getProperty("/driver");
+		jsonModel.setData({modelData : aData});                                                       
+		var oList;
+		oList.setModel(jsonModel);
+		oList.bindItems({
             path : "/driver",
             //sorter : new sap.ui.model.Sorter("prodName"),
             template : new sap.m.StandardListItem({
                 title: "{name}",
-                description: "{age}",
+                number: "{age}",
                 icon: "sap-icon://flag"
             })
-        }); */
+        });*/
         // - END MAX
         
-        //youngi
-        /*var jsonModel = new sap.ui.model.json.JSONModel();
-        jsonModel.loadData("data.json");
-        //sap.ui.getCore().setModel(jsonModel);
-        oList.setModel(jsonModel);
-		*/
+        //data binding to json data
+		var jsonModel = new sap.ui.model.json.JSONModel("/model/data.json");
+		this.getView().byId("list").setModel(jsonModel);
+		
 		
 		//On phone devices, there is nothing to select from the list. There is no need to attach events.
 		if (sap.ui.Device.system.phone) {
