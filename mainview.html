@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script>
+var mydata;
+function somechange(){
+	document.getElementById('zack').innerHTML = 'Hello JavaScript!';
+	}
+</script>
+</head>
+
+<body>
+<h1>Ranking</h1>
+
+<p id="zack">JavaScript can change HTML content.</p>
+<div id="ranking"></div>
+<script>
+function myFunction(arr) {
+    var out = "";
+    var i;
+    for(i = 0; i<arr.length; i++) {
+        out += '<a href="' + arr[i].url + '">' + arr[i].display + '</a><br>';
+    }
+    document.getElementById("ranking").innerHTML = out;
+}
+</script>
+<script src="myTutorials.js"></script>
+
+<button type="button" onclick="somechange()">Click Me!</button>
+</body>
+</html>
