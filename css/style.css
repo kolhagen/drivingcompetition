@@ -29,14 +29,16 @@ body {
 	-webkit-border-radius: 50px;
 	-moz-border-radius: 50px;
 	background: url(../images/avatar.png) no-repeat;
+	clear:left;
 }
-#drivername
+.dname
 {
 	float: left;
 	height: 100px;
 }
-#rank
+.ranks
 {
 	float: right;
 	height: 100px;
+	clear: right;
 }
