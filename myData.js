@@ -1,5 +1,5 @@
 myData([
-{"cars": [
+
         { 
             "id":0, 
     		"name":"Max",
@@ -18,5 +18,5 @@ myData([
     		"name":"Young-Hwan",
     		"rang":1
         }
-        ]
-}])
+        
+])

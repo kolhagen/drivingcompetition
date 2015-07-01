@@ -13,20 +13,19 @@ function somechange(){
 <body>
 <h1>Ranking</h1>
 
-<p id="zack">JavaScript can change HTML content.</p>
 <div id="ranking"></div>
 <script>
-function myFunction(arr) {
+function myData(arr) {
     var out = "";
     var i;
     for(i = 0; i<arr.length; i++) {
-        out += '<a href="' + arr[i].url + '">' + arr[i].display + '</a><br>';
+        out += '<div id="drivername' + i + '">' + '<b>' + arr[i].name + '</b>' + '</div>'+ '<div id="rank'+i+'">' + "Rang: " + arr[i].rang + '<br>' + '</div>';
+		
     }
     document.getElementById("ranking").innerHTML = out;
 }
 </script>
-<script src="myTutorials.js"></script>
+<script src="myData.js"></script>
 
-<button type="button" onclick="somechange()">Click Me!</button>
 </body>
 </html>

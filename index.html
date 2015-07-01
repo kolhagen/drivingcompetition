@@ -6,10 +6,19 @@
 </head>
 <body>
 	<div id="master">
-		<ul class="list">
-			<li class="car"><div id="driverpic"></div>
-				<div id="drivername">Drivername</div>
-				<div id="rank">Rank</div></li>
+		<ul id="list" class="list">
+            <script>
+				function myData(arr) {
+					var out = "";
+					var i;
+					for(i = 0; i<arr.length; i++) {
+						out += '<li class="car"><div id="driverpic"></div> <div id="drivername' + i + '">' + '<b>' + arr[i].name + '</b>' + '</div>'+ '<div id="rank'+i+'">' + "Rang: " + arr[i].rang + '<br>' + '</div></li>';
+						
+					}
+					document.getElementById("list").innerHTML = out;
+				}
+				</script>
+				<script src="myData.js"></script>
 		</ul>
 	</div>
 	<div id="details"><div id="detailsTop"></div><div id="detailsBottom"><div id="detailsCharts"></div></div></div>
