@@ -12,7 +12,7 @@
 					var out = "";
 					var i;
 					for(i = 0; i<arr.length; i++) {
-						out += '<li class="car"><div id="driverpic"></div> <div class="dname" id="drivername' + i + '">' + '<b>' + arr[i].name + '</b>' + '</div>'+ '<div class="ranks" id="rank'+i+'">' + "Rang: " + arr[i].rang +  '</div></li>';
+						out += '<a href="index.html'+ "?driver=" + i +'"> <li class="car"> <div id="driverpic"></div> <div class="dname" id="drivername' + i + '">' + '<b>' + arr[i].name + '</b>' + '</div>'+ '<div class="ranks" id="rank'+i+'">' + "Rang: " + arr[i].rang +  '</div></li></a>';
 						
 					}
 					document.getElementById("list").innerHTML = out;
