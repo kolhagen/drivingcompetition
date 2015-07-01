@@ -19,7 +19,7 @@ body {
 	list-style: none;
 }
 .car {
-	border-bottom: 1px solid #ccc;
+	
 }
 #driverpic {
 	float:left;
@@ -33,5 +33,10 @@ body {
 #drivername
 {
 	float: left;
+	height: 100px;
+}
+#rank
+{
+	float: right;
 	height: 100px;
 }
