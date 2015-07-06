@@ -1,0 +1,14 @@
+{"drivers":{
+"driver":[
+{"id":0, "name":"Max", "rang":1}, 
+{"id":1, "name":"Markus", "rang":2}, 
+{"id":2, "name":"Young-Hwan", "rang":3}, 
+{"id":3, "name":"Oliver", "rang":4} 
+]},
+"details":{
+"detail":[
+{"driver_id":0,"trips":30,"fuel_consumed":30,"fuel_savings":5},
+{"driver_id":1,"trips":40,"fuel_consumed":60,"fuel_savings":6},
+{"driver_id":2,"trips":200,"fuel_consumed":1000,"fuel_savings":45},
+{"driver_id":3,"trips":10,"fuel_consumed":30,"fuel_savings":0}]
+}}
