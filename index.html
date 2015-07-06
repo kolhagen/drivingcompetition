@@ -1,28 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="css/style.css">
 <script src="javascript/jquery-2.1.4.min.js"></script>
-<div id="header"><h1> Driving Compition</h1></div>
+<div>
+  <h1>Driving Compition</h1>
+</div>
 </head>
 <body>
-	<div id="master">
-		<ul id="list" class="list">
-            <script>
+<div id="master" class="row">
+<div class="col-md-4">
+  <ul id="list" class="list">
+    <script>
 				function myData(arr) {
 					var out = "";
 					var i;
 					for(i = 0; i<arr.length; i++) {
-						out += '<a href="index.html'+ "?driver=" + i +'"> <li class="car"> <div id="driverpic"></div> <div class="dname" id="drivername' + i + '">' + '<b>' + arr[i].name + '</b>' + '</div>'+ '<div class="ranks" id="rank'+i+'">' + "Rang: " + arr[i].rang +  '</div></li></a>';	
+						out += '<a href="index.html'+ "?driver=" + i +'"> <li class="car"><div class="row"><div class="col-md-4" id="driverpic"></div><div class="dname col-md-4" id="drivername' + i + '">' + '<b>' + arr[i].name + '</b>' + '</div>'+'<div class="ranks col-md-4" id="rank'+i+'">' + "Rang: " + arr[i].rang +  '</div></div></li></a>';	
 					}
 					document.getElementById("list").innerHTML = out;
 				}
-				</script>
-				<script src="myData.js"></script>
-		</ul>
-	</div>
-	<div id="details"><div id="detailsTop"></div><div id="detailsBottom"><div id="detailsCharts"></div></div></div>
-	<h1>Yo</h1>
+				</script> 
+    <script src="myData.js"></script>
+  </ul>
+</div>
+<div class="col-md-6" id="details"> this is details
+  <div class"row">
+    <div class="col-md-6" id="detailsTop"> with me as top</div>
+    <div class="col-md-6"id="detailsBottom"> and me as bottom
+      <div id="detailsCharts"> while i hold the charts </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
-

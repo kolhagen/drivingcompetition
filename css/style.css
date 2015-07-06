@@ -1,19 +1,12 @@
 body {
-	background-color:#ccc;
 	margin: 0 auto 0 auto;
 	padding: 0;
-	width: 960px;
+	background: #C0C0C0;
 }
 #master {
-	heigth:100%;
-	width:40%;
-	float:left;
 	background-color: #fff;
 }
-#details {
-	height: 100%;
-	width: 60%;
-	
+#details {	
 }
 .list {
 	list-style: none;
