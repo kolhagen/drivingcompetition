@@ -1,0 +1,39 @@
+[
+	{
+		"name": "Markus Braun",
+		"department": "Management",
+		"cars": [
+			"system-local::WWWEPSILON5555555"
+		]
+	},
+	{
+		"name": "Young-Hwan Kim",
+		"department": "IT",
+		"cars": [
+			"system-local::WWWALPHA111111111",
+			"system-local::WWWDELTA444444444"
+		]
+	},
+	{
+		"name": "Max Kolhagen",
+		"department": "Accounting",
+		"cars": [
+			"system-local::WWWGAMMA333333333"
+		]
+	},
+	{
+		"name": "Kristin Boehm",
+		"department": "Archive",
+		"cars": [
+			"system-local::WWWBETA2222222222"
+		]
+	},
+	{
+		"name": "David Keller",
+		"department": "Acquisitions",
+		"cars": [
+			"system-local::WWWZETA6666666666"
+		]
+	}
+]
+
