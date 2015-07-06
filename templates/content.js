@@ -1,16 +1,20 @@
+/**
+ * Class representing main view (wrapper for list of drivers and details)
+ */
 var Content = React.createClass({
 	getInitialState: function() {
-		return {selected: null};
+		return { selected: null };
 	},
+  /**
+   * Called, when a specific driver is clicked in list.
+   */
 	handleClick: function(i, event) {
-		//console.log(event);
-		//console.log(data.driver[i]);
-		this.setState({selected: data.driver[i]});
+		this.setState({ selected: data.driver[i] });
 	},
 	render: function() {
 			return (
 				<div id="content">
-					<DriverList onChange={this.handleClick} data={data.driver} />
+					<DriverList onClick={this.handleClick} data={data.driver} />
 					<Details driver={this.state.selected} />
 				</div>
 			);

@@ -3,20 +3,24 @@
 <head>
 	<title>Driving Competition</title>
 
+	<!-- Load Javascript Libraries -->
 	<script src="build/react.js"></script>
 	<script src="build/JSXTransformer.js"></script>
 	<script src="build/jquery-2.1.4.min.js"></script>
 
+	<!-- Load Templates -->
 	<script src="templates/driver.js" type="text/jsx"></script>
 	<script src="templates/details.js" type="text/jsx"></script>
 	<script src="templates/content.js" type="text/jsx"></script>
 
+	<!-- Load Static Data -->
 	<script src="data/driver.js"></script>
 </head>
 <body>
 	<h1>Driving Competition</h1>
 
 	<script>
+		// Constants
 		var API 			= "https://xs01ac37c9fd2.hana.ondemand.com/sap/vean/v0.1/odata/";
 		var PROXY 		= "http://localhost:8080/";
 		var USE_PROXY = true;
@@ -26,6 +30,9 @@
 		if (USE_PROXY)
 			URL = PROXY + URL;
 
+		/**
+		 * Performs a API request on the SAP HANA backend.
+		 */
 		function apiRequest(request, callback) {
 			$.ajax({
 				type: 			"GET",
@@ -44,16 +51,11 @@
 		}
 	</script>
 
+	<!-- Main Content Container -->
 	<div id="container"></div>
 
 	<script type="text/jsx">
-		// TODO: delete test API call (gets all car models)
-		/*apiRequest("Vehicle('sap.vean::Vehicle_AllModels')/Children?$select=ID", function(data) {
-			for (car of data.d.results) {
-				console.log(car.ID);
-			}
-		});*/
-
+		// Render content
 		React.render(
 			<Content />,
 			document.getElementById("container")
