@@ -9,9 +9,9 @@ var Details = React.createClass({
 	getInitialState: function() {
 		return {car: "..."};
 	},
-  /**
-   * Called, when content/data of this component has changed.
-   */
+	/**
+	 * Called, when content/data of this component has changed.
+	 */
 	componentDidUpdate: function() {
 			// TODO: Kind of hacky, better method?
 			if (lastUser === this.props.driver)
@@ -59,13 +59,11 @@ var Details = React.createClass({
 
 						<div className="media">
 							<div className="media-left">
-							<a href="#">
-							<img className="media-object" style={{width: "128px", height: "128px"}} src="..." />
-							</a>
+								<img className="media-object" style={{width: "128px", height: "128px"}} src="..." />
 							</div>
 							<div className="media-body">
-							<h4 className="media-heading">Media heading</h4>
-							{message}
+								<h4 className="media-heading">Media heading</h4>
+								{message}
 							</div>
 						</div>
 

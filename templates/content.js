@@ -5,9 +5,9 @@ var Content = React.createClass({
 	getInitialState: function() {
 		return { selected: null };
 	},
-  /**
-   * Called, when a specific driver is clicked in list.
-   */
+	/**
+	* Called, when a specific driver is clicked in list.
+	*/
 	onDriverClick: function(i, event) {
 		this.setState({ selected: data.driver[i] });
 	},
@@ -27,7 +27,7 @@ var Content = React.createClass({
 						<div className="col-md-12">
 							<div className="panel panel-default">
 							  <div className="panel-body">
-									SAP Seminar [Max Kohlhagen, Young-Hwan Kim, Markus Braun]
+									SAP Seminar [Max Kolhagen, Young-Hwan Kim, Markus Braun]
 								</div>
 							</div>
 						</div>
