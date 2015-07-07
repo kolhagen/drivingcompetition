@@ -8,6 +8,7 @@ if (localStorage.getItem("scores") !== null) {
 	TEMP_DATA = JSON.parse(localStorage.getItem("scores"));
 	determineDateBoundaries();
 	mergeData();
+  trend(DATE_START.year, DATE_START.month);
 } else {
 	// TODO: show error that data has not been loaded yet
 	DATE_START = {year: 2013, month: 8};

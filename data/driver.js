@@ -49,7 +49,7 @@ data.driver = [
 		scores: {}
 	},
 	{
-		name: "David Kellers",
+		name: "Angela Merkel",
 		department: "Acquisitions",
 		cars: [
 			"sap.ctex::Mercedes-Benz_E-Class"
