@@ -46,6 +46,10 @@ var DriverList = React.createClass({
 			));
 		}
 
+		var displayMonth = MONTHS[this.state.month];
+		if (this.state.month === -1)
+			displayMonth = "All";
+
 		return (
 			<div>
 				<div>
@@ -60,10 +64,12 @@ var DriverList = React.createClass({
 
 					<div className="btn-group">
 						<button type="button" className="btn btn-info dropdown-toggle" data-toggle="dropdown">
-							{MONTHS[this.state.month]} <span className="caret"></span>
+							{displayMonth} <span className="caret"></span>
 						</button>
 						<ul className="dropdown-menu">
 							{monthNodes}
+							<li role="separator" className="divider"></li>
+							<li><a href="#" onClick={this.onChangeMonth.bind(null, -1)}>All</a></li>
 						</ul>
 					</div>
 				</div>
