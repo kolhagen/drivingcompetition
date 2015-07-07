@@ -19,6 +19,8 @@ var Details = React.createClass({
 
 			lastUser = this.props.driver;
 
+			this.setState({car: "..."});
+
 			// build filter for selecting user's cars
 			var filter = "";
 			for (car of this.props.driver.cars) {
