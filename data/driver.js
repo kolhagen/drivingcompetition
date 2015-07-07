@@ -4,7 +4,7 @@ data.driver = [
 		name: "Markus Braun",
 		department: "Management",
 		cars: [
-			"sap.ctex::Audi_A4"
+			"sap.ctex::Audi_A6"
 		],
 		picture: "images/markus.png",
 		scores: {}

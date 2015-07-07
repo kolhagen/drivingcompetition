@@ -31,7 +31,7 @@ var DriverList = React.createClass({
 		var yearNodes = [];
 		for (var year = FIRST_YEAR; year <= TODAY.getFullYear(); year++) {
 			yearNodes.push((
-				<li key={year}><a tabIndex="-1" href="#" onClick={this.onChangeYear.bind(null, year)}>{year}</a></li>
+				<li key={year}><a href="#" onClick={this.onChangeYear.bind(null, year)}>{year}</a></li>
 			));
 		}
 
@@ -42,28 +42,26 @@ var DriverList = React.createClass({
 
 		for (var month = 0; month < maxMonth; month++) {
 			monthNodes.push((
-				<li key={month}><a tabIndex="-1" href="#" onClick={this.onChangeMonth.bind(null, month)}>{MONTHS[month]}</a></li>
+				<li key={month}><a href="#" onClick={this.onChangeMonth.bind(null, month)}>{MONTHS[month]}</a></li>
 			));
 		}
 
 		return (
 			<div>
-				<div className="btn-toolbar">
+				<div>
 					<div className="btn-group">
-						<a className="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#">
-							{this.state.year}
-							<span className="caret"></span>
-						</a>
+						<button type="button" className="btn btn-info dropdown-toggle" data-toggle="dropdown">
+							{this.state.year} <span className="caret"></span>
+						</button>
 						<ul className="dropdown-menu">
 							{yearNodes}
 						</ul>
 					</div>
 
 					<div className="btn-group">
-						<a className="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#">
-							{MONTHS[this.state.month]}
-							<span className="caret"></span>
-						</a>
+						<button type="button" className="btn btn-info dropdown-toggle" data-toggle="dropdown">
+							{MONTHS[this.state.month]} <span className="caret"></span>
+						</button>
 						<ul className="dropdown-menu">
 							{monthNodes}
 						</ul>

@@ -37,10 +37,10 @@
 			console.log(allname);
 		}, true);
 		*/
-		
+
 		////
 		// call the data
-		////		
+		////
 		/*
 		//get the meta information for each car
 		var request = "Vehicle?$filter=GroupIndicator eq 0&$select=ID"
@@ -67,18 +67,18 @@
 				var request = "Vehicle('" + vehicle.ID + "')/TripSegment?$expand=StartLocationInfo,EndLocationInfo&$select=ID,StartPointInTime,EndPointInTime,Property.ID,Observee.ID,Observee,TelemetryData";
 				apiRequest(request, function(vid, data) {
 					for (trip of data.d.results){
-						var telemtryrequest = trip.TelemetryData.__deferred.uri+"?";
+						var telemtryrequest = trip.TelemetryData.__deferred.uri;
 						apiRequest(telemtryrequest, function(vid, trip, data) {
 							var kmhmalus = 0;
 							var rpmmalus = 0;
 							var pedaldmalus = 0;
 							var pedalemalus = 0;
-							
+
 							var kmhmax = 0;
 							var rpmmax = 0;
 							var pedaldmax = 0;
 							var pedalemax = 0;
-							
+
 							var score = 100;
 							for(telemetrydata of data.d.results){
 								//console.log(telemetrydata['Property.ID'] + "    "+ telemetrydata.NumericValue + "   " + telemetrydata.PointInTime); 								//pro auftauchen
@@ -110,23 +110,23 @@
 							}
 							console.log(kmhmalus + " " + rpmmalus + " " + pedaldmalus + " " + pedalemalus);
 							console.log(kmhmax + " " + rpmmax + " " + pedaldmax + " " + pedalemax);
-							
+
 							var kmhp = 0;
 							var rpmp = 0;
 							var pedaldp = 0;
 							var pedalep = 0;
-							
+
 							if(kmhmax !== 0 && kmhmalus !== 0){
 								kmhp =  kmhmalus / kmhmax * 100;}
 							if(rpmmalus !== 0 && rpmmax !== 0){
 								rpmp = rpmmalus / rpmmax * 100;}
-							if(pedaldmalus !== 0 && pedaldmax !== 0){	
+							if(pedaldmalus !== 0 && pedaldmax !== 0){
 								pedaldp = pedaldmalus / pedaldmax * 100;}
 							if(pedalemax !== 0 && pedalemalus !== 0){
 								pedalep = pedalemalus / pedalemax * 100;}
 							console.log(kmhp + " " + rpmp + " " + pedaldp + " " + pedalep);
 							score = score - kmhp - rpmp - pedaldp - pedalep;
-							
+
 							var year = parseODataDate(trip.EndPointInTime).getFullYear();
 							var month = parseODataDate(trip.EndPointInTime).getMonth()+1;
 							console.log(score, month, year, vid);
@@ -134,16 +134,16 @@
 								allscore[vid][year] = {};
 							if(!allscore[vid][year][month])
 								allscore[vid][year][month] = {accumulated: 0.0, count: 0};
-								
+
 							allscore[vid][year][month].accumulated += score;
 							allscore[vid][year][month].count++;
 						}.bind(null, vid, trip),true);
-					}					
+					}
 				}.bind(null, vehicle.ID),false);
 			}
 		},false);
 		}
-		
+
 		var finalscore = {};
 		function calculateScore(scoreTable){
 		for(vehicle in scoreTable){
@@ -159,7 +159,7 @@
 				}
 			 }
 		}
-		
+
 		}
 		function parseODataDate(rawDate) {
 			const timestampInMillis = rawDate.replace(/^\/Date\((\d+)\)\//, "$1");
@@ -176,12 +176,12 @@
 							var rpmmalus = 0;
 							var pedaldmalus = 0;
 							var pedalemalus = 0;
-							
+
 							var kmhmax = 0;
 							var rpmmax = 0;
 							var pedaldmax = 0;
 							var pedalemax = 0;
-							
+
 							var score = 100;
 							for(telemetrydata of data.d.results){
 								console.log(telemetrydata['Property.ID'] + "    "+ telemetrydata.NumericValue + "   " + telemetrydata.PointInTime); 								//pro auftauchen
@@ -213,17 +213,17 @@
 							}
 							console.log(kmhmalus + " " + rpmmalus + " " + pedaldmalus + " " + pedalemalus);
 							console.log(kmhmax + " " + rpmmax + " " + pedaldmax + " " + pedalemax);
-							
+
 							var kmhp = 0;
 							var rpmp = 0;
 							var pedaldp = 0;
 							var pedalep = 0;
-							
+
 							if(kmhmax !== 0 && kmhmalus !== 0){
 								kmhp =  kmhmalus / kmhmax * 100;}
 							if(rpmmalus !== 0 && rpmmax !== 0){
 								rpmp = rpmmalus / rpmmax * 100;}
-							if(pedaldmalus !== 0 && pedaldmax !== 0){	
+							if(pedaldmalus !== 0 && pedaldmax !== 0){
 								pedaldp = pedaldmalus / pedaldmax * 100;}
 							if(pedalemax !== 0 && pedalemalus !== 0){
 								pedalep = pedalemalus / pedalemax * 100;}
@@ -231,9 +231,9 @@
 							score = score - kmhp - rpmp - pedaldp - pedalep;
 							console.log(score);
 						},true);
-										
+
 				},false);
-			
+
 		},false);
 		*/
 		// TODO: Save results to ./data/warehouse.json (@Max)

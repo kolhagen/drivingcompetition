@@ -9,6 +9,9 @@ var AUTH 			= "S09MSEFHRU46PmxqMzVFT3pGSmgn";
  */
 function apiRequest(request, callback, useFullUrl) {
 	var url = request;
+	var parChar = "&";
+	if (url.indexOf("?") === -1)
+		parChar = "?"
 
 	// prepend API url if useFullUrl is not set or set to false
 	if (typeof useFullUrl === 'undefined' || !useFullUrl)
@@ -22,7 +25,7 @@ function apiRequest(request, callback, useFullUrl) {
 		type: 			"GET",
 		dataType: 	"json",
 		cache: 			true,
-		url: 				url + "&$format=json",
+		url: 				url + parChar + "$format=json",
 		success: 		callback,
 		error: 			function(xhr, status, error) {
 									// TODO: show error message
