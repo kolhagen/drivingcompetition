@@ -27,15 +27,23 @@
 			}
 		});
 
+		var cars = JSON.parse(localStorage.getItem('cars'));
+		if (cars !== null) {
+			console.log('Found cars in cache!');
+		}
+
 		// send API request (using full url)
 		var request = "https://xs01ac37c9fd2.hana.ondemand.com/sap/vean/v0.1/odata/Vehicle('sap.vean::Vehicle_AllModels')/Children?$expand=CurrentTexts,Make/CurrentTexts&$select=CurrentTexts/Name,Make/CurrentTexts/Name";
 		apiRequest(request, function(data) {
-			for (car of data.d.results) {
-				console.log(car.Make.CurrentTexts.Name + " " + car.CurrentTexts.Name);
-			}
-		}, true);
+			var cars = [];
 
-		// TODO: Save results to ./data/warehouse.json (@Max)
+			for (car of data.d.results) {
+				cars.push(car.Make.CurrentTexts.Name + " " + car.CurrentTexts.Name);
+			}
+
+			// TODO: Save results to data warehouse (@Max)
+			localStorage.setItem('cars', JSON.stringify(cars));
+		}, true);
 
 		// Dummy delay for indicating that process has finished (delete later)
 		setTimeout(function() {
