@@ -8,14 +8,30 @@ var Content = React.createClass({
   /**
    * Called, when a specific driver is clicked in list.
    */
-	handleClick: function(i, event) {
+	onDriverClick: function(i, event) {
 		this.setState({ selected: data.driver[i] });
 	},
 	render: function() {
 			return (
-				<div id="content">
-					<DriverList onClick={this.handleClick} data={data.driver} />
-					<Details driver={this.state.selected} />
+				<div className="container">
+					<div className="row">
+						<div className="col-md-12">
+							<h1>Driving Competition</h1>
+						</div>
+					</div>
+					<div className="row">
+						<DriverList onDriverClick={this.onDriverClick} data={data.driver} />
+						<Details driver={this.state.selected} />
+					</div>
+					<div className="row">
+						<div className="col-md-12">
+							<div className="panel panel-default">
+							  <div className="panel-body">
+									SAP Seminar [Max Kohlhagen, Young-Hwan Kim, Markus Braun]
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			);
 		}

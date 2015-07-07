@@ -43,17 +43,57 @@ var Details = React.createClass({
 			}.bind(this));
 	},
 	render: function() {
+		var message = "Please select a driver from the list!";
+
 		// check if driver has been selected
-		if (this.props.driver === null)
-			return (
-				<div id="details">
-					Please select a driver from the list!
-				</div>
-			)
+		if (this.props.driver !== null)
+			message = "DetailsView showing " + this.props.driver.name + " has car " + this.state.car;
 
 		return (
-			<div id="details">
-				DetailsView showing {this.props.driver.name} has car {this.state.car}
+			<div className="col-md-9">
+				<div className="panel panel-success">
+					<div className="panel-heading">
+						<h3 className="panel-title">Details</h3>
+					</div>
+					<div className="panel-body">
+
+						<div className="media">
+							<div className="media-left">
+							<a href="#">
+							<img className="media-object" style={{width: "128px", height: "128px"}} src="..." />
+							</a>
+							</div>
+							<div className="media-body">
+							<h4 className="media-heading">Media heading</h4>
+							{message}
+							</div>
+						</div>
+
+						<div className="panel panel-default">
+							<div className="panel-heading">Some Progress Bars</div>
+							<div className="panel-body">
+								<div className="progress">
+									<div className="progress-bar progress-bar-warning" role="progressbar" style={{"min-width": "2em", width: "50%"}}>
+										50%
+									</div>
+								</div>
+								<div className="progress">
+									<div className="progress-bar progress-bar-danger" role="progressbar" style={{"min-width": "2em", width: "72%"}}>
+										72%
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div className="panel panel-default">
+							<div className="panel-heading">Other Data</div>
+							<div className="panel-body">
+								...
+							</div>
+						</div>
+
+					</div>
+				</div>
 			</div>
 		);
 	}
