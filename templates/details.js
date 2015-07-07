@@ -14,7 +14,7 @@ var Details = React.createClass({
    */
 	componentDidUpdate: function() {
 			// TODO: Kind of hacky, better method?
-			if (lastUser == this.props.driver)
+			if (lastUser === this.props.driver)
 				return;
 
 			lastUser = this.props.driver;
@@ -44,7 +44,7 @@ var Details = React.createClass({
 	},
 	render: function() {
 		// check if driver has been selected
-		if (this.props.driver == null)
+		if (this.props.driver === null)
 			return (
 				<div id="details">
 					Please select a driver from the list!
