@@ -8,13 +8,15 @@ var DriverList = React.createClass({
 	onChangeYear: function(year) {
 		var update = {year: year, month: this.state.month};
 
-		if (year == DATE_END.year &&
-				this.state.month > DATE_END.month)
-			update.month = DATE_END.month;
+		if(this.state.month !== -1) {
+			if (year == DATE_END.year &&
+					this.state.month > DATE_END.month)
+				update.month = DATE_END.month;
 
-		if (year == DATE_START.year &&
-				this.state.month < DATE_START.month)
-			update.month = DATE_START.month;
+			if (year == DATE_START.year &&
+					this.state.month < DATE_START.month)
+				update.month = DATE_START.month;
+		}
 
 		this.setState(update);
 		this.updateRanking(update.year, update.month);
@@ -29,7 +31,7 @@ var DriverList = React.createClass({
 	},
 	updateRanking: function(year, month) {
 		m = (month !== -1) ? month : "average";
-		trend(year, m);
+		SAP.trend(year, m);
 	},
 	render: function() {
 		// build driver entries
