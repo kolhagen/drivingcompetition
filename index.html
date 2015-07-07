@@ -5,11 +5,15 @@
 
 	<meta charset="utf-8" />
 
+	<!-- Load Stylesheets -->
+  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
 	<!-- Load Javascript Libraries -->
 	<script src="build/react.js"></script>
 	<script src="build/JSXTransformer.js"></script>
 	<script src="build/jquery-2.1.4.min.js"></script>
 	<script src="build/api.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
 
 	<!-- Load Templates -->
 	<script src="templates/driver.js" type="text/jsx"></script>
@@ -29,6 +33,8 @@
 		// fill driver w/ random score data
 		var FIRST_YEAR = 2014;
 		var TODAY = new Date();
+		var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
 		for (driver of data.driver) {
 			for (var year = FIRST_YEAR; year <= TODAY.getFullYear(); year++) {
 				if (!driver.scores[year])
