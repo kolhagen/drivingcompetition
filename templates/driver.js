@@ -3,10 +3,16 @@
  */
 var DriverList = React.createClass({
 	getInitialState: function() {
-		return {month: TODAY.getMonth(), year: TODAY.getFullYear()};
+		return {month: TODAY.getMonth() - 1, year: TODAY.getFullYear()};
 	},
 	onChangeYear: function(year) {
-		this.setState({year: year});
+		var update = {year: year};
+
+		if (year == TODAY.getFullYear() &&
+				this.state.month >= TODAY.getMonth())
+			update.month = TODAY.getMonth() - 1;
+
+		this.setState(update);
 	},
 	onChangeMonth: function(month) {
 		this.setState({month: month});
