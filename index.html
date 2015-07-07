@@ -30,12 +30,12 @@
 
 	<script type="text/jsx">
 		// fill driver w/ random score data
-		var FIRST_YEAR = 2014;
-		var TODAY = new Date();
+		var DATE_START = {year: 2013, month: 8};
+		var DATE_END = {year: 2015, month: 4};
 		var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
 		for (driver of data.driver) {
-			for (var year = FIRST_YEAR; year <= TODAY.getFullYear(); year++) {
+			for (var year = DATE_START.year; year <= DATE_END.year; year++) {
 				if (!driver.scores[year])
 					driver.scores[year] = {};
 
@@ -43,8 +43,9 @@
 				var count = 0;
 
 				for (var month = 1; month <= 12; month++) {
-					if (year == TODAY.getFullYear() && month > TODAY.getMonth())
-						break;
+					if (year == DATE_END.year && month > DATE_END.month ||
+							year == DATE_START.year && month < DATE_START.month)
+						continue;
 
 					if (!driver.scores[year][month])
 						driver.scores[year][month] = {};
@@ -68,9 +69,10 @@
 			if (typeof month === 'undefined')
 				month = 'average';
 
-			if (year < FIRST_YEAR || year > TODAY.getFullYear() ||
+			if (year < DATE_START.year || year > DATE_END.year ||
 					month !== 'average' && (month < 1 || month > 12 ||
-					(year == TODAY.getFullYear() && month > TODAY.getMonth()))) {
+					(year == DATE_START.year && month < DATE_START.month) ||
+					(year == DATE_END.year && month > DATE_END.month))) {
 				console.error('Invalid Timespan!');
 				return;
 			}
@@ -104,16 +106,17 @@
 			if (typeof month === 'undefined')
 				month = 'average';
 
-			if (year < FIRST_YEAR || year > TODAY.getFullYear() ||
+			if (year < DATE_START.year || year > DATE_END.year ||
 					month !== 'average' && (month < 1 || month > 12 ||
-					(year == TODAY.getFullYear() && month > TODAY.getMonth()))) {
+					(year == DATE_START.year && month < DATE_START.month) ||
+					(year == DATE_END.year && month > DATE_END.month))) {
 				console.error('Invalid Timespan!');
 				return;
 			}
 
-			if (year == FIRST_YEAR && (
+			if (year == DATE_START.year && (
 						month === 'average' ||
-						month !== 'average' && month == 1)) {
+						month !== 'average' && month == DATE_START.month)) {
 				i = 0;
 				for (driver of data.driver) {
 					driver.trend = 0;

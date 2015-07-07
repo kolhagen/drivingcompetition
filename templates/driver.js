@@ -3,14 +3,18 @@
  */
 var DriverList = React.createClass({
 	getInitialState: function() {
-		return {month: TODAY.getMonth() - 1, year: TODAY.getFullYear(), selected: -1};
+		return {month: DATE_START.month, year: DATE_START.year, selected: -1};
 	},
 	onChangeYear: function(year) {
 		var update = {year: year};
 
-		if (year == TODAY.getFullYear() &&
-				this.state.month >= TODAY.getMonth())
-			update.month = TODAY.getMonth() - 1;
+		if (year == DATE_END.year &&
+				this.state.month > DATE_END.month)
+			update.month = DATE_END.month;
+
+		if (year == DATE_START.year &&
+				this.state.month < DATE_START.month)
+			update.month = DATE_START.month;
 
 		this.setState(update);
 	},
@@ -55,24 +59,28 @@ var DriverList = React.createClass({
 var DateSelect = React.createClass({
 	render: function() {
 		var yearNodes = [];
-		for (var year = FIRST_YEAR; year <= TODAY.getFullYear(); year++) {
+		for (var year = DATE_START.year; year <= DATE_END.year; year++) {
 			yearNodes.push((
 				<li key={year}><a href="#" onClick={this.props.onChangeYear.bind(null, year)}>{year}</a></li>
 			));
 		}
 
-		var monthNodes = [];
-		var maxMonth = 12;
-		if (this.props.date.year == TODAY.getFullYear())
-			maxMonth = TODAY.getMonth();
+		var minMonths = 1;
+		if (this.props.date.year == DATE_START.year)
+			minMonths = DATE_START.month;
 
-		for (var month = 0; month < maxMonth; month++) {
+		var maxMonth = 12;
+		if (this.props.date.year == DATE_END.year)
+			maxMonth = DATE_END.month;
+
+		var monthNodes = [];
+		for (var month = minMonths; month <= maxMonth; month++) {
 			monthNodes.push((
-				<li key={month}><a href="#" onClick={this.props.onChangeMonth.bind(null, month)}>{MONTHS[month]}</a></li>
+				<li key={month}><a href="#" onClick={this.props.onChangeMonth.bind(null, month)}>{MONTHS[month-1]}</a></li>
 			));
 		}
 
-		var displayMonth = MONTHS[this.props.date.month];
+		var displayMonth = MONTHS[this.props.date.month-1];
 		if (this.props.date.month === -1)
 			displayMonth = "All";
 
