@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Driving Competition</title>
+
+	<!-- Load Javascript Libraries -->
+	<script src="build/react.js"></script>
+	<script src="build/JSXTransformer.js"></script>
+	<script src="build/jquery-2.1.4.min.js"></script>
+</head>
+<body>
+	<h1>Updating Scores</h1>
+
+	<script>
+		// Constants
+		var API 			= "https://xs01ac37c9fd2.hana.ondemand.com/sap/vean/v0.1/odata/";
+		var PROXY 		= "http://localhost:8080/";
+		var USE_PROXY = true;
+		var AUTH 			= "S09MSEFHRU46PmxqMzVFT3pGSmgn";
+
+		var URL = API;
+		if (USE_PROXY)
+			URL = PROXY + URL;
+
+		/**
+		 * Performs a API request on the SAP HANA backend.
+		 */
+		function apiRequest(request, callback) {
+			$.ajax({
+				type: 			"GET",
+				dataType: 	"json",
+				cache: 			true,
+				url: 				URL + request + "&$format=json",
+				success: 		callback,
+				error: 			function(xhr, status, error) {
+											// TODO: show error message
+											alert(status + " ### " + error);
+										},
+				beforeSend: function (xhr, settings) {
+											xhr.setRequestHeader ("Authorization", "Basic " + AUTH);
+										}
+			});
+		}
+	</script>
+
+	<!-- Main Content Container -->
+	<div id="container">Loading...</div>
+
+	<script type="text/jsx">
+		// TODO: Perform API requests and data processing here!
+		// TODO: Save results to ./data/warehouse.json
+
+		setTimeout(function() {
+			$('#container').html('Done!');
+		}, 5000);
+	</script>
+</body>
+</html>
