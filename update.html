@@ -56,11 +56,15 @@
 		}, false);
 		*/
 		//get trips of each car including the telemetry data of each trip
+			var apiRequests = 0;
+			var apiRequestsResponded = 0;
+
+
 		var allscore = {};
-		if (localStorage.getItem("scores") !== null) {
+		/*if (localStorage.getItem("scores") !== null) {
 			allscore = JSON.parse(localStorage.getItem("scores"));
-		} else {
-		var request = "Vehicle?$filter=GroupIndicator eq 0&$select=ID"
+		} else {*/
+		var request = "Vehicle?$filter=GroupIndicator eq 0&$select=ID";
 		apiRequest(request, function(data) {
 			for (vehicle of data.d.results) {
 				allscore[vehicle.ID] = {};
@@ -68,6 +72,7 @@
 				apiRequest(request, function(vid, data) {
 					for (trip of data.d.results){
 						var telemtryrequest = trip.TelemetryData.__deferred.uri;
+						apiRequests++;
 						apiRequest(telemtryrequest, function(vid, trip, data) {
 							var kmhmalus = 0;
 							var rpmmalus = 0;
@@ -108,8 +113,8 @@
 								}
 								//alle telemetrydaten eines trips
 							}
-							console.log(kmhmalus + " " + rpmmalus + " " + pedaldmalus + " " + pedalemalus);
-							console.log(kmhmax + " " + rpmmax + " " + pedaldmax + " " + pedalemax);
+							//console.log(kmhmalus + " " + rpmmalus + " " + pedaldmalus + " " + pedalemalus);
+							//console.log(kmhmax + " " + rpmmax + " " + pedaldmax + " " + pedalemax);
 
 							var kmhp = 0;
 							var rpmp = 0;
@@ -124,12 +129,12 @@
 								pedaldp = pedaldmalus / pedaldmax * 100;}
 							if(pedalemax !== 0 && pedalemalus !== 0){
 								pedalep = pedalemalus / pedalemax * 100;}
-							console.log(kmhp + " " + rpmp + " " + pedaldp + " " + pedalep);
+							//console.log(kmhp + " " + rpmp + " " + pedaldp + " " + pedalep);
 							score = score - kmhp - rpmp - pedaldp - pedalep;
 
 							var year = parseODataDate(trip.EndPointInTime).getFullYear();
 							var month = parseODataDate(trip.EndPointInTime).getMonth()+1;
-							console.log(score, month, year, vid);
+							//console.log(score, month, year, vid);
 							if(!allscore[vid][year])
 								allscore[vid][year] = {};
 							if(!allscore[vid][year][month])
@@ -137,12 +142,14 @@
 
 							allscore[vid][year][month].accumulated += score;
 							allscore[vid][year][month].count++;
+							apiRequestsResponded++;
+							checkDone();
 						}.bind(null, vid, trip),true);
 					}
 				}.bind(null, vehicle.ID),false);
 			}
 		},false);
-		}
+		//}
 
 		var finalscore = {};
 		function calculateScore(scoreTable){
@@ -159,8 +166,20 @@
 				}
 			 }
 		}
+				}
 
-		}
+
+	function checkDone() {
+		if (apiRequests > apiRequestsResponded)
+			return;
+
+		// TODO: Save results to ./data/warehouse.json (@Max)
+		calculateScore(allscore);
+		ocalStorage.setItem('scores', JSON.stringify(finalscore));
+
+		$('#container').html('Done!');
+	}
+
 		function parseODataDate(rawDate) {
 			const timestampInMillis = rawDate.replace(/^\/Date\((\d+)\)\//, "$1");
 			return new Date(parseInt(timestampInMillis, 10));
@@ -236,12 +255,6 @@
 
 		},false);
 		*/
-		// TODO: Save results to ./data/warehouse.json (@Max)
-
-		// Dummy delay for indicating that process has finished (delete later)
-		setTimeout(function() {
-			$('#container').html('Done!');
-		}, 5000);
 	</script>
 </body>
 </html>
