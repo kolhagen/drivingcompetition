@@ -21,14 +21,14 @@
 		/* some examples
 		// send API request
 		var request = "Vehicle('sap.vean::Vehicle_AllModels')/Children?$expand=CurrentTexts,Make/CurrentTexts&$select=CurrentTexts/Name,Make/CurrentTexts/Name";
-		apiRequest(request, function(data) {
+		SAP.API.request(request, function(data) {
 			for (car of data.d.results) {
 				console.log(car.Make.CurrentTexts.Name + " " + car.CurrentTexts.Name);
 			}
 		});
 		// send API request (using full url)
 		var request = "https://xs01ac37c9fd2.hana.ondemand.com/sap/vean/v0.1/odata/Vehicle('sap.vean::Vehicle_AllModels')/Children?$expand=CurrentTexts,Make/CurrentTexts&$select=CurrentTexts/Name,Make/CurrentTexts/Name";
-		apiRequest(request, function(data) {
+		SAP.API.request(request, function(data) {
 			var allname;
 			for (car of data.d.results) {
 				allname += car.Make.CurrentTexts.Name + " " + car.CurrentTexts.Name;
@@ -45,10 +45,10 @@
 		//get the meta information for each car
 		var allcars = {};
 		var request = "Vehicle?$filter=GroupIndicator eq 0&$select=ID"
-		apiRequest(request, function(data) {
+		SAP.API.request(request, function(data) {
 			for (vehicle of data.d.results) {
 				var request = vehicle.__metadata.uri+'?';
-				apiRequest(request, function(data) {
+				SAP.API.request(request, function(data) {
 					//console.log(data);
 					if(!allcars[data.d.ID])
 						allcars[data.d.ID] = {makeID: 0, modelID: 0};
@@ -61,8 +61,8 @@
 			//TODO: load data to local DW
 			//localStorage.setItem('carinformation', JSON.stringify(allcars));
 		}, false);
-		
-		
+
+
 		//get trips of each car including the telemetry data of each trip
 		var apiRequests = 0;
 		var apiRequestsResponded = 0;
@@ -73,16 +73,16 @@
 			allscore = JSON.parse(localStorage.getItem("scores"));
 		} else {*/
 		var request = "Vehicle?$filter=GroupIndicator eq 0&$select=ID";
-		apiRequest(request, function(data) {
+		SAP.API.request(request, function(data) {
 			for (vehicle of data.d.results) {
 				allscore[vehicle.ID] = {};
 				detailinfos[vehicle.ID] = {};
 				var request = "Vehicle('" + vehicle.ID + "')/TripSegment?$expand=StartLocationInfo,EndLocationInfo&$select=ID,StartPointInTime,EndPointInTime,Property.ID,Observee.ID,Observee,TelemetryData";
-				apiRequest(request, function(vid, data) {
+				SAP.API.request(request, function(vid, data) {
 					for (trip of data.d.results){
 						var telemtryrequest = trip.TelemetryData.__deferred.uri;
 						apiRequests++;
-						apiRequest(telemtryrequest, function(vid, trip, data) {
+						SAP.API.request(telemtryrequest, function(vid, trip, data) {
 							var year = parseODataDate(trip.EndPointInTime).getFullYear();
 							var month = parseODataDate(trip.EndPointInTime).getMonth()+1;
 							var kmhmalus = 0;
@@ -125,11 +125,14 @@
 								if(telemetrydata['Property.ID'] === "sap.ctex::sap.vean::Vehicle__sap.ctex__absThrottlePos_sap.bc.ar::Percent"){
 									if(!detailinfos[vid][year])
 										detailinfos[vid][year] = {};
-										if(!detailinfos[vid][year][month])
-											detailinfos[vid][year][month] = {propertyID: 0, value: 0.0 , date: 0};
-									detailinfos[vid][year][month].propertyID = telemetrydata['Property.ID'];
-									detailinfos[vid][year][month].value = telemetrydata.NumericValue;
-									detailinfos[vid][year][month].date = telemetrydata.PointInTime;
+									if(!detailinfos[vid][year][month])
+										detailinfos[vid][year][month] = [];
+
+									var entry = {};
+									entry.propertyID = telemetrydata['Property.ID'];
+									entry.value = telemetrydata.NumericValue;
+									entry.date = telemetrydata.PointInTime;
+									detailinfos[vid][year][month].push(entry);
 								}
 								if(telemetrydata['Property.ID'] === "sap.vean::Vehicle__sap.vean__Gear"){
 									if(!detailinfos[vid][year])
@@ -247,15 +250,15 @@
 			 }
 		}
 		}
-		
+
 		//getSomeInformation
 		var request = "https://xs01ac37c9fd2.hana.ondemand.com/sap/vean/v0.1/odata/Vehicle('system-local::WWWDELTA444444444')//TripSegment?$expand=StartLocationInfo,EndLocationInfo&$select=ID,StartPointInTime,EndPointInTime,Property.ID,Observee.ID,Observee,TelemetryData"
-		apiRequest(request, function(data){
+		SAP.API.request(request, function(data){
 			console.log(data);
-			for (vehicle of data.d.results) {	
+			for (vehicle of data.d.results) {
 			}
-		},true);	
-		
+		},true);
+
 
 		var detailInformation = {};
 		function getNumberOfTrips(scoreTable){
