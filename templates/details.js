@@ -37,7 +37,7 @@ var Details = React.createClass({
 		// - this.props.driver (here, every other generic data can be found for
 		// the selected driver)
 		//console.log(this.state.score);
-		console.log(this.state.extra);
+		//console.log(this.state.extra);
 		//console.log(this.props.driver);
 
 		//shortcuts to extra data
@@ -52,10 +52,22 @@ var Details = React.createClass({
 		var vehiclemessage = "Vehicle: " + car.make + " " + car.model;
 		var driverquote = this.props.driver.quote;
 
+		
 		if(!detailscore){
-			score = 0;
+			score = "100%";
+			malus = "0%";
+			kmhmalus = "0%";
+			pedaldmalus = "0%";
+			pedalemalus = "0%";
+			rpmmalus = "0%";
 		}else{
-		var score = detailscore.score;
+			console.log(detailscore);
+		score = Math.round(detailscore.score) + "%";
+		malus = Math.round(detailscore.kmhmalus + detailscore.pedaldmalus + detailscore.pedalemalus + detailscore.rpmmalus) + "%";
+		kmhmalus = Math.round(detailscore.kmhmalus) +"%";
+		pedaldmalus = Math.round(detailscore.pedaldmalus) +"%";
+		pedalemalus = Math.round(detailscore.pedaldmalus) +"%";
+		rpmmalus = Math.round(detailscore.pedaldmalus) +"%";
 		}
 		
 		/*
@@ -110,14 +122,21 @@ var Details = React.createClass({
 							<div className="panel-heading">Scoring</div>
 							<div className="panel-body">
 								<div className="progress">
-									<div className="progress-bar progress-bar-warning" role="progressbar" style={{ minWidth: "2em", width: { score }}}>
-										{ score } %
+									<div className="progress-bar progress-bar-success" role="progressbar" style={{ minWidth: "1em", width: score }}>
+										{ score }
+									</div>
+									<div className="progress-bar progress-bar-danger" role="progressbar" style={{ minWidth: "1em", width: malus }}>
+										{ malus }
 									</div>
 								</div>
-								<div className="progress">
-									<div className="progress-bar progress-bar-danger" role="progressbar" style={{ minWidth: "2em", width: "72%" }}>
-										72%
-									</div>
+								<p>Score: {score}</p>
+								<p>Negativ Effect: {malus}</p>
+								<div className="panel-body">
+								  <p>Minus points with (in %)</p>
+									<p>kmH: {kmhmalus}</p>
+									<p>pedal D: {pedaldmalus}</p>
+									<p>pedal E: {pedalemalus}</p>
+									<p>RPM: {rpmmalus}</p>
 								</div>
 							</div>
 						</div>
