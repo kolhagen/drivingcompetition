@@ -20,7 +20,7 @@ var Details = React.createClass({
 		// check if driver has been selected
 		if (this.props.driver === null)
 			return (
-				<div className="col-md-9">
+				<div className="col-md-8">
 					<div className="panel panel-danger">
 						<div className="panel-heading">
 							<h3 className="panel-title">Details</h3>
@@ -43,7 +43,7 @@ var Details = React.createClass({
 		var message = "DetailsView showing " + this.props.driver.name + " has car";
 
 		return (
-			<div className="col-md-9">
+			<div className="col-md-8">
 				<div className="panel panel-success">
 					<div className="panel-heading">
 						<h3 className="panel-title">Details</h3>

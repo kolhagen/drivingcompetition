@@ -53,7 +53,7 @@ var DriverList = React.createClass({
 		var date = { month: this.state.month, year: this.state.year };
 
 		return (
-			<div className="col-md-3">
+			<div className="col-md-4">
 				<div className="panel panel-info">
 					<div className="panel-heading">
 						<h3 className="panel-title">Driver</h3>
@@ -130,8 +130,15 @@ var Driver = React.createClass({
 
 		return (
 			<a href="#" className={ classes } onClick={ this.props.clickHandler }>
-				<h4 className="list-group-item-heading">{ this.props.data.name }</h4>
-				<p className="list-group-item-text">...</p>
+				<div className="media">
+				  <div className="media-left">
+				    <img className="media-object" src="..." style={{ width: "48px", height: "48px" }} />
+				  </div>
+				  <div className="media-body">
+				    <h4 className="media-heading">{ this.props.data.name }</h4>
+				    { this.props.data.department }
+				  </div>
+				</div>
 			</a>
 		);
 	}
