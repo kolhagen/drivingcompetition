@@ -23,6 +23,7 @@
 
 	<!-- Load Javascript Libraries -->
 	<script src="build/sap-api.js"></script>
+	<script src="build/sap-init.js"></script>
 	<script src="build/sap-score.js"></script>
 	<script src="build/sap-data.js"></script>
 
@@ -35,12 +36,47 @@
 	<!-- Main Content Container -->
 	<div id="container"></div>
 
+	<div class="modal fade" id="modalLoading">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h4 class="modal-title">Welcome</h4>
+	      </div>
+	      <div class="modal-body">
+	        <p>Due to this being your first visit, we need to aggregate some data first.<br/>This may take some time&hellip;</p>
+					<div class="progress">
+						<div id="modalLoadingProgress" class="progress-bar progress-bar-info progress-bar-striped" style="width: 0%"></div>
+					</div>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
 	<script type="text/jsx">
-		// Render content
-		React.render(
-			<Content />,
-			document.getElementById("container")
-		);
+		function initialize() {
+			SAP.SCORE.init();
+			SAP.DATA.init();
+
+			// Render content
+			React.render(
+				<Content />,
+				document.getElementById("container")
+			);
+		}
+
+		$(document).ready(function() {
+			// check if all data is available
+			if (SAP.SCORE.isDataAvailable() &&
+					SAP.DATA.isDataAvailable()) {
+				// initialize directly
+				initialize();
+			} else {
+				// first load data from SAP HANA
+				SAP.INIT.update(function() {
+					initialize();
+				});
+			}
+		});
 	</script>
 </body>
 </html>

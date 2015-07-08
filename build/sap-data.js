@@ -3,13 +3,17 @@ if (!SAP) var SAP = {};
 SAP.DATA = {
 	init: function() {
 		console.log("Initializing SAP Data...");
-		if (localStorage.getItem("data") === null) {
-			console.error("Could not load SAP user data!");
+		if (!SAP.DATA.isDataAvailable()) {
+			console.error("Could not load SAP user data! Not initialized!");
 			return;
 		}
 
 		var data = JSON.parse(localStorage.getItem("data"));
 		SAP.DATA.mergeData(data);
+	},
+
+	isDataAvailable: function() {
+		return (localStorage.getItem("data") !== null);
 	},
 
 	mergeData: function(extra) {
@@ -25,11 +29,12 @@ SAP.DATA = {
 	},
 
 	getExtras: function(driver, year, month) {
-		if(!driver.extra || !driver.extra[year] || !driver.extra[year][month])
+		if (!driver.extra || !driver.extra[year] || !driver.extra[year][month])
 			return {};
+
+		if (month === 'average')
+			return driver.extra[year];
 
 		return driver.extra[year][month];
 	}
 }
-
-SAP.DATA.init();
