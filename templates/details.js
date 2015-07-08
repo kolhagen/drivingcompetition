@@ -55,7 +55,7 @@ var Details = React.createClass({
 		
 		var detailmessage = "Details for: " + this.props.driver.name;
 		var vehiclemessage = "Vehicle: " + car.make + " " + car.model;
-		var driverquot = "Quot: " + "\"" +car.quot + "\"";
+		var driverquote = this.props.driver.quote;
 
 		var score = detailscore.score;
 
@@ -88,9 +88,9 @@ var Details = React.createClass({
 								{ detailmessage }
 								<div className="media-body">
 								{ vehiclemessage }
-									<div className="media-body">
-									{ driverquot }
-									</div>
+									<blockquote className="blockquote-reverse">
+									{driverquote}
+									</blockquote>
 								</div>
 							</div>
 						</div>
