@@ -19,19 +19,22 @@ data.driver = [
 		picture: "images/max.png"
 	},
 	{
-		name: "Kristin Boehm",
+		name: "Super Mario",
 		department: "Archive",
-		car: "system-local::WWWALPHA111111111"
+		car: "system-local::WWWALPHA111111111",
+		picture: "images/mario.png"
 	},
 	{
-		name: "David Keller",
+		name: "Sebastian Vettel",
 		department: "Acquisitions",
-		car: "system-local::WWWGAMMA333333333"
+		car: "system-local::WWWGAMMA333333333",
+		picture: "images/vettel.png"
 	},
 	{
-		name: "Angela Merkel",
+		name: "Marco Reus",
 		department: "Acquisitions",
 		car: "system-local::WWWZETA6666666666",
-		picture: "images/angi.jpg"
+		picture: "images/angi.jpg",
+		picture: "images/marco.png"
 	}
 ]
