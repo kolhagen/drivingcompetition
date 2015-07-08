@@ -250,21 +250,29 @@
 		//}
 		
 		var finalscore = {};
+		var detailscore = {};
 		function calculateScore(scoreTable){
 		for(vehicle in scoreTable){
 			if(!finalscore[vehicle])
 				finalscore[vehicle] = {};
+			if(!detailscore[vehicle])
+				detailscore[vehicle] = {};
 			for(year in scoreTable[vehicle]){
 				if(!finalscore[vehicle][year])
 					finalscore[vehicle][year] = {};
+				if(!detailscore[vehicle][year])
+					detailscore[vehicle][year] = {};
 				for(month in scoreTable[vehicle][year]){
 					if(!finalscore[vehicle][year][month])
-						finalscore[vehicle][year][month] = {score: 0.0, kmhmalus: 0.0, rpmmalus: 0.0, pedaldmalus: 0.0, pedalemalus: 0.0};
+						finalscore[vehicle][year][month] = {score: 0.0};
+					if(!detailscore[vehicle][year][month])
+						detailscore[vehicle][year][month] = {score: 0.0, kmhmalus: 0.0, rpmmalus: 0.0, pedaldmalus: 0.0, pedalemalus: 0.0};
 					finalscore[vehicle][year][month].score =  scoreTable[vehicle][year][month].accumulated / scoreTable[vehicle][year][month].count;
-					finalscore[vehicle][year][month].kmhmalus =  scoreTable[vehicle][year][month].kmhmahlus / scoreTable[vehicle][year][month].count;
-					finalscore[vehicle][year][month].rpmmalus =  scoreTable[vehicle][year][month].rpmmalus / scoreTable[vehicle][year][month].count;
-					finalscore[vehicle][year][month].pedaldmalus =  scoreTable[vehicle][year][month].pedaldmalus / scoreTable[vehicle][year][month].count;
-					finalscore[vehicle][year][month].pedalemalus =  scoreTable[vehicle][year][month].pedalemalus / scoreTable[vehicle][year][month].count;
+					detailscore[vehicle][year][month].score =  scoreTable[vehicle][year][month].accumulated / scoreTable[vehicle][year][month].count;
+					detailscore[vehicle][year][month].kmhmalus =  scoreTable[vehicle][year][month].kmhmahlus / scoreTable[vehicle][year][month].count;
+					detailscore[vehicle][year][month].rpmmalus =  scoreTable[vehicle][year][month].rpmmalus / scoreTable[vehicle][year][month].count;
+					detailscore[vehicle][year][month].pedaldmalus =  scoreTable[vehicle][year][month].pedaldmalus / scoreTable[vehicle][year][month].count;
+					detailscore[vehicle][year][month].pedalemalus =  scoreTable[vehicle][year][month].pedalemalus / scoreTable[vehicle][year][month].count;
 				}
 			 }
 		}
@@ -287,15 +295,49 @@
 			}
 		}
 
+		var approximatetoMonth = {};
+		function getApproximatetoMonth(detailTable){
+			for(vehicle in detailTable){
+				if(!approximatetoMonth[vehicle])
+					approximatetoMonth[vehicle] = {};
+				for(year in detailTable[vehicle]){
+					if(!approximatetoMonth[vehicle][year])
+						approximatetoMonth[vehicle][year] = {};
+					for(month in detailTable[vehicle][year]){
+						if(!approximatetoMonth[vehicle][year][month])
+							approximatetoMonth[vehicle][year][month] = {};
+						for(telemtrydata in detailTable[vehicle][year][month]){}
+							if(!approximatetoMonth[vehicle][year][month][telemtrydata])
+								approximatetoMonth[vehicle][year][month][telemtrydata] = {first: 0.0, firstdate: 0.0, last: 0.0, lastdata: 0.0};
+							console.log(telemtrydata);
+							console.log(detailTable[vehicle][year][month][telemtrydata]);/*
+							if(approximatetoMonth[vehicle][year][month][telemtrydata].firstdate === 0.0){
+								approximatetoMonth[vehicle][year][month][telemtrydata].first = detailTable[vehicle][year][month][telemtrydata].
+								approximatetoMonth[vehicle][year][month][telemtrydata].firstdate
+								approximatetoMonth[vehicle][year][month][telemtrydata].last
+								approximatetoMonth[vehicle][year][month][telemtrydata].lastdate
+							}
+							*/
+							
+					}
+				 }
+			}
+		}
+
+
+
 
 	function checkDone() {
 		if (apiRequests > apiRequestsResponded)
 			return;
-
 		// TODO: Save results to ./data/warehouse.json (@Max)
 		calculateScore(allscore);
-		localStorage.setItem('scores', JSON.stringify(finalscore));
+		getNumberOfTrips(allscore);
 
+		localStorage.setItem('scores', JSON.stringify(finalscore));
+		localStorage.setItem('numberOfTrips', JSON.stringify(numberOfTrips));
+		//localStorage.setItem('detaildata', JSON.stringify(detailinfos));
+		
 		$('#container').html('Done!');
 	}
 
