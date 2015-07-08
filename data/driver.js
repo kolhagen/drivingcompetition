@@ -21,14 +21,12 @@ data.driver = [
 	{
 		name: "Kristin Boehm",
 		department: "Archive",
-		car: "system-local::WWWALPHA111111111",
-		picture: "images/avatar.png"
+		car: "system-local::WWWALPHA111111111"
 	},
 	{
 		name: "David Keller",
 		department: "Acquisitions",
-		car: "system-local::WWWGAMMA333333333",
-		picture: "images/avatar.png"
+		car: "system-local::WWWGAMMA333333333"
 	},
 	{
 		name: "Angela Merkel",
