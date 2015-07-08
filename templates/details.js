@@ -52,8 +52,13 @@ var Details = React.createClass({
 		numberOfTrips = this.state.extra.score;
 
 		var carImage = "images/"+this.props.driver.car.substring(14)+".png";
+		
 		var detailmessage = "Details for: " + this.props.driver.name;
 		var vehiclemessage = "Vehicle: " + car.make + " " + car.model;
+		var driverquot = "Quot: " + "\"" +car.quot + "\"";
+
+		var score = detailscore.score;
+
 		var totalKm = "Total driven Kilometers: "+ 100;
 		var kmPerYear = "Avg. Kilometers per Month: " +4800;
 		var kmPerMonth = "Avg. Kilometers per Month: " +400;
@@ -81,16 +86,21 @@ var Details = React.createClass({
 							<div className="media-body">
 								<h4 className="media-heading">Media heading</h4>
 								{ detailmessage }
+								<div className="media-body">
 								{ vehiclemessage }
+									<div className="media-body">
+									{ driverquot }
+									</div>
+								</div>
 							</div>
 						</div>
 
 						<div className="panel panel-default">
-							<div className="panel-heading">Some Progress Bars</div>
+							<div className="panel-heading">Scoring</div>
 							<div className="panel-body">
 								<div className="progress">
-									<div className="progress-bar progress-bar-warning" role="progressbar" style={{ minWidth: "2em", width: "50%" }}>
-										50%
+									<div className="progress-bar progress-bar-warning" role="progressbar" style={{ minWidth: "2em", width: { score }}}>
+										{ score } %
 									</div>
 								</div>
 								<div className="progress">
