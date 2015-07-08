@@ -46,7 +46,7 @@ var Details = React.createClass({
 		//console.log(this.props.driver);
 
 		//shortcuts to extra data
-		approx = this.state.extra.approx;
+		var approx = this.state.extra.approx;
 		car = this.state.extra.cars;
 		detailscore = this.state.extra.score;
 		numberOfTrips = this.state.extra.score;
@@ -59,7 +59,19 @@ var Details = React.createClass({
 
 		var score = detailscore.score;
 
-		var totalKm = "Total driven Kilometers: "+ 100;
+		/*
+		 * Block of name Variables as shortcut
+		 */
+		var throttle = "sap.ctex::sap.vean::Vehicle__sap.ctex__absThrottlePos_sap.bc.ar::Percent";
+		var posD = "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionD_sap.bc.ar::Percent";
+		var posE = "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionE_sap.bc.ar::Percent";
+		var rpm = "sap.vean::Vehicle__sap.vean__engineSpeed_sap.bc.ar::RevolutionsPerMinute";
+		var kilometer = "sap.vean::Vehicle__sap.vean__mileage_sap.bc.ar::Kilometer";
+		var kph = "sap.vean::Vehicle__sap.vean__vehicleSpeed_sap.bc.ar::KilometerPerHour";
+		/*
+		 * Summary Variables
+		 */
+		var totalKm = "Total driven Kilometers: ";
 		var kmPerYear = "Avg. Kilometers per Month: " +4800;
 		var kmPerMonth = "Avg. Kilometers per Month: " +400;
 		var avgThrottle = 35;
