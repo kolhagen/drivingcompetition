@@ -42,11 +42,11 @@ var DriverList = React.createClass({
 	render: function() {
 		// build driver entries
 		var driverNodes = this.props.data.map(function (driver, i) {
-			var active = (i === this.state.selected) ? " active" : "";
+			driver.active = (i === this.state.selected) ? " active" : "";
 
 			// pass click handler to parent
 			return (
-				<Driver key={ i } clickHandler={ this.onDriverClick.bind(null, i) } data={ driver } active={ active }/>
+				<Driver key={ i } clickHandler={ this.onDriverClick.bind(null, i) } data={ driver }/>
 			);
 		}.bind(this));
 
@@ -126,7 +126,7 @@ var DateSelect = React.createClass({
 
 var Driver = React.createClass({
 	render: function() {
-		var classes = "list-group-item" + this.props.active;
+		var classes = "list-group-item" + this.props.data.active;
 
 		return (
 			<a href="#" className={ classes } onClick={ this.props.clickHandler }>

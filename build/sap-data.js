@@ -1,4 +1,4 @@
-var SAP; if (!SAP) SAP = {};
+if (!SAP) var SAP = {};
 
 SAP.DATA = {
 	init: function() {

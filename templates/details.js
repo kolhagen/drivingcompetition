@@ -2,9 +2,6 @@
  * Classes representing the details view of a specific driver.
  */
 
-// remember last user seen, to prevent from repetitively trying to update content
-var lastUser = null;
-
 var Details = React.createClass({
 	getInitialState: function() {
 		return { extra: null, score: null };

@@ -1,4 +1,4 @@
-var SAP; if (!SAP) SAP = {};
+if (!SAP) var SAP = {};
 
 // constants
 var MONTHS = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
