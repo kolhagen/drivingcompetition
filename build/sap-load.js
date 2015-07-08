@@ -36,23 +36,16 @@ var detailinfos = {};
 SAP.LOAD = {
 	load: function() {
 		//get the meta information for each car
-		var request = "Vehicle?$filter=GroupIndicator eq 0&$select=ID";
+		var request = "Vehicle?$expand=Model/CurrentTexts,Make/CurrentTexts&$filter=GroupIndicator eq 0&$select=ID,Model/CurrentTexts/Name,Make/CurrentTexts/Name";
 		SAP.API.request(request, function(data) {
 			for (vehicle of data.d.results) {
-				var request = vehicle.__metadata.uri+'?';
-				SAP.API.request(request, function(data) {
-					//console.log(data);
-					if(!allcars[data.d.ID])
-						allcars[data.d.ID] = {makeID: 0, modelID: 0};
-					allcars[data.d.ID].makeID = data.d['Make.ID'];
-					allcars[data.d.ID].modelID = data.d['Model.ID'];
-					//console.log(data.d.ID + data.d['Make.ID'] + data.d['Model.ID']);
-				},true);
-				//console.log(vehicle.__metadata.uri);
+					if (!allcars[vehicle.ID])
+						allcars[vehicle.ID] = {};
+
+					allcars[vehicle.ID].make = vehicle.Make.CurrentTexts.Name;
+					allcars[vehicle.ID].model = vehicle.Model.CurrentTexts.Name;
 			}
-			//TODO: load data to local DW
-			//localStorage.setItem('carinformation', JSON.stringify(allcars));
-		}, false);
+		});
 
 		var request = "Vehicle?$filter=GroupIndicator eq 0&$select=ID";
 		SAP.API.request(request, function(data) {
@@ -477,7 +470,7 @@ return target;
 function checkDone() {
 	SAP.INIT.progress = 1.0 * apiRequestsResponded / apiRequests;
 	SAP.INIT.updateProgress();
-	
+
 if (apiRequests > apiRequestsResponded)
 	return;
 // TODO: Save results to ./data/warehouse.json (@Max)
