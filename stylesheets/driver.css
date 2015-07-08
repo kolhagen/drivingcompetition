@@ -1,28 +1,45 @@
-#driver-list-date{
+#driver-list-date {
 	text-align: center;
 }
 
 /*.rank-first { background: linear-gradient(90deg, green 2%, white 2%); }*/
 
-.driver-ribbon{
-	position: absolute;
-	height: 100%;
-	width: 2%;
-	top: 0px;
-	left: 0px;
-}
+.green-bg { background-color: green; }
+.orange-bg { background-color: orange; }
+.red-bg { background-color: red; }
+.gold-bg { background-color: #FFEA00; }
+.silver-bg { background-color: #D6D6D6; }
+.bronze-bg { background-color: #F0A53C; }
 
-.first{ background-color: green; }
-.second-last{ background-color: orange; }
-.last{ background-color: red; }
-.gold{ background-color: #FFEA00; }
-.silver{ background-color: #D6D6D6; }
-.bronze{ background-color: #F0A53C; }
+.driver-ribbon {
+	position: absolute;
+	width: 2%;
+	top: -1px;
+	left: -1px;
+	bottom: -1px;
+}
 
 .list-group-item:first-child .driver-ribbon{
-	border-top-left-radius: 4px;
+	border-top-left-radius: 3px;
 }
 
-.list-group-item:last-child .driver-ribbon{
-	border-bottom-left-radius: 4px;
+.list-group-item:last-child .driver-ribbon padding-right:  {
+	border-bottom-left-radius: 3px;
+}
+
+.driver-score {
+	font-size: 12px;
+	position: absolute;
+  margin-right: 8px;
+  margin-top: 8px;
+	top: 0px;
+	right: 0px;
+}
+
+.driver-trend {
+  position: absolute;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  bottom: 0px;
+  right: 0px;
 }

@@ -4,3 +4,7 @@ body {
 .clear {
 	clear: both;
 }
+
+.green { color: #57DA8A; }
+.orange { color: orange; }
+.red { color: #DA6657; }

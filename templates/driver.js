@@ -59,12 +59,15 @@ var DriverList = React.createClass({
 	render: function() {
 		// build driver entries
 		var driverNodes = this.props.data.map(function (driver, i) {
-			driver.active = (i === this.state.selected) ? " active" : "";
-			driver.rank = (i + 1);
+			var data = {};
+			data.driver = driver;
+			data.active = (i === this.state.selected) ? " active" : "";
+			data.rank = (i + 1);
+			data.score = driver.scores[this.state.year][this.state.month];
 
 			// pass click handler to parent
 			return (
-				<Driver key={ i } clickHandler={ this.onDriverClick.bind(null, i) } data={ driver }/>
+				<Driver key={ i } clickHandler={ this.onDriverClick.bind(null, i) } data={ data }/>
 			);
 		}.bind(this));
 
@@ -146,14 +149,24 @@ var DateSelect = React.createClass({
 
 var Driver = React.createClass({
 	render: function() {
-		var picture = this.props.data.picture ? this.props.data.picture : "images/avatar.png";
+		var picture = this.props.data.driver.picture ? this.props.data.driver.picture : "images/avatar.png";
 
 		var rootClasses = "list-group-item" + this.props.data.active;
 		var ribbonClasses = "driver-ribbon";
 
-		var ribbons = [ " gold", " silver", " bronze", "", "", "" ];
-		// var ribbons = [ " first", "", "", "", " second-last", " last" ];
+		var ribbons = [ " gold-bg", " silver-bg", " bronze-bg", "", "", "" ];
+		// var ribbons = [ " green-bg", "", "", "", " orange-bg", " red-bg" ];
 		ribbonClasses += ribbons[this.props.data.rank - 1];
+
+		var trend = "";
+		if (this.props.data.driver.trend > 0)
+			trend = "glyphicon glyphicon-arrow-up green";
+		else if (this.props.data.driver.trend < 0)
+				trend = "glyphicon glyphicon-arrow-down red";
+
+		var score = "";
+		if (this.props.data.score !== -1)
+			score = Math.round(this.props.data.score) + " %";
 
 		return (
 			<a href="#" className={ rootClasses } onClick={ this.props.clickHandler }>
@@ -162,11 +175,13 @@ var Driver = React.createClass({
 				    <img className="media-object" src={picture} style={{ width: "48px", height: "48px" }} />
 				  </div>
 				  <div className="media-body">
-				    <h4 className="media-heading"><b>{ this.props.data.rank }.</b> { this.props.data.name }</h4>
-				    { this.props.data.department }
+				    <h4 className="media-heading"><b>{ this.props.data.rank }.</b> { this.props.data.driver.name }</h4>
+				    { this.props.data.driver.department }
 				  </div>
 				</div>
 				<div className={ ribbonClasses }></div>
+				<div className="driver-score">{ score }</div>
+				<div className="driver-trend"><span className={ trend }></span></div>
 			</a>
 		);
 	}
