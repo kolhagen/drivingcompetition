@@ -123,16 +123,16 @@ var DateSelect = React.createClass({
 		);
 	}
 });
-
 var Driver = React.createClass({
 	render: function() {
 		var classes = "list-group-item" + this.props.data.active;
+		var pic = this.props.data.picture;
 
 		return (
 			<a href="#" className={ classes } onClick={ this.props.clickHandler }>
 				<div className="media">
 				  <div className="media-left">
-				    <img className="media-object" src="..." style={{ width: "48px", height: "48px" }} />
+				    <img className="media-object" src={pic} style={{ width: "48px", height: "48px" }} />
 				  </div>
 				  <div className="media-body">
 				    <h4 className="media-heading">{ this.props.data.name }</h4>
