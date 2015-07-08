@@ -202,5 +202,9 @@ SAP.SCORE = {
 				driver.trend = (previousRank[driver.name] - i++);
 			}
 		}
+	},
+
+	reset: function() {
+		localStorage.removeItem("scores");
 	}
 }

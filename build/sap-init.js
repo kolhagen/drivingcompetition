@@ -21,7 +21,7 @@ SAP.INIT = {
 
 	finish: function() {
 		$("#modalLoading").modal("hide");
-		
+
 		if (SAP.INIT.callback)
 			SAP.INIT.callback();
 	},
@@ -42,5 +42,10 @@ SAP.INIT = {
 		setTimeout(function() {
 			SAP.INIT.finish();
 		}, 1000);
+	},
+
+	reset: function() {
+		SAP.SCORE.reset();
+		SAP.DATA.reset();
 	}
 }

@@ -29,12 +29,25 @@ SAP.DATA = {
 	},
 
 	getExtras: function(driver, year, month) {
-		if (!driver.extra || !driver.extra[year] || !driver.extra[year][month])
-			return {};
+		if (!driver.extra || !driver.extra.static || !driver.extra.monthly)
+		 	return {};
 
-		if (month === 'average')
-			return driver.extra[year];
+		if (!driver.extra.monthly[year] || !driver.extra.monthly[year][month])
+			return driver.extra.static;
 
-		return driver.extra[year][month];
+		var extras = driver.extra.monthly[year][month];
+
+		for (var entry in driver.extra.static) {
+			if (!driver.extra.static.hasOwnProperty(entry))
+				continue;
+
+			extras[entry] = driver.extra.static[entry];
+		}
+
+		return extras;
+	},
+
+	reset: function() {
+		localStorage.removeItem("data");
 	}
 }

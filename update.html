@@ -248,7 +248,7 @@
 			}
 		},false);
 		//}
-		
+
 		var finalscore = {};
 		var detailscore = {};
 		function calculateScore(scoreTable){
@@ -264,10 +264,10 @@
 					detailscore[vehicle][year] = {};
 				for(month in scoreTable[vehicle][year]){
 					if(!finalscore[vehicle][year][month])
-						finalscore[vehicle][year][month] = {score: 0.0};
+						finalscore[vehicle][year][month] = 0.0;
 					if(!detailscore[vehicle][year][month])
 						detailscore[vehicle][year][month] = {score: 0.0, kmhmalus: 0.0, rpmmalus: 0.0, pedaldmalus: 0.0, pedalemalus: 0.0};
-					finalscore[vehicle][year][month].score =  scoreTable[vehicle][year][month].accumulated / scoreTable[vehicle][year][month].count;
+					finalscore[vehicle][year][month] = scoreTable[vehicle][year][month].accumulated / scoreTable[vehicle][year][month].count;
 					detailscore[vehicle][year][month].score =  scoreTable[vehicle][year][month].accumulated / scoreTable[vehicle][year][month].count;
 					detailscore[vehicle][year][month].kmhmalus =  scoreTable[vehicle][year][month].kmhmahlus / scoreTable[vehicle][year][month].count;
 					detailscore[vehicle][year][month].rpmmalus =  scoreTable[vehicle][year][month].rpmmalus / scoreTable[vehicle][year][month].count;
@@ -328,7 +328,7 @@
 									approximatetoMonthRawData[vehicle][year][month][telemtrydata].last = element.value;
 									approximatetoMonthRawData[vehicle][year][month][telemtrydata].lastdate = parseODataDate(element.date);
 									lastsavedate = parseODataDate(element.date);
-								
+
 								}
 								if(firstsavedate>parseODataDate(element.date)){
 									approximatetoMonthRawData[vehicle][year][month][telemtrydata].first = element.value;
@@ -338,8 +338,8 @@
 								approximatetoMonthRawData[vehicle][year][month][telemtrydata].accumulated +=+ element.value;
 								approximatetoMonthRawData[vehicle][year][month][telemtrydata].count++;
 							}
-						}	
-							
+						}
+
 					}
 				 }
 			}
@@ -413,19 +413,99 @@
 				}
 			}
 		}
+
+	function mergeData(target, values, name) {
+		for (var car in values) {
+			if (!values.hasOwnProperty(car))
+				continue;
+
+			if (!target[car])
+				target[car] = {};
+
+			if (!target[car].monthly)
+				target[car].monthly = {};
+
+			for (var year in values[car]) {
+				if (!values[car].hasOwnProperty(year))
+					continue;
+
+				if (!target[car].monthly[year])
+					target[car].monthly[year] = {};
+
+				// check if not a year property
+			/*	if (/^[a-zA-Z]/.test(year)) {
+					target[car][name] = values[car];
+					continue;
+				}*/
+
+				for (var month in values[car][year]) {
+					if (!values[car][year].hasOwnProperty(month))
+						continue;
+
+					if (!target[car].monthly[year][month])
+						target[car].monthly[year][month] = {};
+
+					target[car].monthly[year][month][name] = values[car][year][month];
+				}
+			}
+		}
+
+		return target;
+	}
+
+	function mergeStaticData(target, values, name) {
+		for (var car in values) {
+			if (!values.hasOwnProperty(car))
+				continue;
+
+			if (!target[car])
+				target[car] = {};
+
+			if (!target[car].static)
+				target[car].static = {};
+
+			target[car].static[name] = values[car];
+		}
+
+		return target;
+	}
+
+	/*function mergeData(target, values, name) {
+		for (var car in values) {
+			if (!values.hasOwnProperty(car))
+				continue;
+
+			if (!target[car])
+				target[car] = {};
+
+			target[car][name] = values[car];
+		}
+
+		return target;
+	}*/
+
 	function checkDone() {
 		if (apiRequests > apiRequestsResponded)
 			return;
 		// TODO: Save results to ./data/warehouse.json (@Max)
 		calculateScore(allscore);
 		getNumberOfTrips(allscore);
-		getapproximatetoMonth(getapproximatetoMonthRawData(detailinfos));
+		getapproximatetoMonthRawData(detailinfos);
+		getapproximatetoMonth(approximatetoMonthRawData);
 
 		localStorage.setItem('scores', JSON.stringify(finalscore));
-		localStorage.setItem('detailscores', JSON.stringify(detailscore));
-		localStorage.setItem('numberOfTrips', JSON.stringify(numberOfTrips));
-		localStorage.setItem('approximatetoMonth', JSON.stringify(approximatetoMonth));
-		
+
+		var extras = {};
+		extras = mergeData(extras, detailscore, "score");
+		extras = mergeData(extras, numberOfTrips, "trips");
+		extras = mergeData(extras, approximatetoMonth, "approx");
+
+		extras = mergeStaticData(extras, allcars, "cars");
+
+		// TODO: calculate monthly, yearly averages!
+
+		localStorage.setItem('data', JSON.stringify(extras));
+
 		$('#container').html('Done!');
 	}
 
