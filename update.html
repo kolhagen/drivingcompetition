@@ -295,8 +295,60 @@
 			}
 		}
 
+		var approximatetoMonthRawData = {};
+		function getapproximatetoMonthRawData(detailTable){
+			for(vehicle in detailTable){
+				if(!approximatetoMonthRawData[vehicle])
+					approximatetoMonthRawData[vehicle] = {};
+				for(year in detailTable[vehicle]){
+					if(!approximatetoMonthRawData[vehicle][year])
+						approximatetoMonthRawData[vehicle][year] = {};
+					for(month in detailTable[vehicle][year]){
+						if(!approximatetoMonthRawData[vehicle][year][month])
+							approximatetoMonthRawData[vehicle][year][month] = {};
+						for(telemtrydata in detailTable[vehicle][year][month]){
+							if(!approximatetoMonthRawData[vehicle][year][month][telemtrydata])
+								approximatetoMonthRawData[vehicle][year][month][telemtrydata] = {first: 0.0, firstdate: 0.0, last: 0.0, lastdate: 0.0, accumulated: 0.0, count: 0};
+							//console.log(detailTable[vehicle][year][month][telemtrydata]);
+							var firstsavedate = 0;
+							var lastsavedate = 0;
+							for(element of detailTable[vehicle][year][month][telemtrydata]){
+								//initial
+								if(approximatetoMonthRawData[vehicle][year][month][telemtrydata].firstdate === 0.0){
+									firstsavedate = parseODataDate(element.date);
+									lastsavedate = parseODataDate(element.date);
+									approximatetoMonthRawData[vehicle][year][month][telemtrydata].first = element.value;
+									approximatetoMonthRawData[vehicle][year][month][telemtrydata].firstdate = parseODataDate(element.date);
+									approximatetoMonthRawData[vehicle][year][month][telemtrydata].last = element.value;
+									approximatetoMonthRawData[vehicle][year][month][telemtrydata].lastdate = parseODataDate(element.date);
+								}
+								if(lastsavedate<parseODataDate(element.date)){
+									approximatetoMonthRawData[vehicle][year][month][telemtrydata].last = element.value;
+									approximatetoMonthRawData[vehicle][year][month][telemtrydata].lastdate = parseODataDate(element.date);
+									lastsavedate = parseODataDate(element.date);
+								
+								}
+								if(firstsavedate>parseODataDate(element.date)){
+									approximatetoMonthRawData[vehicle][year][month][telemtrydata].first = element.value;
+									approximatetoMonthRawData[vehicle][year][month][telemtrydata].firstdate = parseODataDate(element.date);
+									firstsavedate = parseODataDate(element.date);
+								}
+								if(telemtrydata="sap.vean::Vehicle__sap.vean__vehicleSpeed_sap.bc.ar::KilometerPerHour"){
+									console.log("KMH= "+element.value);
+									//console.log(approximatetoMonthRawData[vehicle][year][month][telemtrydata].accumulated);
+								}
+								approximatetoMonthRawData[vehicle][year][month][telemtrydata].accumulated += element.value;
+								approximatetoMonthRawData[vehicle][year][month][telemtrydata].count++;
+							}
+						}	
+							
+					}
+				 }
+			}
+		}
+
 		var approximatetoMonth = {};
-		function getApproximatetoMonth(detailTable){
+		function getapproximatetoMonth(detailTable){
 			for(vehicle in detailTable){
 				if(!approximatetoMonth[vehicle])
 					approximatetoMonth[vehicle] = {};
@@ -306,26 +358,64 @@
 					for(month in detailTable[vehicle][year]){
 						if(!approximatetoMonth[vehicle][year][month])
 							approximatetoMonth[vehicle][year][month] = {};
-						for(telemtrydata in detailTable[vehicle][year][month]){}
+						for(telemtrydata in detailTable[vehicle][year][month]){
 							if(!approximatetoMonth[vehicle][year][month][telemtrydata])
-								approximatetoMonth[vehicle][year][month][telemtrydata] = {first: 0.0, firstdate: 0.0, last: 0.0, lastdata: 0.0};
-							console.log(telemtrydata);
-							console.log(detailTable[vehicle][year][month][telemtrydata]);/*
-							if(approximatetoMonth[vehicle][year][month][telemtrydata].firstdate === 0.0){
-								approximatetoMonth[vehicle][year][month][telemtrydata].first = detailTable[vehicle][year][month][telemtrydata].
-								approximatetoMonth[vehicle][year][month][telemtrydata].firstdate
-								approximatetoMonth[vehicle][year][month][telemtrydata].last
-								approximatetoMonth[vehicle][year][month][telemtrydata].lastdate
+								approximatetoMonth[vehicle][year][month][telemtrydata] = {propertyID: 0.0, value1: 0.0, value2: 0.0};
+                            //first: 0.0, firstdate: 0.0, last: 0.0, lastdate: 0.0, accumulated: 0.0, count: 0
+							element =  detailTable[vehicle][year][month][telemtrydata];
+							if(telemtrydata === "sap.ctex::sap.vean::Vehicle__sap.ctex__absThrottlePos_sap.bc.ar::Percent"){
+								approximatetoMonth[vehicle][year][month][telemtrydata].propertyID = telemtrydata;
+								if(element.accumulated === 0.0 || element.count === 0.0)
+									approximatetoMonth[vehicle][year][month][telemtrydata].value1 = 0.0;
+								else
+									approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.accumulated / element.count;
+								approximatetoMonth[vehicle][year][month][telemtrydata].value2 = 0.0;
 							}
-							*/
-							
+							if(telemtrydata === "sap.vean::Vehicle__sap.vean__Gear"){
+								approximatetoMonth[vehicle][year][month][telemtrydata].propertyID = telemtrydata;
+								if(element.accumulated === 0.0 || element.count === 0.0)
+									approximatetoMonth[vehicle][year][month][telemtrydata].value1 = 0.0;
+								else
+									approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.accumulated / element.count;
+								approximatetoMonth[vehicle][year][month][telemtrydata].value2 = 0.0;
+							}
+							if(telemtrydata === "sap.vean::Vehicle__sap.vean__vehicleSpeed_sap.bc.ar::KilometerPerHour"){		
+								console.log(" once and for all" + element.accumulated + " " + element.count)
+								approximatetoMonth[vehicle][year][month][telemtrydata].propertyID = telemtrydata;
+								approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.accumulated / element.count;
+								approximatetoMonth[vehicle][year][month][telemtrydata].value2 = 0.0;
+							}
+							if(telemtrydata === "sap.vean::Vehicle__sap.vean__engineSpeed_sap.bc.ar::RevolutionsPerMinute"){
+								approximatetoMonth[vehicle][year][month][telemtrydata].propertyID = telemtrydata;
+								approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.accumulated / element.count;
+								approximatetoMonth[vehicle][year][month][telemtrydata].value2 = 0.0;
+							}
+							if(telemtrydata === "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionD_sap.bc.ar::Percent"){
+								approximatetoMonth[vehicle][year][month][telemtrydata].propertyID = telemtrydata;
+								if(element.accumulated === 0.0 || element.count === 0.0)
+									approximatetoMonth[vehicle][year][month][telemtrydata].value1 = 0.0;
+								else
+									approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.accumulated / element.count;
+								approximatetoMonth[vehicle][year][month][telemtrydata].value2 = 0.0;
+							}
+							if(telemtrydata === "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionE_sap.bc.ar::Percent"){
+								approximatetoMonth[vehicle][year][month][telemtrydata].propertyID = telemtrydata;
+								if(element.accumulated === 0.0 || element.count === 0.0)
+									approximatetoMonth[vehicle][year][month][telemtrydata].value1 = 0.0;
+								else
+									approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.accumulated / element.count;
+								approximatetoMonth[vehicle][year][month][telemtrydata].value2 = 0.0;
+							}
+							if(telemtrydata === "sap.vean::Vehicle__sap.vean__mileage_sap.bc.ar::Kilometer"){
+								approximatetoMonth[vehicle][year][month][telemtrydata].propertyID = telemtrydata;
+								approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.last - element.first;
+								approximatetoMonth[vehicle][year][month][telemtrydata].value2 = element.last;
+							}
+						}
 					}
-				 }
+				}
 			}
 		}
-
-
-
 
 	function checkDone() {
 		if (apiRequests > apiRequestsResponded)
@@ -333,10 +423,12 @@
 		// TODO: Save results to ./data/warehouse.json (@Max)
 		calculateScore(allscore);
 		getNumberOfTrips(allscore);
+		getapproximatetoMonth(getapproximatetoMonthRawData(detailinfos));
 
 		localStorage.setItem('scores', JSON.stringify(finalscore));
+		localStorage.setItem('detailscores', JSON.stringify(detailscore));
 		localStorage.setItem('numberOfTrips', JSON.stringify(numberOfTrips));
-		//localStorage.setItem('detaildata', JSON.stringify(detailinfos));
+		localStorage.setItem('approximatetoMonth', JSON.stringify(approximatetoMonth));
 		
 		$('#container').html('Done!');
 	}
