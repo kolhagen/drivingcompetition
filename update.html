@@ -166,7 +166,32 @@
 				}
 			 }
 		}
-				}
+		}
+		
+		//getSomeInformation
+		var request = "https://xs01ac37c9fd2.hana.ondemand.com/sap/vean/v0.1/odata/Vehicle('system-local::WWWDELTA444444444')//TripSegment?$expand=StartLocationInfo,EndLocationInfo&$select=ID,StartPointInTime,EndPointInTime,Property.ID,Observee.ID,Observee,TelemetryData"
+		apiRequest(request, function(data){
+			console.log(data);
+			for (vehicle of data.d.results) {	
+			}
+		},true);	
+		
+		var detailInformation = {};
+		function detailInformation(scoreTable){
+			for(vehicle in scoreTable){
+				if(!detailInformation[vehicle])
+					detailInformation[vehicle] = {};
+				for(year in scoreTable[vehicle]){
+					if(!detailInformation[vehicle][year])
+						detailInformation[vehicle][year] = {};
+					for(month in scoreTable[vehicle][year]){
+						if(!detailInformation[vehicle][year][month])
+							detailInformation[vehicle][year][month] = {numberOfTrips};
+						detailInformation[vehicle][year][month].numberOfTripss =  scoreTable[vehicle][year][month].count;
+					}
+				 }
+			}
+		}
 
 
 	function checkDone() {
