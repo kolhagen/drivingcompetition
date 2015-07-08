@@ -52,7 +52,7 @@ var Details = React.createClass({
 		numberOfTrips = this.state.extra.score;
 
 		var carImage = "images/"+this.props.driver.car.substring(14)+".png";
-		var message = "Details for: " + this.props.driver.name + '\n\r' + "Class: " + car.makeID + '\n\r' + "Car: " + car.modelID;
+		var message = "Details for: " + this.props.driver.name + "Class: " + car.makeID + "Car: " + car.modelID;
 		var totalKm = "Total driven Kilometers: "+ 100;
 		var kmPerYear = "Avg. Kilometers per Month: " +4800;
 		var kmPerMonth = "Avg. Kilometers per Month: " +400;
