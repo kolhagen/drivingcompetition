@@ -26,7 +26,7 @@ var Content = React.createClass({
 					<div className="row">
 						<div className="col-md-12">
 							<div className="panel panel-default">
-							  <div className="panel-body">
+								<div className="panel-body">
 									SAP Seminar [Max Kolhagen, Young-Hwan Kim, Markus Braun]
 								</div>
 							</div>
