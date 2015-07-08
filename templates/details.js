@@ -7,7 +7,7 @@ var lastUser = null;
 
 var Details = React.createClass({
 	getInitialState: function() {
-		return {car: "..."};
+		return { car: "..." };
 	},
 	/**
 	 * Called, when content/data of this component has changed.
@@ -19,7 +19,7 @@ var Details = React.createClass({
 
 			lastUser = this.props.driver;
 
-			this.setState({car: "..."});
+			this.setState({ car: "..." });
 
 			// build filter for selecting user's cars
 			var filter = "";
@@ -30,7 +30,7 @@ var Details = React.createClass({
 
 			// send API request
 			var request = "Vehicle('sap.vean::Vehicle_AllModels')/Children?$expand=CurrentTexts,Make/CurrentTexts&$filter=" + filter + "&$select=CurrentTexts/Name,Make/CurrentTexts/Name";
-			apiRequest(request, function(data) {
+			SAP.API.request(request, function(data) {
 				// concatenate car manufacturers and models
 				var cars = "";
 				for (car of data.d.results) {
@@ -59,11 +59,11 @@ var Details = React.createClass({
 
 						<div className="media">
 							<div className="media-left">
-								<img className="media-object" style={{width: "128px", height: "128px"}} src="..." />
+								<img className="media-object" style={{ width: "128px", height: "128px" }} src="..." />
 							</div>
 							<div className="media-body">
 								<h4 className="media-heading">Media heading</h4>
-								{message}
+								{ message }
 							</div>
 						</div>
 
@@ -71,12 +71,12 @@ var Details = React.createClass({
 							<div className="panel-heading">Some Progress Bars</div>
 							<div className="panel-body">
 								<div className="progress">
-									<div className="progress-bar progress-bar-warning" role="progressbar" style={{"min-width": "2em", width: "50%"}}>
+									<div className="progress-bar progress-bar-warning" role="progressbar" style={{ minWidth: "2em", width: "50%" }}>
 										50%
 									</div>
 								</div>
 								<div className="progress">
-									<div className="progress-bar progress-bar-danger" role="progressbar" style={{"min-width": "2em", width: "72%"}}>
+									<div className="progress-bar progress-bar-danger" role="progressbar" style={{ minWidth: "2em", width: "72%" }}>
 										72%
 									</div>
 								</div>

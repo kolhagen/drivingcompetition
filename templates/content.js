@@ -20,8 +20,8 @@ var Content = React.createClass({
 						</div>
 					</div>
 					<div className="row">
-						<DriverList onDriverClick={this.onDriverClick} data={data.driver} />
-						<Details driver={this.state.selected} />
+						<DriverList onDriverClick={ this.onDriverClick } data={ data.driver } />
+						<Details driver={ this.state.selected } />
 					</div>
 					<div className="row">
 						<div className="col-md-12">

@@ -7,8 +7,7 @@ data.driver = [
 			"sap.ctex::Audi_A6"
 		],
 		car: "system-local::WWWEPSILON5555555",
-		picture: "images/markus.png",
-		scores: {}
+		picture: "images/markus.png"
 	},
 	{
 		name: "Young-Hwan Kim",
@@ -17,8 +16,7 @@ data.driver = [
 			"sap.ctex::BMW_3series",
 			"sap.ctex::Volkswagen_Golf"
 		],
-		car: "system-local::WWWBETA2222222222",
-		scores: {}
+		car: "system-local::WWWBETA2222222222"
 	},
 	{
 		name: "Max Kolhagen",
@@ -26,8 +24,7 @@ data.driver = [
 		cars: [
 			"sap.ctex::Ford_Focus"
 		],
-		car: "system-local::WWWDELTA444444444",
-		scores: {}
+		car: "system-local::WWWDELTA444444444"
 	},
 	{
 		name: "Kristin Boehm",
@@ -36,8 +33,7 @@ data.driver = [
 			"sap.ctex::BMW_5series"
 		],
 		car: "system-local::WWWALPHA111111111",
-		picture: "images/kristin.png",
-		scores: {}
+		picture: "images/kristin.png"
 	},
 	{
 		name: "David Keller",
@@ -45,8 +41,7 @@ data.driver = [
 		cars: [
 			"sap.ctex::Mercedes-Benz_C-Class"
 		],
-		car: "system-local::WWWGAMMA333333333",
-		scores: {}
+		car: "system-local::WWWGAMMA333333333"
 	},
 	{
 		name: "Angela Merkel",
@@ -54,7 +49,6 @@ data.driver = [
 		cars: [
 			"sap.ctex::Mercedes-Benz_E-Class"
 		],
-		car: "system-local::WWWZETA6666666666",
-		scores: {}
+		car: "system-local::WWWZETA6666666666"
 	}
 ]

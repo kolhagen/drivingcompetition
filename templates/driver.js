@@ -3,19 +3,21 @@
  */
 var DriverList = React.createClass({
 	getInitialState: function() {
-		return {month: DATE_START.month, year: DATE_START.year, selected: -1};
+		return { 	month: SAP.SCORE.DATE_START.month,
+							year: SAP.SCORE.DATE_START.year,
+							selected: -1 };
 	},
 	onChangeYear: function(year) {
-		var update = {year: year, month: this.state.month};
+		var update = { year: year, month: this.state.month };
 
 		if(this.state.month !== -1) {
-			if (year == DATE_END.year &&
-					this.state.month > DATE_END.month)
-				update.month = DATE_END.month;
+			if (year == SAP.SCORE.DATE_END.year &&
+					this.state.month > SAP.SCORE.DATE_END.month)
+				update.month = SAP.SCORE.DATE_END.month;
 
-			if (year == DATE_START.year &&
-					this.state.month < DATE_START.month)
-				update.month = DATE_START.month;
+			if (year == SAP.SCORE.DATE_START.year &&
+					this.state.month < SAP.SCORE.DATE_START.month)
+				update.month = SAP.SCORE.DATE_START.month;
 		}
 
 		this.setState(update);
@@ -31,7 +33,7 @@ var DriverList = React.createClass({
 	},
 	updateRanking: function(year, month) {
 		m = (month !== -1) ? month : "average";
-		SAP.trend(year, m);
+		SAP.SCORE.trend(year, m);
 	},
 	render: function() {
 		// build driver entries
@@ -40,11 +42,11 @@ var DriverList = React.createClass({
 
 			// pass click handler to parent
 			return (
-				<Driver key={i} clickHandler={this.onDriverClick.bind(null, i)} data={driver} active={active}/>
+				<Driver key={ i } clickHandler={ this.onDriverClick.bind(null, i) } data={ driver } active={ active }/>
 			);
 		}.bind(this));
 
-		var date = {month: this.state.month, year: this.state.year};
+		var date = { month: this.state.month, year: this.state.year };
 
 		return (
 			<div className="col-md-3">
@@ -53,9 +55,9 @@ var DriverList = React.createClass({
 						<h3 className="panel-title">Driver</h3>
 					</div>
 					<div className="panel-body">
-						<DateSelect date={date} onChangeYear={this.onChangeYear} onChangeMonth={this.onChangeMonth} />
+						<DateSelect date={ date } onChangeYear={ this.onChangeYear } onChangeMonth={ this.onChangeMonth } />
 						<div className="list-group">
-							{driverNodes}
+							{ driverNodes }
 						</div>
 					</div>
 				</div>
@@ -67,24 +69,24 @@ var DriverList = React.createClass({
 var DateSelect = React.createClass({
 	render: function() {
 		var yearNodes = [];
-		for (var year = DATE_START.year; year <= DATE_END.year; year++) {
+		for (var year = SAP.SCORE.DATE_START.year; year <= SAP.SCORE.DATE_END.year; year++) {
 			yearNodes.push((
-				<li key={year}><a href="#" onClick={this.props.onChangeYear.bind(null, year)}>{year}</a></li>
+				<li key={ year }><a href="#" onClick={ this.props.onChangeYear.bind(null, year) }>{ year }</a></li>
 			));
 		}
 
 		var minMonths = 1;
-		if (this.props.date.year == DATE_START.year)
-			minMonths = DATE_START.month;
+		if (this.props.date.year == SAP.SCORE.DATE_START.year)
+			minMonths = SAP.SCORE.DATE_START.month;
 
 		var maxMonth = 12;
-		if (this.props.date.year == DATE_END.year)
-			maxMonth = DATE_END.month;
+		if (this.props.date.year == SAP.SCORE.DATE_END.year)
+			maxMonth = SAP.SCORE.DATE_END.month;
 
 		var monthNodes = [];
 		for (var month = minMonths; month <= maxMonth; month++) {
 			monthNodes.push((
-				<li key={month}><a href="#" onClick={this.props.onChangeMonth.bind(null, month)}>{MONTHS[month-1]}</a></li>
+				<li key={ month }><a href="#" onClick={ this.props.onChangeMonth.bind(null, month) }>{ MONTHS[month-1] }</a></li>
 			));
 		}
 
@@ -96,21 +98,21 @@ var DateSelect = React.createClass({
 			<div>
 				<div className="btn-group">
 					<button type="button" className="btn btn-info dropdown-toggle" data-toggle="dropdown">
-						{this.props.date.year} <span className="caret"></span>
+						{ this.props.date.year } <span className="caret"></span>
 					</button>
 					<ul className="dropdown-menu">
-						{yearNodes}
+						{ yearNodes }
 					</ul>
 				</div>
 
 				<div className="btn-group">
 					<button type="button" className="btn btn-info dropdown-toggle" data-toggle="dropdown">
-						{displayMonth} <span className="caret"></span>
+						{ displayMonth } <span className="caret"></span>
 					</button>
 					<ul className="dropdown-menu">
-						{monthNodes}
+						{ monthNodes }
 						<li role="separator" className="divider"></li>
-						<li><a href="#" onClick={this.props.onChangeMonth.bind(null, -1)}>All</a></li>
+						<li><a href="#" onClick={ this.props.onChangeMonth.bind(null, -1) }>All</a></li>
 					</ul>
 				</div>
 			</div>
@@ -123,8 +125,8 @@ var Driver = React.createClass({
 		var classes = "list-group-item" + this.props.active;
 
 		return (
-			<a href="#" className={classes} onClick={this.props.clickHandler}>
-				<h4 className="list-group-item-heading">{this.props.data.name}</h4>
+			<a href="#" className={ classes } onClick={ this.props.clickHandler }>
+				<h4 className="list-group-item-heading">{ this.props.data.name }</h4>
 				<p className="list-group-item-text">...</p>
 			</a>
 		);
