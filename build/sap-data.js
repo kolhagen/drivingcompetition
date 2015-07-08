@@ -25,8 +25,11 @@ SAP.DATA = {
 	},
 
 	getExtras: function(driver, year, month) {
-		if(!driver.extra || !driver.extra[year] || !driver.extra[year][month])
+		if (!driver.extra || !driver.extra[year] || !driver.extra[year][month])
 			return {};
+
+		if (month === 'average')
+			return driver.extra[year];
 
 		return driver.extra[year][month];
 	}
