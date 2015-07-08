@@ -8,7 +8,7 @@
 <script src="build/JSXTransformer.js"></script>
 <script src="build/jquery-2.1.4.min.js"></script>
 <script src="build/base64.js"></script>
-<script src="build/api.js"></script>
+<script src="build/sap-api.js"></script>
 </head>
 <body>
 <h1>Updating Scores</h1>
@@ -41,7 +41,7 @@
 		////
 		// call the data
 		////
-		/*
+		var allcars = {};
 		//get the meta information for each car
 		var request = "Vehicle?$filter=GroupIndicator eq 0&$select=ID"
 		apiRequest(request, function(data) {
@@ -49,15 +49,19 @@
 				var request = vehicle.__metadata.uri+'?';
 				apiRequest(request, function(data) {
 					//console.log(data);
-					console.log(data.d.ID + data.d['Make.ID'] + data.d['Model.ID']);
+					if(!allcars[data.d.ID])
+						allcars[data.d.ID] = {makeID: "", modelID: ""};
+					allcars[data.d.ID].makeID = data.d['Make.ID'];
+					allcars[data.d.ID].modelID = data.d['Model.ID'];
+					//console.log(data.d.ID + data.d['Make.ID'] + data.d['Model.ID']);
 				},true);
-				console.log(vehicle.__metadata.uri);
+				//console.log(vehicle.__metadata.uri);
 			}
 		}, false);
-		*/
+		
 		//get trips of each car including the telemetry data of each trip
-			var apiRequests = 0;
-			var apiRequestsResponded = 0;
+		var apiRequests = 0;
+		var apiRequestsResponded = 0;
 
 
 		var allscore = {};
