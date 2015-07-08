@@ -2,16 +2,14 @@
  * Classes representing the details view of a specific driver.
  */
 function CarSubString (driverProps){
-	
+
 }
 var Details = React.createClass({
 	getInitialState: function() {
 		return { extra: null, score: null };
 	},
 	componentWillReceiveProps: function(nextProps) {
-		if (nextProps.driver === null ||
-				(this.state.extra !== null &&
-				 this.state.score !== null))
+		if (nextProps.driver === null)
 			return;
 
 		var extras = SAP.DATA.getExtras(nextProps.driver, this.props.date.year, this.props.date.month);
@@ -52,7 +50,7 @@ var Details = React.createClass({
 		numberOfTrips = this.state.extra.score;
 
 		var carImage = "images/"+this.props.driver.car.substring(14)+".png";
-		
+
 		var detailmessage = "Details for: " + this.props.driver.name;
 		var vehiclemessage = "Vehicle: " + car.make + " " + car.model;
 		var driverquote = this.props.driver.quote;
