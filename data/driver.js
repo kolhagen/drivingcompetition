@@ -5,35 +5,35 @@ data.driver = [
 		department: "Management",
 		car: "system-local::WWWEPSILON5555555",
 		picture: "images/markus.jpg",
-		quote: "Wer später bremst fährt länger schnell!"
+		quote: "Ein Auto ist erst dann schnell genug, wenn man morgens davor steht und Angst hat es aufzuschließen."
 	},
 	{
 		name: "Young-Hwan Kim",
 		department: "IT",
 		car: "system-local::WWWBETA2222222222",
 		picture: "images/youngi.jpg",
-		quote: "Wer bremst verliert!"
+		quote: "Man kann ein Auto nicht wie ein menschliches Wesen behandeln - ein Auto braucht Liebe."
 	},
 	{
 		name: "Max Kolhagen",
 		department: "Accounting",
 		car: "system-local::WWWDELTA444444444",
 		picture: "images/max.png",
-		quote: "Der rote Bereich beginnt dort wo der Mut aufhört!"
+		quote: "Gute Fahrer haben die Fliegenreste auf den Seitenscheiben."
 	},
 	{
 		name: "Super Mario",
 		department: "Archive",
 		car: "system-local::WWWALPHA111111111",
 		picture: "images/mario.png",
-		quote: "Auch ein roter Panzer kann mich nicht aufhalten."
+		quote: "Auch ein blauer Panzer kann mich nicht aufhalten."
 	},
 	{
 		name: "Sebastian Vettel",
 		department: "Acquisitions",
 		car: "system-local::WWWGAMMA333333333",
 		picture: "images/vettel.png",
-		quote: "Beim Beschleunigen müssen die Tränen der Ergriffenheit waagrecht zum Ohr hin abfließen"
+		quote: "Beim Beschleunigen müssen die Tränen der Ergriffenheit waagrecht zum Ohr hin abfließen."
 	},
 	{
 		name: "Marco Reus",
