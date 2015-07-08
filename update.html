@@ -307,12 +307,14 @@
 						if(!approximatetoMonthRawData[vehicle][year][month])
 							approximatetoMonthRawData[vehicle][year][month] = {};
 						for(telemtrydata in detailTable[vehicle][year][month]){
-							if(!approximatetoMonthRawData[vehicle][year][month][telemtrydata])
-								approximatetoMonthRawData[vehicle][year][month][telemtrydata] = {first: 0.0, firstdate: 0.0, last: 0.0, lastdate: 0.0, accumulated: 0.0, count: 0};
 							//console.log(detailTable[vehicle][year][month][telemtrydata]);
-							var firstsavedate = 0;
-							var lastsavedate = 0;
+							if(!approximatetoMonthRawData[vehicle][year][month][telemtrydata]){
+								approximatetoMonthRawData[vehicle][year][month][telemtrydata] = {first: 0.0, firstdate: 0.0, last: 0.0, lastdate: 0.0, accumulated: 0.0, count: 0};
+								}
+							var firstsavedate = 0.0;
+							var lastsavedate = 0.0;
 							for(element of detailTable[vehicle][year][month][telemtrydata]){
+
 								//initial
 								if(approximatetoMonthRawData[vehicle][year][month][telemtrydata].firstdate === 0.0){
 									firstsavedate = parseODataDate(element.date);
@@ -333,11 +335,7 @@
 									approximatetoMonthRawData[vehicle][year][month][telemtrydata].firstdate = parseODataDate(element.date);
 									firstsavedate = parseODataDate(element.date);
 								}
-								if(telemtrydata="sap.vean::Vehicle__sap.vean__vehicleSpeed_sap.bc.ar::KilometerPerHour"){
-									console.log("KMH= "+element.value);
-									//console.log(approximatetoMonthRawData[vehicle][year][month][telemtrydata].accumulated);
-								}
-								approximatetoMonthRawData[vehicle][year][month][telemtrydata].accumulated += element.value;
+								approximatetoMonthRawData[vehicle][year][month][telemtrydata].accumulated +=+ element.value;
 								approximatetoMonthRawData[vehicle][year][month][telemtrydata].count++;
 							}
 						}	
@@ -379,8 +377,7 @@
 									approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.accumulated / element.count;
 								approximatetoMonth[vehicle][year][month][telemtrydata].value2 = 0.0;
 							}
-							if(telemtrydata === "sap.vean::Vehicle__sap.vean__vehicleSpeed_sap.bc.ar::KilometerPerHour"){		
-								console.log(" once and for all" + element.accumulated + " " + element.count)
+							if(telemtrydata === "sap.vean::Vehicle__sap.vean__vehicleSpeed_sap.bc.ar::KilometerPerHour"){
 								approximatetoMonth[vehicle][year][month][telemtrydata].propertyID = telemtrydata;
 								approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.accumulated / element.count;
 								approximatetoMonth[vehicle][year][month][telemtrydata].value2 = 0.0;
@@ -416,7 +413,6 @@
 				}
 			}
 		}
-
 	function checkDone() {
 		if (apiRequests > apiRequestsResponded)
 			return;
