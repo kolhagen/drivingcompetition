@@ -22,6 +22,13 @@ SAP.DATA = {
 
 			driver.extra = extra[driver.car];
 		}
+	},
+
+	getExtras: function(driver, year, month) {
+		if(!driver.extra[year] || !driver.extra[year][month])
+			return {};
+
+		return driver.extra[year][month];
 	}
 }
 

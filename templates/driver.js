@@ -3,9 +3,12 @@
  */
 var DriverList = React.createClass({
 	getInitialState: function() {
-		return { 	month: SAP.SCORE.DATE_START.month,
-							year: SAP.SCORE.DATE_START.year,
-							selected: -1 };
+		var state = { month: SAP.SCORE.DATE_START.month, year: SAP.SCORE.DATE_START.year, selected: -1 };
+
+		// sync w/ parent
+		this.props.onDateChanged({ year: state.year, month: state.month });
+
+		return state;
 	},
 	onChangeYear: function(year) {
 		var update = { year: year, month: this.state.month };
@@ -27,13 +30,14 @@ var DriverList = React.createClass({
 		this.setState({month: month});
 		this.updateRanking(this.state.year, month);
 	},
-	onDriverClick: function(i, event) {
-		this.props.onDriverClick(i, event);
-		this.setState({selected: i});
-	},
 	updateRanking: function(year, month) {
 		m = (month !== -1) ? month : "average";
 		SAP.SCORE.trend(year, m);
+		this.props.onDateChanged({ year: year, month: month });
+	},
+	onDriverClick: function(i, event) {
+		this.props.onDriverClick(i, event);
+		this.setState({selected: i});
 	},
 	render: function() {
 		// build driver entries

@@ -3,13 +3,16 @@
  */
 var Content = React.createClass({
 	getInitialState: function() {
-		return { selected: null };
+		return { selected: null, date: null };
 	},
 	/**
 	* Called, when a specific driver is clicked in list.
 	*/
 	onDriverClick: function(i, event) {
 		this.setState({ selected: data.driver[i] });
+	},
+	onDateChanged: function(date) {
+		this.setState({ date: date });
 	},
 	render: function() {
 			return (
@@ -20,8 +23,8 @@ var Content = React.createClass({
 						</div>
 					</div>
 					<div className="row">
-						<DriverList onDriverClick={ this.onDriverClick } data={ data.driver } />
-						<Details driver={ this.state.selected } />
+						<DriverList onDriverClick={ this.onDriverClick } onDateChanged={ this.onDateChanged } data={ data.driver } />
+						<Details driver={ this.state.selected } date={ this.state.date } />
 					</div>
 					<div className="row">
 						<div className="col-md-12">

@@ -7,47 +7,43 @@ var lastUser = null;
 
 var Details = React.createClass({
 	getInitialState: function() {
-		return { car: "..." };
+		return { extra: null, score: null };
 	},
-	/**
-	 * Called, when content/data of this component has changed.
-	 */
-	componentDidUpdate: function() {
-			// TODO: Kind of hacky, better method?
-			if (lastUser === this.props.driver)
-				return;
+	componentWillReceiveProps: function(nextProps) {
+		if (nextProps.driver === null ||
+				(this.state.extra !== null &&
+				 this.state.score !== null))
+			return;
 
-			lastUser = this.props.driver;
-
-			this.setState({ car: "..." });
-
-			// build filter for selecting user's cars
-			var filter = "";
-			for (car of this.props.driver.cars) {
-				filter += "ID eq '" + car + "' or ";
-			}
-			filter = filter.substr(0, filter.length - 4);
-
-			// send API request
-			var request = "Vehicle('sap.vean::Vehicle_AllModels')/Children?$expand=CurrentTexts,Make/CurrentTexts&$filter=" + filter + "&$select=CurrentTexts/Name,Make/CurrentTexts/Name";
-			SAP.API.request(request, function(data) {
-				// concatenate car manufacturers and models
-				var cars = "";
-				for (car of data.d.results) {
-					cars += car.Make.CurrentTexts.Name + " " + car.CurrentTexts.Name + ", ";
-				}
-				cars = cars.substr(0, cars.length - 2);
-
-				// update state
-				this.setState({car: cars});
-			}.bind(this));
+		var extras = SAP.DATA.getExtras(nextProps.driver, this.props.date.year, this.props.date.month);
+		var score = nextProps.driver.scores[this.props.date.year][this.props.date.month];
+		this.setState({ extra: extras, score: score });
 	},
 	render: function() {
-		var message = "Please select a driver from the list!";
-
 		// check if driver has been selected
-		if (this.props.driver !== null)
-			message = "DetailsView showing " + this.props.driver.name + " has car " + this.state.car;
+		if (this.props.driver === null)
+			return (
+				<div className="col-md-9">
+					<div className="panel panel-danger">
+						<div className="panel-heading">
+							<h3 className="panel-title">Details</h3>
+						</div>
+						<div className="panel-body">
+							Please select a driver from the list!
+						</div>
+					</div>
+				</div>
+			);
+
+		// TODO: Here you can get the user's data:
+		// - this.state.score (refers to the user's score for the selected time span)
+		// - this.state.extra (refers to the user's extra data in the selected time span)
+		// - this.props.driver (here, every other generic data can be found for the selected driver)
+		console.log(this.state.score);
+		console.log(this.state.extra);
+		console.log(this.props.driver);
+
+		var message = "DetailsView showing " + this.props.driver.name + " has car";
 
 		return (
 			<div className="col-md-9">
