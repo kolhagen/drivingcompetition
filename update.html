@@ -212,9 +212,12 @@
 							if(!allscore[vid][year])
 								allscore[vid][year] = {};
 							if(!allscore[vid][year][month])
-								allscore[vid][year][month] = {accumulated: 0.0, count: 0};
-
+								allscore[vid][year][month] = {accumulated: 0.0, count: 0, kmhmahlus: 0.0, rpmmalus: 0.0, pedaldmalus: 0.0, pedalemalus: 0.0};
 							allscore[vid][year][month].accumulated += score;
+							allscore[vid][year][month].kmhmahlus += kmhp;
+							allscore[vid][year][month].rpmmalus += rpmp;
+							allscore[vid][year][month].pedaldmalus += pedaldp;
+							allscore[vid][year][month].pedalemalus += pedalep;
 							allscore[vid][year][month].count++;
 							apiRequestsResponded++;
 							checkDone();
@@ -234,8 +237,12 @@
 					finalscore[vehicle][year] = {};
 				for(month in scoreTable[vehicle][year]){
 					if(!finalscore[vehicle][year][month])
-						finalscore[vehicle][year][month] = {};
-					finalscore[vehicle][year][month] =  scoreTable[vehicle][year][month].accumulated / scoreTable[vehicle][year][month].count;
+						finalscore[vehicle][year][month] = {score: 0.0, kmhmalus: 0.0, rpmmalus: 0.0, pedaldmalus: 0.0, pedalemalus: 0.0};
+					finalscore[vehicle][year][month].score =  scoreTable[vehicle][year][month].accumulated / scoreTable[vehicle][year][month].count;
+					finalscore[vehicle][year][month].kmhmalus =  scoreTable[vehicle][year][month].kmhmahlus / scoreTable[vehicle][year][month].count;
+					finalscore[vehicle][year][month].rpmmalus =  scoreTable[vehicle][year][month].rpmmalus / scoreTable[vehicle][year][month].count;
+					finalscore[vehicle][year][month].pedaldmalus =  scoreTable[vehicle][year][month].pedaldmalus / scoreTable[vehicle][year][month].count;
+					finalscore[vehicle][year][month].pedalemalus =  scoreTable[vehicle][year][month].pedalemalus / scoreTable[vehicle][year][month].count;
 				}
 			 }
 		}
