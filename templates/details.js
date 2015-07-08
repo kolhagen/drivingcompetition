@@ -1,10 +1,10 @@
 /**
  * Classes representing the details view of a specific driver.
  */
-function CarSubString (driverProps){
-
-}
 var Details = React.createClass({
+	getInitialState: function() {
+		return { extra: null, score: null };
+	},
 	componentWillReceiveProps: function(nextProps) {
 		if (nextProps.driver === null)
 			return;
@@ -52,7 +52,7 @@ var Details = React.createClass({
 		var vehiclemessage = "Vehicle: " + car.make + " " + car.model;
 		var driverquote = this.props.driver.quote;
 
-		
+
 		if(!detailscore){
 			score = "100%";
 			malus = "0%";
@@ -69,7 +69,7 @@ var Details = React.createClass({
 		pedalemalus = Math.round(detailscore.pedaldmalus) +"%";
 		rpmmalus = Math.round(detailscore.pedaldmalus) +"%";
 		}
-		
+
 		/*
 		 * Block of name Variables as shortcut
 		 */

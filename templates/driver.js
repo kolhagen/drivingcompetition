@@ -30,19 +30,25 @@ var DriverList = React.createClass({
 	},
 	updateRanking: function(year, month) {
 		m = (month !== -1) ? month : "average";
-		var selectedName = this.props.data[this.state.selected].name;
+
+		if (this.state.selected !== -1)
+			var selectedName = this.props.data[this.state.selected].name;
+
 		var newSelectIndex = -1;
 
 		SAP.SCORE.trend(year, m);
 
-		var i = 0;
-		for (var driver of this.props.data) {
-			i++;
-			if (driver.name !== selectedName)
-				continue;
+		if (this.state.selected !== -1) {
+			var i = 0;
+			for (var driver of this.props.data) {
+				i++;
+				if (driver.name !== selectedName)
+					continue;
 
-			newSelectIndex = i - 1;
+				newSelectIndex = i - 1;
+			}
 		}
+
 		this.setState({ year: year, month: month, selected: newSelectIndex });
 		this.props.onDateChanged({ year: year, month: month });
 	},
@@ -108,19 +114,10 @@ var DateSelect = React.createClass({
 		var displayMonth = MONTHS[this.props.date.month-1];
 		if (this.props.date.month === -1)
 			displayMonth = "All";
-
+			
 		return (
-			<div>
-				<div className="btn-group">
-					<button type="button" className="btn btn-info dropdown-toggle" data-toggle="dropdown">
-						{ this.props.date.year } <span className="caret"></span>
-					</button>
-					<ul className="dropdown-menu">
-						{ yearNodes }
-					</ul>
-				</div>
-
-				<div className="btn-group">
+			<div id="driver-list" className="well well-sm">
+				<div className="btn-group" style={{ marginRight: "10px" }}>
 					<button type="button" className="btn btn-info dropdown-toggle" data-toggle="dropdown">
 						{ displayMonth } <span className="caret"></span>
 					</button>
@@ -130,6 +127,17 @@ var DateSelect = React.createClass({
 						<li><a href="#" onClick={ this.props.onChangeMonth.bind(null, -1) }>All</a></li>
 					</ul>
 				</div>
+
+				<div className="btn-group">
+					<button type="button" className="btn btn-info dropdown-toggle" data-toggle="dropdown">
+						{ this.props.date.year } <span className="caret"></span>
+					</button>
+					<ul className="dropdown-menu">
+						{ yearNodes }
+					</ul>
+				</div>
+
+				<div className="clear"></div>
 			</div>
 		);
 	}
