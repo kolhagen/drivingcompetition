@@ -41,8 +41,9 @@
 		////
 		// call the data
 		////
-		var allcars = {};
+
 		//get the meta information for each car
+		var allcars = {};
 		var request = "Vehicle?$filter=GroupIndicator eq 0&$select=ID"
 		apiRequest(request, function(data) {
 			for (vehicle of data.d.results) {
@@ -50,21 +51,24 @@
 				apiRequest(request, function(data) {
 					//console.log(data);
 					if(!allcars[data.d.ID])
-						allcars[data.d.ID] = {makeID: "", modelID: ""};
+						allcars[data.d.ID] = {makeID: 0, modelID: 0};
 					allcars[data.d.ID].makeID = data.d['Make.ID'];
 					allcars[data.d.ID].modelID = data.d['Model.ID'];
 					//console.log(data.d.ID + data.d['Make.ID'] + data.d['Model.ID']);
 				},true);
 				//console.log(vehicle.__metadata.uri);
 			}
+			//TODO: load data to local DW
+			//localStorage.setItem('carinformation', JSON.stringify(allcars));
 		}, false);
+		
 		
 		//get trips of each car including the telemetry data of each trip
 		var apiRequests = 0;
 		var apiRequestsResponded = 0;
 
-
 		var allscore = {};
+		var detailinfos = {};
 		/*if (localStorage.getItem("scores") !== null) {
 			allscore = JSON.parse(localStorage.getItem("scores"));
 		} else {*/
@@ -72,12 +76,15 @@
 		apiRequest(request, function(data) {
 			for (vehicle of data.d.results) {
 				allscore[vehicle.ID] = {};
+				detailinfos[vehicle.ID] = {};
 				var request = "Vehicle('" + vehicle.ID + "')/TripSegment?$expand=StartLocationInfo,EndLocationInfo&$select=ID,StartPointInTime,EndPointInTime,Property.ID,Observee.ID,Observee,TelemetryData";
 				apiRequest(request, function(vid, data) {
 					for (trip of data.d.results){
 						var telemtryrequest = trip.TelemetryData.__deferred.uri;
 						apiRequests++;
 						apiRequest(telemtryrequest, function(vid, trip, data) {
+							var year = parseODataDate(trip.EndPointInTime).getFullYear();
+							var month = parseODataDate(trip.EndPointInTime).getMonth()+1;
 							var kmhmalus = 0;
 							var rpmmalus = 0;
 							var pedaldmalus = 0;
@@ -115,6 +122,69 @@
 									}
 									pedalemax+=1;
 								}
+								if(telemetrydata['Property.ID'] === "sap.ctex::sap.vean::Vehicle__sap.ctex__absThrottlePos_sap.bc.ar::Percent"){
+									if(!detailinfos[vid][year])
+										detailinfos[vid][year] = {};
+										if(!detailinfos[vid][year][month])
+											detailinfos[vid][year][month] = {propertyID: 0, value: 0.0 , date: 0};
+									detailinfos[vid][year][month].propertyID = telemetrydata['Property.ID'];
+									detailinfos[vid][year][month].value = telemetrydata.NumericValue;
+									detailinfos[vid][year][month].date = telemetrydata.PointInTime;
+								}
+								if(telemetrydata['Property.ID'] === "sap.vean::Vehicle__sap.vean__Gear"){
+									if(!detailinfos[vid][year])
+										detailinfos[vid][year] = {};
+										if(!detailinfos[vid][year][month])
+											detailinfos[vid][year][month] = {propertyID: 0, value: 0.0 , date: 0};
+									detailinfos[vid][year][month].propertyID = telemetrydata['Property.ID'];
+									detailinfos[vid][year][month].value = telemetrydata.NumericValue;
+									detailinfos[vid][year][month].date = telemetrydata.PointInTime;
+								}
+								if(telemetrydata['Property.ID'] === "sap.vean::Vehicle__sap.vean__vehicleSpeed_sap.bc.ar::KilometerPerHour"){
+									if(!detailinfos[vid][year])
+										detailinfos[vid][year] = {};
+										if(!detailinfos[vid][year][month])
+											detailinfos[vid][year][month] = {propertyID: 0, value: 0.0 , date: 0};
+									detailinfos[vid][year][month].propertyID = telemetrydata['Property.ID'];
+									detailinfos[vid][year][month].value = telemetrydata.NumericValue;
+									detailinfos[vid][year][month].date = telemetrydata.PointInTime;
+								}
+								if(telemetrydata['Property.ID'] === "sap.vean::Vehicle__sap.vean__engineSpeed_sap.bc.ar::RevolutionsPerMinute"){
+									if(!detailinfos[vid][year])
+										detailinfos[vid][year] = {};
+										if(!detailinfos[vid][year][month])
+											detailinfos[vid][year][month] = {propertyID: 0, value: 0.0 , date: 0};
+									detailinfos[vid][year][month].propertyID = telemetrydata['Property.ID'];
+									detailinfos[vid][year][month].value = telemetrydata.NumericValue;
+									detailinfos[vid][year][month].date = telemetrydata.PointInTime;
+								}
+								if(telemetrydata['Property.ID'] === "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionD_sap.bc.ar::Percent"){
+									if(!detailinfos[vid][year])
+										detailinfos[vid][year] = {};
+										if(!detailinfos[vid][year][month])
+											detailinfos[vid][year][month] = {propertyID: 0, value: 0.0 , date: 0};
+									detailinfos[vid][year][month].propertyID = telemetrydata['Property.ID'];
+									detailinfos[vid][year][month].value = telemetrydata.NumericValue;
+									detailinfos[vid][year][month].date = telemetrydata.PointInTime;
+								}
+								if(telemetrydata['Property.ID'] === "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionE_sap.bc.ar::Percent"){
+									if(!detailinfos[vid][year])
+										detailinfos[vid][year] = {};
+										if(!detailinfos[vid][year][month])
+											detailinfos[vid][year][month] = {propertyID: 0, value: 0.0 , date: 0};
+									detailinfos[vid][year][month].propertyID = telemetrydata['Property.ID'];
+									detailinfos[vid][year][month].value = telemetrydata.NumericValue;
+									detailinfos[vid][year][month].date = telemetrydata.PointInTime;
+								}
+								if(telemetrydata['Property.ID'] === "sap.vean::Vehicle__sap.vean__mileage_sap.bc.ar::Kilometer"){
+									if(!detailinfos[vid][year])
+										detailinfos[vid][year] = {};
+										if(!detailinfos[vid][year][month])
+											detailinfos[vid][year][month] = {propertyID: 0, value: 0.0 , date: 0};
+									detailinfos[vid][year][month].propertyID = telemetrydata['Property.ID'];
+									detailinfos[vid][year][month].value = telemetrydata.NumericValue;
+									detailinfos[vid][year][month].date = telemetrydata.PointInTime;
+								}
 								//alle telemetrydaten eines trips
 							}
 							//console.log(kmhmalus + " " + rpmmalus + " " + pedaldmalus + " " + pedalemalus);
@@ -136,8 +206,8 @@
 							//console.log(kmhp + " " + rpmp + " " + pedaldp + " " + pedalep);
 							score = score - kmhp - rpmp - pedaldp - pedalep;
 
-							var year = parseODataDate(trip.EndPointInTime).getFullYear();
-							var month = parseODataDate(trip.EndPointInTime).getMonth()+1;
+							//var year = parseODataDate(trip.EndPointInTime).getFullYear();
+							//var month = parseODataDate(trip.EndPointInTime).getMonth()+1;
 							//console.log(score, month, year, vid);
 							if(!allscore[vid][year])
 								allscore[vid][year] = {};
@@ -154,7 +224,6 @@
 			}
 		},false);
 		//}
-
 		var finalscore = {};
 		function calculateScore(scoreTable){
 		for(vehicle in scoreTable){
@@ -180,8 +249,9 @@
 			}
 		},true);	
 		
+
 		var detailInformation = {};
-		function detailInformation(scoreTable){
+		function getNumberOfTrips(scoreTable){
 			for(vehicle in scoreTable){
 				if(!detailInformation[vehicle])
 					detailInformation[vehicle] = {};
@@ -190,7 +260,7 @@
 						detailInformation[vehicle][year] = {};
 					for(month in scoreTable[vehicle][year]){
 						if(!detailInformation[vehicle][year][month])
-							detailInformation[vehicle][year][month] = {numberOfTrips};
+							detailInformation[vehicle][year][month] = {numberOfTrips: 0};
 						detailInformation[vehicle][year][month].numberOfTripss =  scoreTable[vehicle][year][month].count;
 					}
 				 }
@@ -204,86 +274,15 @@
 
 		// TODO: Save results to ./data/warehouse.json (@Max)
 		calculateScore(allscore);
-		ocalStorage.setItem('scores', JSON.stringify(finalscore));
+		localStorage.setItem('scores', JSON.stringify(finalscore));
 
 		$('#container').html('Done!');
 	}
 
-		function parseODataDate(rawDate) {
-			const timestampInMillis = rawDate.replace(/^\/Date\((\d+)\)\//, "$1");
-			return new Date(parseInt(timestampInMillis, 10));
-		}
-		/*
-		var request = "Vehicle?$filter=GroupIndicator eq 0&$select=ID"
-		apiRequest(request, function(data) {
-				  var request = "Vehicle('" + data.d.results[3].ID + "')/TripSegment?$expand=StartLocationInfo,EndLocationInfo&$select=ID,StartPointInTime,EndPointInTime,Property.ID,Observee.ID,Observee,TelemetryData";
-				apiRequest(request, function(data) {
-						var telemtryrequest = data.d.results[50].TelemetryData.__deferred.uri+"?";
-						apiRequest(telemtryrequest, function(data) {
-							var kmhmalus = 0;
-							var rpmmalus = 0;
-							var pedaldmalus = 0;
-							var pedalemalus = 0;
-
-							var kmhmax = 0;
-							var rpmmax = 0;
-							var pedaldmax = 0;
-							var pedalemax = 0;
-
-							var score = 100;
-							for(telemetrydata of data.d.results){
-								console.log(telemetrydata['Property.ID'] + "    "+ telemetrydata.NumericValue + "   " + telemetrydata.PointInTime); 								//pro auftauchen
-								if(telemetrydata['Property.ID'] === "sap.vean::Vehicle__sap.vean__vehicleSpeed_sap.bc.ar::KilometerPerHour"){
-									if(telemetrydata.NumericValue > 130){
-										kmhmalus += 1;
-									}
-									kmhmax +=1;
-								}
-								if(telemetrydata['Property.ID'] === "sap.vean::Vehicle__sap.vean__engineSpeed_sap.bc.ar::RevolutionsPerMinute"){
-									if(telemetrydata.NumericValue > 3500){
-										rpmmalus += 1;
-									}
-									rpmmax+=1;
-								}
-								if(telemetrydata['Property.ID'] === "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionD_sap.bc.ar::Percent"){
-									if(telemetrydata.NumericValue > 70){
-										pedaldmalus += 1;
-									}
-									pedaldmax+=1;
-								}
-								if(telemetrydata['Property.ID'] === "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionE_sap.bc.ar::Percent"){
-									if(telemetrydata.NumericValue > 70){
-										pedalemalus += 1;
-									}
-									pedalemax+=1;
-								}
-								//alle telemetrydaten eines trips
-							}
-							console.log(kmhmalus + " " + rpmmalus + " " + pedaldmalus + " " + pedalemalus);
-							console.log(kmhmax + " " + rpmmax + " " + pedaldmax + " " + pedalemax);
-
-							var kmhp = 0;
-							var rpmp = 0;
-							var pedaldp = 0;
-							var pedalep = 0;
-
-							if(kmhmax !== 0 && kmhmalus !== 0){
-								kmhp =  kmhmalus / kmhmax * 100;}
-							if(rpmmalus !== 0 && rpmmax !== 0){
-								rpmp = rpmmalus / rpmmax * 100;}
-							if(pedaldmalus !== 0 && pedaldmax !== 0){
-								pedaldp = pedaldmalus / pedaldmax * 100;}
-							if(pedalemax !== 0 && pedalemalus !== 0){
-								pedalep = pedalemalus / pedalemax * 100;}
-							console.log(kmhp + " " + rpmp + " " + pedaldp + " " + pedalep);
-							score = score - kmhp - rpmp - pedaldp - pedalep;
-							console.log(score);
-						},true);
-
-				},false);
-
-		},false);
-		*/
+	function parseODataDate(rawDate) {
+		const timestampInMillis = rawDate.replace(/^\/Date\((\d+)\)\//, "$1");
+		return new Date(parseInt(timestampInMillis, 10));
+	}
 	</script>
 </body>
 </html>
