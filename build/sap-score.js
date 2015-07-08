@@ -11,16 +11,19 @@ SAP.SCORE = {
 
 	init: function() {
 		console.log("Initializing SAP Scores...");
-		if (localStorage.getItem("scores") !== null) {
-			SAP.SCORE.TEMP_DATA = JSON.parse(localStorage.getItem("scores"));
-			SAP.SCORE.determineDateBoundaries();
-			SAP.SCORE.mergeData();
-			SAP.SCORE.trend(SAP.SCORE.DATE_START.year, SAP.SCORE.DATE_START.month);
-		} else {
-			// TODO: show error that data has not been loaded yet
-			SAP.SCORE.DATE_START = { year: 2013, month: 8 };
-			SAP.SCORE.DATE_END = { year: 2015, month: 4 };
+		if (!SAP.SCORE.isDataAvailable()) {
+			console.error("Could not load SAP score data! Not initialized!");
+			return;
 		}
+
+		SAP.SCORE.TEMP_DATA = JSON.parse(localStorage.getItem("scores"));
+		SAP.SCORE.determineDateBoundaries();
+		SAP.SCORE.mergeData();
+		SAP.SCORE.trend(SAP.SCORE.DATE_START.year, SAP.SCORE.DATE_START.month);
+	},
+
+	isDataAvailable: function() {
+		return (localStorage.getItem("scores") !== null);
 	},
 
 	determineDateBoundaries: function() {
@@ -201,5 +204,3 @@ SAP.SCORE = {
 		}
 	}
 }
-
-SAP.SCORE.init();
