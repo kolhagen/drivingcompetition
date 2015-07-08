@@ -52,7 +52,8 @@ var Details = React.createClass({
 		numberOfTrips = this.state.extra.score;
 
 		var carImage = "images/"+this.props.driver.car.substring(14)+".png";
-		var message = "Details for: " + this.props.driver.name + "Class: " + car.makeID + "Car: " + car.modelID;
+		var detailmessage = "Details for: " + this.props.driver.name;
+		var vehiclemessage = "Vehicle: " + car.make + " " + car.model;
 		var totalKm = "Total driven Kilometers: "+ 100;
 		var kmPerYear = "Avg. Kilometers per Month: " +4800;
 		var kmPerMonth = "Avg. Kilometers per Month: " +400;
@@ -79,7 +80,8 @@ var Details = React.createClass({
 							</div>
 							<div className="media-body">
 								<h4 className="media-heading">Media heading</h4>
-								{ message }
+								{ detailmessage }
+								{ vehiclemessage }
 							</div>
 						</div>
 
