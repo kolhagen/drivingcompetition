@@ -60,6 +60,7 @@ var DriverList = React.createClass({
 		// build driver entries
 		var driverNodes = this.props.data.map(function (driver, i) {
 			driver.active = (i === this.state.selected) ? " active" : "";
+			driver.rank = (i + 1);
 
 			// pass click handler to parent
 			return (
@@ -114,9 +115,9 @@ var DateSelect = React.createClass({
 		var displayMonth = MONTHS[this.props.date.month-1];
 		if (this.props.date.month === -1)
 			displayMonth = "All";
-			
+
 		return (
-			<div id="driver-list" className="well well-sm">
+			<div id="driver-list-date" className="well well-sm">
 				<div className="btn-group" style={{ marginRight: "10px" }}>
 					<button type="button" className="btn btn-info dropdown-toggle" data-toggle="dropdown">
 						{ displayMonth } <span className="caret"></span>
@@ -145,20 +146,27 @@ var DateSelect = React.createClass({
 
 var Driver = React.createClass({
 	render: function() {
-		var classes = "list-group-item" + this.props.data.active;
 		var picture = this.props.data.picture ? this.props.data.picture : "images/avatar.png";
 
+		var rootClasses = "list-group-item" + this.props.data.active;
+		var ribbonClasses = "driver-ribbon";
+
+		var ribbons = [ " gold", " silver", " bronze", "", "", "" ];
+		// var ribbons = [ " first", "", "", "", " second-last", " last" ];
+		ribbonClasses += ribbons[this.props.data.rank - 1];
+
 		return (
-			<a href="#" className={ classes } onClick={ this.props.clickHandler }>
+			<a href="#" className={ rootClasses } onClick={ this.props.clickHandler }>
 				<div className="media">
 				  <div className="media-left">
 				    <img className="media-object" src={picture} style={{ width: "48px", height: "48px" }} />
 				  </div>
 				  <div className="media-body">
-				    <h4 className="media-heading">{ this.props.data.name }</h4>
+				    <h4 className="media-heading"><b>{ this.props.data.rank }.</b> { this.props.data.name }</h4>
 				    { this.props.data.department }
 				  </div>
 				</div>
+				<div className={ ribbonClasses }></div>
 			</a>
 		);
 	}

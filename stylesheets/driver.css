@@ -1,3 +1,28 @@
-#driver-list {
+#driver-list-date{
 	text-align: center;
+}
+
+/*.rank-first { background: linear-gradient(90deg, green 2%, white 2%); }*/
+
+.driver-ribbon{
+	position: absolute;
+	height: 100%;
+	width: 2%;
+	top: 0px;
+	left: 0px;
+}
+
+.first{ background-color: green; }
+.second-last{ background-color: orange; }
+.last{ background-color: red; }
+.gold{ background-color: #FFEA00; }
+.silver{ background-color: #D6D6D6; }
+.bronze{ background-color: #F0A53C; }
+
+.list-group-item:first-child .driver-ribbon{
+	border-top-left-radius: 4px;
+}
+
+.list-group-item:last-child .driver-ribbon{
+	border-bottom-left-radius: 4px;
 }
