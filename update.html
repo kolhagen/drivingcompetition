@@ -126,67 +126,85 @@
 									if(!detailinfos[vid][year])
 										detailinfos[vid][year] = {};
 									if(!detailinfos[vid][year][month])
-										detailinfos[vid][year][month] = [];
-
+										detailinfos[vid][year][month] = {};
+									if(!detailinfos[vid][year][month][telemetrydata['Property.ID']])
+										detailinfos[vid][year][month][telemetrydata['Property.ID']] = [];
 									var entry = {};
-									entry.propertyID = telemetrydata['Property.ID'];
 									entry.value = telemetrydata.NumericValue;
 									entry.date = telemetrydata.PointInTime;
-									detailinfos[vid][year][month].push(entry);
+									detailinfos[vid][year][month][telemetrydata['Property.ID']].push(entry);
 								}
 								if(telemetrydata['Property.ID'] === "sap.vean::Vehicle__sap.vean__Gear"){
 									if(!detailinfos[vid][year])
 										detailinfos[vid][year] = {};
-										if(!detailinfos[vid][year][month])
-											detailinfos[vid][year][month] = {propertyID: 0, value: 0.0 , date: 0};
-									detailinfos[vid][year][month].propertyID = telemetrydata['Property.ID'];
-									detailinfos[vid][year][month].value = telemetrydata.NumericValue;
-									detailinfos[vid][year][month].date = telemetrydata.PointInTime;
+									if(!detailinfos[vid][year][month])
+										detailinfos[vid][year][month] = {};
+									if(!detailinfos[vid][year][month][telemetrydata['Property.ID']])
+										detailinfos[vid][year][month][telemetrydata['Property.ID']] = [];
+									var entry = {};
+									entry.value = telemetrydata.NumericValue;
+									entry.date = telemetrydata.PointInTime;
+									detailinfos[vid][year][month][telemetrydata['Property.ID']].push(entry);
 								}
 								if(telemetrydata['Property.ID'] === "sap.vean::Vehicle__sap.vean__vehicleSpeed_sap.bc.ar::KilometerPerHour"){
 									if(!detailinfos[vid][year])
 										detailinfos[vid][year] = {};
-										if(!detailinfos[vid][year][month])
-											detailinfos[vid][year][month] = {propertyID: 0, value: 0.0 , date: 0};
-									detailinfos[vid][year][month].propertyID = telemetrydata['Property.ID'];
-									detailinfos[vid][year][month].value = telemetrydata.NumericValue;
-									detailinfos[vid][year][month].date = telemetrydata.PointInTime;
+									if(!detailinfos[vid][year][month])
+										detailinfos[vid][year][month] = {};
+									if(!detailinfos[vid][year][month][telemetrydata['Property.ID']])
+										detailinfos[vid][year][month][telemetrydata['Property.ID']] = [];
+									var entry = {};
+									entry.value = telemetrydata.NumericValue;
+									entry.date = telemetrydata.PointInTime;
+									detailinfos[vid][year][month][telemetrydata['Property.ID']].push(entry);
 								}
 								if(telemetrydata['Property.ID'] === "sap.vean::Vehicle__sap.vean__engineSpeed_sap.bc.ar::RevolutionsPerMinute"){
 									if(!detailinfos[vid][year])
 										detailinfos[vid][year] = {};
-										if(!detailinfos[vid][year][month])
-											detailinfos[vid][year][month] = {propertyID: 0, value: 0.0 , date: 0};
-									detailinfos[vid][year][month].propertyID = telemetrydata['Property.ID'];
-									detailinfos[vid][year][month].value = telemetrydata.NumericValue;
-									detailinfos[vid][year][month].date = telemetrydata.PointInTime;
+									if(!detailinfos[vid][year][month])
+										detailinfos[vid][year][month] = {};
+									if(!detailinfos[vid][year][month][telemetrydata['Property.ID']])
+										detailinfos[vid][year][month][telemetrydata['Property.ID']] = [];
+									var entry = {};
+									entry.value = telemetrydata.NumericValue;
+									entry.date = telemetrydata.PointInTime;
+									detailinfos[vid][year][month][telemetrydata['Property.ID']].push(entry);
 								}
 								if(telemetrydata['Property.ID'] === "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionD_sap.bc.ar::Percent"){
 									if(!detailinfos[vid][year])
 										detailinfos[vid][year] = {};
-										if(!detailinfos[vid][year][month])
-											detailinfos[vid][year][month] = {propertyID: 0, value: 0.0 , date: 0};
-									detailinfos[vid][year][month].propertyID = telemetrydata['Property.ID'];
-									detailinfos[vid][year][month].value = telemetrydata.NumericValue;
-									detailinfos[vid][year][month].date = telemetrydata.PointInTime;
+									if(!detailinfos[vid][year][month])
+										detailinfos[vid][year][month] = {};
+									if(!detailinfos[vid][year][month][telemetrydata['Property.ID']])
+										detailinfos[vid][year][month][telemetrydata['Property.ID']] = [];
+									var entry = {};
+									entry.value = telemetrydata.NumericValue;
+									entry.date = telemetrydata.PointInTime;
+									detailinfos[vid][year][month][telemetrydata['Property.ID']].push(entry);
 								}
 								if(telemetrydata['Property.ID'] === "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionE_sap.bc.ar::Percent"){
 									if(!detailinfos[vid][year])
 										detailinfos[vid][year] = {};
-										if(!detailinfos[vid][year][month])
-											detailinfos[vid][year][month] = {propertyID: 0, value: 0.0 , date: 0};
-									detailinfos[vid][year][month].propertyID = telemetrydata['Property.ID'];
-									detailinfos[vid][year][month].value = telemetrydata.NumericValue;
-									detailinfos[vid][year][month].date = telemetrydata.PointInTime;
+									if(!detailinfos[vid][year][month])
+										detailinfos[vid][year][month] = {};
+									if(!detailinfos[vid][year][month][telemetrydata['Property.ID']])
+										detailinfos[vid][year][month][telemetrydata['Property.ID']] = [];
+									var entry = {};
+									entry.value = telemetrydata.NumericValue;
+									entry.date = telemetrydata.PointInTime;
+									detailinfos[vid][year][month][telemetrydata['Property.ID']].push(entry);
 								}
 								if(telemetrydata['Property.ID'] === "sap.vean::Vehicle__sap.vean__mileage_sap.bc.ar::Kilometer"){
 									if(!detailinfos[vid][year])
 										detailinfos[vid][year] = {};
-										if(!detailinfos[vid][year][month])
-											detailinfos[vid][year][month] = {propertyID: 0, value: 0.0 , date: 0};
-									detailinfos[vid][year][month].propertyID = telemetrydata['Property.ID'];
-									detailinfos[vid][year][month].value = telemetrydata.NumericValue;
-									detailinfos[vid][year][month].date = telemetrydata.PointInTime;
+									if(!detailinfos[vid][year][month])
+										detailinfos[vid][year][month] = {};
+									if(!detailinfos[vid][year][month][telemetrydata['Property.ID']])
+										detailinfos[vid][year][month][telemetrydata['Property.ID']] = [];
+									var entry = {};
+									entry.value = telemetrydata.NumericValue;
+									entry.date = telemetrydata.PointInTime;
+									detailinfos[vid][year][month][telemetrydata['Property.ID']].push(entry);
 								}
 								//alle telemetrydaten eines trips
 							}
@@ -230,6 +248,7 @@
 			}
 		},false);
 		//}
+		
 		var finalscore = {};
 		function calculateScore(scoreTable){
 		for(vehicle in scoreTable){
@@ -251,27 +270,18 @@
 		}
 		}
 
-		//getSomeInformation
-		var request = "https://xs01ac37c9fd2.hana.ondemand.com/sap/vean/v0.1/odata/Vehicle('system-local::WWWDELTA444444444')//TripSegment?$expand=StartLocationInfo,EndLocationInfo&$select=ID,StartPointInTime,EndPointInTime,Property.ID,Observee.ID,Observee,TelemetryData"
-		SAP.API.request(request, function(data){
-			console.log(data);
-			for (vehicle of data.d.results) {
-			}
-		},true);
-
-
-		var detailInformation = {};
+		var numberOfTrips = {};
 		function getNumberOfTrips(scoreTable){
 			for(vehicle in scoreTable){
-				if(!detailInformation[vehicle])
-					detailInformation[vehicle] = {};
+				if(!numberOfTrips[vehicle])
+					numberOfTrips[vehicle] = {};
 				for(year in scoreTable[vehicle]){
-					if(!detailInformation[vehicle][year])
-						detailInformation[vehicle][year] = {};
+					if(!numberOfTrips[vehicle][year])
+						numberOfTrips[vehicle][year] = {};
 					for(month in scoreTable[vehicle][year]){
-						if(!detailInformation[vehicle][year][month])
-							detailInformation[vehicle][year][month] = {numberOfTrips: 0};
-						detailInformation[vehicle][year][month].numberOfTripss =  scoreTable[vehicle][year][month].count;
+						if(!numberOfTrips[vehicle][year][month])
+							numberOfTrips[vehicle][year][month] = {numberOfTrips: 0};
+						numberOfTrips[vehicle][year][month].numberOfTripss =  scoreTable[vehicle][year][month].count;
 					}
 				 }
 			}
