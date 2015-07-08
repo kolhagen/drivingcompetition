@@ -41,12 +41,18 @@ var Details = React.createClass({
 		// time span)
 		// - this.props.driver (here, every other generic data can be found for
 		// the selected driver)
-		console.log(this.state.score);
+		//console.log(this.state.score);
 		console.log(this.state.extra);
-		console.log(this.props.driver);
+		//console.log(this.props.driver);
+
+		//shortcuts to extra data
+		approx = this.state.extra.approx;
+		car = this.state.extra.cars;
+		detailscore = this.state.extra.score;
+		numberOfTrips = this.state.extra.score;
 
 		var carImage = "images/"+this.props.driver.car.substring(14)+".png";
-		var message = "DetailsView showing " + this.props.driver.name + " has car";
+		var message = "Details for: " + this.props.driver.name + '\n\r' + "Class: " + car.makeID + '\n\r' + "Car: " + car.modelID;
 		var totalKm = "Total driven Kilometers: "+ 100;
 		var kmPerYear = "Avg. Kilometers per Month: " +4800;
 		var kmPerMonth = "Avg. Kilometers per Month: " +400;
