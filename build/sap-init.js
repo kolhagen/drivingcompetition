@@ -16,7 +16,8 @@ SAP.INIT = {
 		});
 
 		// TODO: Add real data loading functions
-		SAP.INIT.loadPseudoData();
+		//SAP.INIT.loadPseudoData();
+		SAP.LOAD.load();
 	},
 
 	finish: function() {
