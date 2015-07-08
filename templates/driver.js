@@ -23,16 +23,27 @@ var DriverList = React.createClass({
 				update.month = SAP.SCORE.DATE_START.month;
 		}
 
-		this.setState(update);
 		this.updateRanking(update.year, update.month);
 	},
 	onChangeMonth: function(month) {
-		this.setState({month: month});
 		this.updateRanking(this.state.year, month);
 	},
 	updateRanking: function(year, month) {
 		m = (month !== -1) ? month : "average";
+		var selectedName = this.props.data[this.state.selected].name;
+		var newSelectIndex = -1;
+
 		SAP.SCORE.trend(year, m);
+
+		var i = 0;
+		for (var driver of this.props.data) {
+			i++;
+			if (driver.name !== selectedName)
+				continue;
+
+			newSelectIndex = i - 1;
+		}
+		this.setState({ year: year, month: month, selected: newSelectIndex });
 		this.props.onDateChanged({ year: year, month: month });
 	},
 	onDriverClick: function(i, event) {
@@ -123,16 +134,17 @@ var DateSelect = React.createClass({
 		);
 	}
 });
+
 var Driver = React.createClass({
 	render: function() {
 		var classes = "list-group-item" + this.props.data.active;
-		var pic = this.props.data.picture;
+		var picture = this.props.data.picture ? this.props.data.picture : "images/avatar.png";
 
 		return (
 			<a href="#" className={ classes } onClick={ this.props.clickHandler }>
 				<div className="media">
 				  <div className="media-left">
-				    <img className="media-object" src={pic} style={{ width: "48px", height: "48px" }} />
+				    <img className="media-object" src={picture} style={{ width: "48px", height: "48px" }} />
 				  </div>
 				  <div className="media-body">
 				    <h4 className="media-heading">{ this.props.data.name }</h4>
