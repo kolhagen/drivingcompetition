@@ -53,6 +53,7 @@ var Details = React.createClass({
 		/*
 		*Detail Veriables
 		*/
+		var noscore = 100;
 		var score = 0;
 		var malus = 0;
 
@@ -63,6 +64,7 @@ var Details = React.createClass({
 		penalties.rpmmalus = { label:"Exceeding RPM", value: 0 };
 
 		if (detailscore) {
+			noscore = 0 ;
 			score = detailscore.score.toFixed(2);
 			malus = (detailscore.kmhmalus + detailscore.pedaldmalus + detailscore.pedalemalus + detailscore.rpmmalus).toFixed(2);
 
@@ -173,6 +175,9 @@ var Details = React.createClass({
 							<div className="panel-heading">Scoring</div>
 							<div className="panel-body">
 								<div className="progress">
+									<div className="progress-bar progress-bar-info" role="progressbar" style={{width: noscore + "%" }}>
+	   								n/A
+	  							</div>
 									<div className="progress-bar progress-bar-success" role="progressbar" style={{ minWidth: "1em", width: score + "%" }}>
 										{ score }%
 									</div>
