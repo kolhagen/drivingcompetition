@@ -68,15 +68,16 @@
 
 		$(document).ready(function() {
 			// check if all data is available
-			if (SAP.SCORE.isDataAvailable() &&
-					SAP.DATA.isDataAvailable()) {
-				// initialize directly
-				initialize();
-			} else {
-				// first load data from SAP HANA
+			if (SAP.INIT.isFake() ||
+					!SAP.SCORE.isDataAvailable() ||
+					!SAP.DATA.isDataAvailable()) {
+				// first load data from SAP HANA (or fake it)
 				SAP.INIT.update(function() {
 					initialize();
 				});
+			} else {
+				// initialize directly
+				initialize();
 			}
 		});
 	</script>

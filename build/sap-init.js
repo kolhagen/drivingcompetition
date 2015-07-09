@@ -15,8 +15,13 @@ SAP.INIT = {
 			keyboard: false
 		});
 
-		// TODO: Add real data loading functions
-		//SAP.INIT.loadPseudoData();
+		if (SAP.INIT.isFake()) {
+			console.log("Faking ;)");
+			SAP.INIT.loadPseudoData();
+			SAP.INIT.setFake(false);
+			return;
+		}
+
 		SAP.LOAD.load();
 	},
 
@@ -48,5 +53,17 @@ SAP.INIT = {
 	reset: function() {
 		SAP.SCORE.reset();
 		SAP.DATA.reset();
+	},
+
+	isFake: function() {
+		var fake = JSON.parse(localStorage.getItem("fake"));
+		if (fake === null)
+			return false;
+
+		return fake;
+	},
+
+	setFake: function(value) {
+		localStorage.setItem("fake", value);
 	}
 }
