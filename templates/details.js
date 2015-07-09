@@ -55,19 +55,37 @@ var Details = React.createClass({
 		*/
 		var score = 100;
 		var malus = 0;
-		var kmhmalus = 0;
-		var pedaldmalus = 0;
-		var pedalemalus = 0;
-		var rpmmalus = 0;
+
+		var penalties = {};
+		penalties.kmhmalus = { label:"Exceeding Speed", value: 0 };
+		penalties.pedaldmalus = { label:"Drive-Pedal Position", value: 0 };
+		penalties.pedalemalus = { label:"Break-Pedal Position", value: 0 };
+		penalties.rpmmalus = { label:"Exceeding RPM", value: 0 };
 
 		if (detailscore) {
 			score = detailscore.score.toFixed(2);
 			malus = (detailscore.kmhmalus + detailscore.pedaldmalus + detailscore.pedalemalus + detailscore.rpmmalus).toFixed(2);
-			kmhmalus = detailscore.kmhmalus.toFixed(2);
-			pedaldmalus = detailscore.pedaldmalus.toFixed(2);
-			pedalemalus = detailscore.pedaldmalus.toFixed(2);
-			rpmmalus = detailscore.pedaldmalus.toFixed(2);
+
+			penalties.kmhmalus.value = detailscore.kmhmalus.toFixed(2);
+			penalties.pedaldmalus.value = detailscore.pedaldmalus.toFixed(2);
+			penalties.pedalemalus.value = detailscore.pedaldmalus.toFixed(2);
+			penalties.rpmmalus.value = detailscore.pedaldmalus.toFixed(2);
 		}
+
+		var penaltyNodes = [];
+		for (var entry in penalties) {
+			if (!penalties.hasOwnProperty(entry))
+				continue;
+
+			penaltyNodes.push((
+				<dt>{ penalties[entry].label }</dt>
+			));
+
+			penaltyNodes.push((
+				<dd>{ penalties[entry].value } %</dd>
+			));
+		}
+
 		trips = "n/A";
 		if(numberOfTrips)
 			trips = numberOfTrips.numberOfTrips;
@@ -75,44 +93,57 @@ var Details = React.createClass({
 		/*
 		 * Block of name Variables as shortcut
 		 */
-		throttle = "sap.ctex::sap.vean::Vehicle__sap.ctex__absThrottlePos_sap.bc.ar::Percent";
-		posD = "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionD_sap.bc.ar::Percent";
-		posE = "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionE_sap.bc.ar::Percent";
-		rpm = "sap.vean::Vehicle__sap.vean__engineSpeed_sap.bc.ar::RevolutionsPerMinute";
-		kilometer = "sap.vean::Vehicle__sap.vean__mileage_sap.bc.ar::Kilometer";
-		kph = "sap.vean::Vehicle__sap.vean__vehicleSpeed_sap.bc.ar::KilometerPerHour";
-		gear = "sap.vean::Vehicle__sap.vean__Gear"
+		var throttle = "sap.ctex::sap.vean::Vehicle__sap.ctex__absThrottlePos_sap.bc.ar::Percent";
+		var posD = "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionD_sap.bc.ar::Percent";
+		var posE = "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionE_sap.bc.ar::Percent";
+		var rpm = "sap.vean::Vehicle__sap.vean__engineSpeed_sap.bc.ar::RevolutionsPerMinute";
+		var kilometer = "sap.vean::Vehicle__sap.vean__mileage_sap.bc.ar::Kilometer";
+		var kph = "sap.vean::Vehicle__sap.vean__vehicleSpeed_sap.bc.ar::KilometerPerHour";
+		var gear = "sap.vean::Vehicle__sap.vean__Gear"
+
 		/*
 		 * Summary Variables
 		 */
-		var drivenkm = "n/A";
-		var totalKm = "n/A";
-		var kmPerYear = "n/A";
-		var kmPerMonth = "n/A";
-		var avgThrottle = "n/A";
-		var avgGear = "n/A";
-		var avgVelocity = "n/A";
-		var avgRPM = "n/A";
-		var pedalD = "n/A";
-		var pedalE = "n/A";
+		var summary = {};
+		summary.drivenkm = { label: "Total driven Kilometers", value: "n/A", unit: "km" };
+		summary.totalKm = { label: "Total driven Kilometers", value: "n/A", unit: "km" };
+		summary.kmPerYear = { label: "Avg. Kilometers per Year", value: "n/A", unit: "km" };
+		summary.kmPerMonth = { label: "Avg. Kilometers per Month", value: "n/A", unit: "km" };
+		summary.avgThrottle = { label: "Avg. Throttle Position", value: "n/A", unit: "%" };
+		summary.avgGear = { label: "Avg. Gear", value: "n/A", unit: "%" };
+		summary.avgVelocity = { label: "Avg. velocity", value: "n/A", unit: " km/h" };
+		summary.avgRPM = { label: "Avg. Rotations Per Mintute", value: "n/A", unit: "rpm" };
+		summary.pedalD = { label: "Pedal Postion D", value: "n/A", unit: "%" };
+		summary.pedalE = { label: "Pedal Postion E", value: "n/A", unit: "%" };
+
 		if (approx) {
 			if(approx[kilometer]){
-				drivenkm = approx[kilometer].value1 + " km";
-				totalKm = approx[kilometer].value2 + " km";
+				summary.drivenkm.value = approx[kilometer].value1;
+				summary.totalKm.value = approx[kilometer].value2;
 			}
 			if(approx[throttle])
-				avgThrottle = approx[throttle].value1.toFixed(2) + " %";
+				summary.avgThrottle.value = approx[throttle].value1.toFixed(2);
 			if(approx[gear] && approx[gear].value1 !== 0)
-				avgGear = Math.round(approx[gear].value1);
+				summary.avgGear.value = Math.round(approx[gear].value1);
 			if(approx[kph])
-				avgVelocity = approx[kph].value1.toFixed(2) + " kmh";
+				summary.avgVelocity.value = approx[kph].value1.toFixed(2);
 			if(approx[rpm])
-				avgRPM = approx[rpm].value1.toFixed(2) + " RPM";
+				summary.avgRPM.value = approx[rpm].value1.toFixed(2);
 			if(approx[posD])
-				pedalD = approx[posD].value1.toFixed(2) + " %";
+				summary.pedalD.value = approx[posD].value1.toFixed(2);
 			if(approx[posE])
-				pedalE = approx[posE].value1.toFixed(2) + " %";
+				summary.pedalE.value = approx[posE].value1.toFixed(2);
 		}
+
+		var summaryNodes = Object.keys(summary).map(function(key, i) {
+			var entry = summary[key];
+
+			return (
+				<tr>
+					<th>{ entry.label }</th><td>{ entry.value } { entry.unit }</td>
+				</tr>
+			)
+		});
 
 		return (
 			<div className="col-md-8">
@@ -152,14 +183,7 @@ var Details = React.createClass({
 
 								<h4>Penalties:</h4>
 								<dl className="dl-horizontal">
-								  <dt>Exceeding Speed</dt>
-								  <dd>{kmhmalus} %</dd>
-								  <dt>Drive-Pedal Position</dt>
-								  <dd>{pedaldmalus} %</dd>
-								  <dt>Break-Pedal Position</dt>
-								  <dd>{pedalemalus} %</dd>
-								  <dt>Exceeding RPM</dt>
-								  <dd>{rpmmalus} %</dd>
+									{ penaltyNodes }
 								</dl>
 							</div>
 						</div>
@@ -169,39 +193,7 @@ var Details = React.createClass({
 							<div className="panel-body">
 
 								<table className="table table-hover">
-									<tr>
-										<th> Number of Trips</th><td>{trips}</td>
-								  </tr>
-								  <tr>
-										<th>Driven Kilometers in this month</th><td>{drivenkm}</td>
-									</tr>
-									<tr>
-										<th>Total driven Kilometers</th><td>{totalKm}</td>
-									</tr>
-									<tr>
-										<th>Avg. Kilometers per Year</th><td>{kmPerYear}</td>
-									</tr>
-									<tr>
-										<th>Avg. Kilometers per Month</th><td>{kmPerMonth}</td>
-									</tr>
-									<tr>
-										<th>Avg. Throttle Position</th><td>{avgThrottle}</td>
-									</tr>
-									<tr>
-										<th>Avg. Gear</th><td>{avgGear}</td>
-									</tr>
-									<tr>
-										<th>Avg. velocity</th><td>{avgVelocity}</td>
-									</tr>
-									<tr>
-										<th>Avg. Rotations Per Mintute</th><td>{avgRPM}</td>
-									</tr>
-									<tr>
-										<th>Pedal Postion D</th><td>{pedalD}</td>
-									</tr>
-									<tr>
-										<th>Pedal Postion E</th><td>{pedalE}</td>
-									</tr>
+								 { summaryNodes }
 								</table>
 							</div>
 						</div>
