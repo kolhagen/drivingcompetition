@@ -134,15 +134,15 @@ var Details = React.createClass({
 			if(approx[kilometer]){
 				console.log(approx[kilometer]);				
 				if(typeof approx[kilometer].value2 == "string"){
-					summary.drivenkm.value = approx[kilometer].value1.toFixed(3);
+					summary.drivenkm.value = Math.round(approx[kilometer].value1);
 					summary.totalKm.value = approx[kilometer].value2;
 				}else{
-					summary.kmPerYear.value = approx[kilometer].value1.toFixed(3);
+					summary.kmPerYear.value = Math.round(approx[kilometer].value1);
 							if(this.props.date.month === "average"){
 								var lastMonth = 12;
 								if (this.props.date.year === SAP.SCORE.DATE_END.year)
 									lastMonth = SAP.SCORE.DATE_END.month;
-								summary.totalKm.value = this.props.driver.extra.monthly[this.props.date.year][lastMonth].approx[kilometer].value2;
+								summary.totalKm.value = Math.round(this.props.driver.extra.monthly[this.props.date.year][lastMonth].approx[kilometer].value2);
 							}
 				}
 				
