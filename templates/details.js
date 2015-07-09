@@ -53,6 +53,7 @@ var Details = React.createClass({
 		/*
 		*Detail Veriables
 		*/
+		var noscore = 100;
 		var score = 0;
 		var malus = 0;
 
@@ -63,6 +64,7 @@ var Details = React.createClass({
 		penalties.rpmmalus = { label:"Exceeding RPM", value: 0 };
 
 		if (detailscore) {
+			noscore = 0 ;
 			score = detailscore.score.toFixed(2);
 			malus = (detailscore.kmhmalus + detailscore.pedaldmalus + detailscore.pedalemalus + detailscore.rpmmalus).toFixed(2);
 
@@ -110,7 +112,7 @@ var Details = React.createClass({
 		summary.kmPerYear = { label: "Avg. Kilometers per Year", value: "n/A", unit: "km" };
 		summary.kmPerMonth = { label: "Avg. Kilometers per Month", value: "n/A", unit: "km" };
 		summary.avgThrottle = { label: "Avg. Throttle Position", value: "n/A", unit: "%" };
-		summary.avgGear = { label: "Avg. Gear", value: "n/A", unit: "Gear" };
+		summary.avgGear = { label: "Avg. Gear", value: "n/A", unit: "" };
 		summary.avgVelocity = { label: "Avg. velocity", value: "n/A", unit: " km/h" };
 		summary.avgRPM = { label: "Avg. Rotations Per Mintute", value: "n/A", unit: "rpm" };
 		summary.pedalD = { label: "Pedal Postion D", value: "n/A", unit: "%" };
@@ -124,7 +126,7 @@ var Details = React.createClass({
 			if(approx[throttle])
 				summary.avgThrottle.value = approx[throttle].value1.toFixed(2);
 			if(approx[gear] && approx[gear].value1 !== 0)
-				summary.avgGear.value = Math.round(approx[gear].value1);
+				summary.avgGear.value = approx[gear].value1.toFixed(2);
 			if(approx[kph])
 				summary.avgVelocity.value = approx[kph].value1.toFixed(2);
 			if(approx[rpm])
@@ -173,6 +175,9 @@ var Details = React.createClass({
 							<div className="panel-heading">Scoring</div>
 							<div className="panel-body">
 								<div className="progress">
+									<div className="progress-bar progress-bar-info" role="progressbar" style={{width: noscore + "%" }}>
+	   								n/A
+	  							</div>
 									<div className="progress-bar progress-bar-success" role="progressbar" style={{ minWidth: "1em", width: score + "%" }}>
 										{ score }%
 									</div>
