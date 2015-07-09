@@ -110,7 +110,7 @@ var Details = React.createClass({
 		summary.kmPerYear = { label: "Avg. Kilometers per Year", value: "n/A", unit: "km" };
 		summary.kmPerMonth = { label: "Avg. Kilometers per Month", value: "n/A", unit: "km" };
 		summary.avgThrottle = { label: "Avg. Throttle Position", value: "n/A", unit: "%" };
-		summary.avgGear = { label: "Avg. Gear", value: "n/A", unit: "Gear" };
+		summary.avgGear = { label: "Avg. Gear", value: "n/A", unit: "" };
 		summary.avgVelocity = { label: "Avg. velocity", value: "n/A", unit: " km/h" };
 		summary.avgRPM = { label: "Avg. Rotations Per Mintute", value: "n/A", unit: "rpm" };
 		summary.pedalD = { label: "Pedal Postion D", value: "n/A", unit: "%" };
@@ -124,7 +124,7 @@ var Details = React.createClass({
 			if(approx[throttle])
 				summary.avgThrottle.value = approx[throttle].value1.toFixed(2);
 			if(approx[gear] && approx[gear].value1 !== 0)
-				summary.avgGear.value = Math.round(approx[gear].value1);
+				summary.avgGear.value = approx[gear].value1.toFixed(2);
 			if(approx[kph])
 				summary.avgVelocity.value = approx[kph].value1.toFixed(2);
 			if(approx[rpm])
