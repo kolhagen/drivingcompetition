@@ -53,18 +53,34 @@ var Details = React.createClass({
 
 		var score = 100;
 		var malus = 0;
-		var kmhmalus = 0;
-		var pedaldmalus = 0;
-		var pedalemalus = 0;
-		var rpmmalus = 0;
+
+		var penalties = {};
+		penalties.kmhmalus = { label:"Exceeding Speed", value: 0 };
+		penalties.pedaldmalus = { label:"Drive-Pedal Position", value: 0 };
+		penalties.pedalemalus = { label:"Break-Pedal Position", value: 0 };
+		penalties.rpmmalus = { label:"Exceeding RPM", value: 0 };
 
 		if (detailscore) {
 			score = Math.round(detailscore.score);
 			malus = Math.round(detailscore.kmhmalus + detailscore.pedaldmalus + detailscore.pedalemalus + detailscore.rpmmalus);
-			kmhmalus = Math.round(detailscore.kmhmalus);
-			pedaldmalus = Math.round(detailscore.pedaldmalus);
-			pedalemalus = Math.round(detailscore.pedaldmalus);
-			rpmmalus = Math.round(detailscore.pedaldmalus);
+			penalties.kmhmalus.value = Math.round(detailscore.kmhmalus);
+			penalties.pedaldmalus.value = Math.round(detailscore.pedaldmalus);
+			penalties.pedalemalus.value = Math.round(detailscore.pedaldmalus);
+			penalties.rpmmalus.value = Math.round(detailscore.pedaldmalus);
+		}
+
+		var penaltyNodes = [];
+		for (var entry in penalties) {
+			if (!penalties.hasOwnProperty(entry))
+				continue;
+
+			penaltyNodes.push((
+				<dt>{ penalties[entry].label }</dt>
+			));
+
+			penaltyNodes.push((
+				<dd>{ penalties[entry].value } %</dd>
+			));
 		}
 
 		/*
@@ -76,18 +92,31 @@ var Details = React.createClass({
 		var rpm = "sap.vean::Vehicle__sap.vean__engineSpeed_sap.bc.ar::RevolutionsPerMinute";
 		var kilometer = "sap.vean::Vehicle__sap.vean__mileage_sap.bc.ar::Kilometer";
 		var kph = "sap.vean::Vehicle__sap.vean__vehicleSpeed_sap.bc.ar::KilometerPerHour";
+
 		/*
 		 * Summary Variables
 		 */
-		var totalKm = 100;
-		var kmPerYear = 4800;
-		var kmPerMonth = 400;
-		var avgThrottle = 35;
-		var avgGear = 4;
-		var avgVelocity = 87;
-		var avgRPM = 2500;
-		var pedalD = 50;
-		var pedalE = 50;
+		var summary = {};
+		summary.totalKm = { label: "Total driven Kilometers", value: 100, unit: "km" };
+		summary.kmPerYear = { label: "Avg. Kilometers per Year", value: 4800, unit: "km" };
+		summary.kmPerMonth = { label: "Avg. Kilometers per Month", value: 400, unit: "km" };
+		summary.avgThrottle = { label: "Avg. Throttle Position", value: 35, unit: "%" };
+		summary.avgGear = { label: "Avg. Gear", value: 4, unit: "%" };
+		summary.avgVelocity = { label: "Avg. velocity", value: 87, unit: " km/h" };
+		summary.avgRPM = { label: "Avg. Rotations Per Mintute", value: 2500, unit: "rpm" };
+		summary.pedalD = { label: "Pedal Postion D", value: 50, unit: "%" };
+		summary.pedalE = { label: "Pedal Postion E", value: 50, unit: "%" };
+
+		var summaryNodes = Object.keys(summary).map(function(key, i) {
+			var entry = summary[key];
+
+			return (
+				<tr>
+					<th>{ entry.label }</th><td>{ entry.value } { entry.unit }</td>
+				</tr>
+			)
+		});
+		console.log(summaryNodes);
 
 		return (
 			<div className="col-md-8">
@@ -127,14 +156,7 @@ var Details = React.createClass({
 
 								<h4>Penalties:</h4>
 								<dl className="dl-horizontal">
-								  <dt>Exceeding Speed</dt>
-								  <dd>{kmhmalus} %</dd>
-								  <dt>Drive-Pedal Position</dt>
-								  <dd>{pedaldmalus} %</dd>
-								  <dt>Break-Pedal Position</dt>
-								  <dd>{pedalemalus} %</dd>
-								  <dt>Exceeding RPM</dt>
-								  <dd>{rpmmalus} %</dd>
+									{ penaltyNodes }
 								</dl>
 							</div>
 						</div>
@@ -144,33 +166,7 @@ var Details = React.createClass({
 							<div className="panel-body">
 
 								<table className="table table-hover">
-									<tr>
-										<th>Total driven Kilometers</th><td>{totalKm}</td>
-									</tr>
-									<tr>
-										<th>Avg. Kilometers per Year</th><td>{kmPerYear}</td>
-									</tr>
-									<tr>
-										<th>Avg. Kilometers per Month</th><td>{kmPerMonth}</td>
-									</tr>
-									<tr>
-										<th>Avg. Throttle Position</th><td>{avgThrottle}</td>
-									</tr>
-									<tr>
-										<th>Avg. Gear</th><td>{avgGear}</td>
-									</tr>
-									<tr>
-										<th>Avg. velocity</th><td>{avgVelocity} km/h</td>
-									</tr>
-									<tr>
-										<th>Avg. Rotations Per Mintute</th><td>{avgRPM} rpm</td>
-									</tr>
-									<tr>
-										<th>Pedal Postion D</th><td>{pedalD} %</td>
-									</tr>
-									<tr>
-										<th>Pedal Postion E</th><td>{pedalE} %</td>
-									</tr>
+								 { summaryNodes }
 								</table>
 							</div>
 						</div>
