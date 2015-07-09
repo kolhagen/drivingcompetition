@@ -3,7 +3,7 @@
  */
 var Details = React.createClass({
 	getInitialState: function() {
-		return { extra: null, score: null };
+		return { extra: null, extraSum: null, score: null };
 	},
 	componentWillReceiveProps: function(nextProps) {
 		if (nextProps.driver === null)
@@ -11,7 +11,12 @@ var Details = React.createClass({
 
 		var extras = SAP.DATA.getExtras(nextProps.driver, nextProps.date.year, nextProps.date.month);
 		var score = nextProps.driver.scores[nextProps.date.year][nextProps.date.month];
-		this.setState({ extra: extras, score: score });
+
+		var extrasSum = null;
+		if (nextProps.date.month === "average")
+			extrasSum = SAP.DATA.getExtras(nextProps.driver, nextProps.date.year, "sum");
+
+		this.setState({ extra: extras, extraSum: extrasSum, score: score });
 	},
 	render: function() {
 		// check if driver has been selected
@@ -28,6 +33,8 @@ var Details = React.createClass({
 					</div>
 				</div>
 			);
+
+		console.log(this.state.extraSum);
 
 		// TODO: Here you can get the user's data:
 		// - this.state.score (refers to the user's score for the selected time
@@ -112,7 +119,7 @@ var Details = React.createClass({
 		var summary = {};
 		summary.drivenkm = { label: "Total driven Kilometers this month", value: "n/A", unit: "km" };
 		summary.totalKm = { label: "Total driven Kilometers", value: "n/A", unit: "km" };
-		summary.kmPerYear = { label: "Avg. Kilometers", value: "n/A", unit: "km" };
+		summary.kmPerYear = { label: "Avg. Kilometers this Year per trip", value: "n/A", unit: "km" };
 		summary.avgThrottle = { label: "Avg. Throttle Position", value: "n/A", unit: "%" };
 		summary.avgcommandedThrottle = { label: "Avg. Commanded Throttle Position", value: "n/A", unit: "%" };
 		summary.avgGear = { label: "Avg. Gear", value: "n/A", unit: "" };
@@ -121,6 +128,8 @@ var Details = React.createClass({
 		summary.pedalD = { label: "Pedal Postion D", value: "n/A", unit: "%" };
 		summary.pedalE = { label: "Pedal Postion E", value: "n/A", unit: "%" };
 
+		//letzer tachostand des jahres
+
 		if (approx) {
 			if(approx[kilometer]){
 				console.log(approx[kilometer]);				
@@ -128,9 +137,15 @@ var Details = React.createClass({
 					summary.drivenkm.value = approx[kilometer].value1.toFixed(3);
 					summary.totalKm.value = approx[kilometer].value2;
 				}else{
-					summary.totalKm.value = approx[kilometer].value2.toFixed(3);
 					summary.kmPerYear.value = approx[kilometer].value1.toFixed(3);
+							if(this.props.date.month === "average"){
+								var lastMonth = 12;
+								if (this.props.date.year === SAP.SCORE.DATE_END.year)
+									lastMonth = SAP.SCORE.DATE_END.month;
+								summary.totalKm.value = this.props.driver.extra.monthly[this.props.date.year][lastMonth].approx[kilometer].value2;
+							}
 				}
+				
 			}
 			if(approx[throttle])
 				summary.avgThrottle.value = approx[throttle].value1.toFixed(2);
