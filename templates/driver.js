@@ -10,7 +10,8 @@ var DriverList = React.createClass({
 
 		return state;
 	},
-	onChangeYear: function(year) {
+	onChangeYear: function(year, event) {
+		event.preventDefault();
 		var update = { year: year, month: this.state.month };
 
 		if(this.state.month !== -1) {
@@ -25,7 +26,8 @@ var DriverList = React.createClass({
 
 		this.updateRanking(update.year, update.month);
 	},
-	onChangeMonth: function(month) {
+	onChangeMonth: function(month, event) {
+		event.preventDefault();
 		this.updateRanking(this.state.year, month);
 	},
 	updateRanking: function(year, month) {
@@ -53,6 +55,7 @@ var DriverList = React.createClass({
 		this.props.onDateChanged({ year: year, month: month });
 	},
 	onDriverClick: function(i, event) {
+		event.preventDefault();
 		this.props.onDriverClick(i, event);
 		this.setState({selected: i});
 	},
