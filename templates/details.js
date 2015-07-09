@@ -97,10 +97,7 @@ var Details = React.createClass({
 			));
 		}
 
-		trips = "n/A";
-		if(numberOfTrips)
-			trips = numberOfTrips.numberOfTrips;
-
+		
 		/*
 		 * Block of name Variables as shortcut
 		 */
@@ -117,6 +114,7 @@ var Details = React.createClass({
 		 * Summary Variables
 		 */
 		var summary = {};
+		summary.numberoftrips = { label: "Total number of trips", value: "n/A", unit: "" };
 		summary.drivenkm = { label: "Total driven Kilometers this month", value: "n/A", unit: "km" };
 		summary.totalKm = { label: "Total driven Kilometers", value: "n/A", unit: "km" };
 		summary.kmPerYear = { label: "Avg. Kilometers this Year per trip", value: "n/A", unit: "km" };
@@ -128,7 +126,15 @@ var Details = React.createClass({
 		summary.pedalD = { label: "Pedal Postion D", value: "n/A", unit: "%" };
 		summary.pedalE = { label: "Pedal Postion E", value: "n/A", unit: "%" };
 
-		//letzer tachostand des jahres
+		
+
+		if(numberOfTrips){
+			summary.numberoftrips.value = numberOfTrips.numberOfTrips;
+		}
+		if(this.props.date.month === "average"){
+			console.log(this.props.driver.extra.monthly[this.props.date.year].sum.trips.numberOfTrips);
+			summary.numberoftrips.value = this.props.driver.extra.monthly[this.props.date.year].sum.trips.numberOfTrips;
+		}
 
 		if (approx) {
 			if(approx[kilometer]){
@@ -138,6 +144,7 @@ var Details = React.createClass({
 					summary.totalKm.value = approx[kilometer].value2;
 				}else{
 					summary.kmPerYear.value = Math.round(approx[kilometer].value1);
+							//letzer tachostand des jahres
 							if(this.props.date.month === "average"){
 								var lastMonth = 12;
 								if (this.props.date.year === SAP.SCORE.DATE_END.year)
