@@ -53,7 +53,7 @@ var Details = React.createClass({
 		/*
 		*Detail Veriables
 		*/
-		var score = 100;
+		var score = 0;
 		var malus = 0;
 
 		var penalties = {};
