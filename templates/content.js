@@ -19,7 +19,10 @@ var Content = React.createClass({
 				<div className="container">
 					<div className="row">
 						<div className="col-md-12">
-							<h1>Driving Competition</h1>
+							<div className="well header">
+								<img src="images/sap.png" />
+								Driving Competition
+							</div>
 						</div>
 					</div>
 					<div className="row">
@@ -28,9 +31,9 @@ var Content = React.createClass({
 					</div>
 					<div className="row">
 						<div className="col-md-12">
-							<div className="panel panel-default">
+							<div className="panel panel-default footer">
 								<div className="panel-body">
-									SAP Seminar [Max Kolhagen, Young-Hwan Kim, Markus Braun]
+									<b>Big Data &amp; Analytical Applications</b> Max Kolhagen, Young-Hwan Kim, Markus Braun
 								</div>
 							</div>
 						</div>
