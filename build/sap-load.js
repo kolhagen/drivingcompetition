@@ -436,12 +436,20 @@ function getapproximatetoMonth(detailTable){
 					}
 					if(telemtrydata === "sap.vean::Vehicle__sap.vean__mileage_sap.bc.ar::Kilometer"){
 						approximatetoMonth[vehicle][year][month][telemtrydata].propertyID = telemtrydata;
+						console.log(element.last);
+						console.log(element.first);
 							if(element.last === 0.0 || element.first === 0.0){
 							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = -1;
-							approximatetoMonth[vehicle][year][month][telemtrydata].value2 = -1;}
-						else{
-							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.last - element.first;
-							approximatetoMonth[vehicle][year][month][telemtrydata].value2 = element.last;
+							approximatetoMonth[vehicle][year][month][telemtrydata].value2 = -1;
+							}else{
+								var sum = element.last - element.first;
+								if(sum < 0){
+								approximatetoMonth[vehicle][year][month][telemtrydata].value1 = 0;
+								approximatetoMonth[vehicle][year][month][telemtrydata].value2 = 0;
+								}else{
+								approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.last - element.first;
+								approximatetoMonth[vehicle][year][month][telemtrydata].value2 = element.last;
+								}
 						}
 					}
 				}

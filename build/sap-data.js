@@ -50,16 +50,20 @@ SAP.DATA = {
 				}
 			}
 
+			var sums = jQuery.extend(true, {}, averages);
+
 			for (var key in averages) {
 				if (!averages.hasOwnProperty(key))
 					continue;
 
 				SAP.DATA.cleanAveragesRecursive(averages, key);
+				SAP.DATA.cleanAveragesRecursive(sums, key, true);
 			}
 
 			//console.log(averages);
 
 			driver.extra.monthly[year].average = averages;
+			driver.extra.monthly[year].sum = sums;
 		}
 	},
 
@@ -90,16 +94,18 @@ SAP.DATA = {
 			if (!data[key].hasOwnProperty(subKey))
 				continue;
 
-			SAP.DATA.buildAveragesRecursive(data[key], target[key], subKey)
+			SAP.DATA.buildAveragesRecursive(data[key], target[key], subKey);
 		}
 	},
 
-	cleanAveragesRecursive: function(averages, key) {
+	cleanAveragesRecursive: function(averages, key, sum) {
 		if (!averages[key] || (typeof averages[key] !== "object"))
 			return;
 
 		if (averages[key].hasOwnProperty("average") && averages[key].hasOwnProperty("count")) {
-			var avg = averages[key].average / averages[key].count;
+			var avg = averages[key].average ;
+			if ((typeof sum !== "boolean") || !sum)
+				avg /= averages[key].count;
 			delete averages[key].average;
 			delete averages[key].count;
 			averages[key] = avg;
@@ -110,7 +116,7 @@ SAP.DATA = {
 			if (!averages[key].hasOwnProperty(subKey))
 				continue;
 
-			SAP.DATA.cleanAveragesRecursive(averages[key], subKey);
+			SAP.DATA.cleanAveragesRecursive(averages[key], subKey, sum);
 		}
 	},
 
