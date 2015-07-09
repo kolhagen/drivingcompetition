@@ -82,7 +82,7 @@ SAP.LOAD = {
 									kmhmax +=1;
 								}
 								if(telemetrydata['Property.ID'] === "sap.vean::Vehicle__sap.vean__engineSpeed_sap.bc.ar::RevolutionsPerMinute"){
-									if(telemetrydata.NumericValue > 3500){
+									if(telemetrydata.NumericValue > 2000){
 										rpmmalus += 1;
 									}
 									rpmmax+=1;
