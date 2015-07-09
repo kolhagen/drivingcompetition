@@ -158,10 +158,10 @@ SAP.SCORE = {
 			return driver2.scores[year][month] - driver1.scores[year][month];
 		});
 
-		console.log("### CALC " + year + " " + month);
+		/*console.log("### CALC " + year + " " + month);
 		for (var driver of data.driver) {
 			console.log(driver.name + ": " + driver.scores[year][month]);
-		}
+		}*/
 	},
 
 	// calculate trend in rank compared to previous timespan
