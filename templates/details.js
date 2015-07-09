@@ -59,19 +59,21 @@ var Details = React.createClass({
 
 		var penalties = {};
 		penalties.kmhmalus = { label:"Exceeding Speed", value: 0 };
-		penalties.pedaldmalus = { label:"Drive-Pedal Position", value: 0 };
-		penalties.pedalemalus = { label:"Break-Pedal Position", value: 0 };
+		penalties.pedaldmalus = { label:"Pedal D Position", value: 0 };
+		penalties.pedalemalus = { label:"Pedal E Position", value: 0 };
 		penalties.rpmmalus = { label:"Exceeding RPM", value: 0 };
+		penalties.throttle = { label:"Exceeding Throttle", value: 0 };
 
 		if (detailscore) {
 			noscore = 0 ;
 			score = detailscore.score.toFixed(2);
-			malus = (detailscore.kmhmalus + detailscore.pedaldmalus + detailscore.pedalemalus + detailscore.rpmmalus).toFixed(2);
+			malus = (detailscore.kmhmalus + detailscore.pedaldmalus + detailscore.pedalemalus + detailscore.rpmmalus + detailscore.throttlemalus).toFixed(2);
 
 			penalties.kmhmalus.value = detailscore.kmhmalus.toFixed(2);
 			penalties.pedaldmalus.value = detailscore.pedaldmalus.toFixed(2);
 			penalties.pedalemalus.value = detailscore.pedaldmalus.toFixed(2);
 			penalties.rpmmalus.value = detailscore.pedaldmalus.toFixed(2);
+			penalties.throttle.value = detailscore.throttlemalus.toFixed(2);
 		}
 
 		var penaltyNodes = [];
@@ -96,6 +98,7 @@ var Details = React.createClass({
 		 * Block of name Variables as shortcut
 		 */
 		var throttle = "sap.ctex::sap.vean::Vehicle__sap.ctex__absThrottlePos_sap.bc.ar::Percent";
+		var commandedthrottle = "sap.ctex::sap.vean::Vehicle__sap.ctex__commandedThrottle_sap.bc.ar::Percent";
 		var posD = "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionD_sap.bc.ar::Percent";
 		var posE = "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionE_sap.bc.ar::Percent";
 		var rpm = "sap.vean::Vehicle__sap.vean__engineSpeed_sap.bc.ar::RevolutionsPerMinute";
@@ -107,11 +110,12 @@ var Details = React.createClass({
 		 * Summary Variables
 		 */
 		var summary = {};
-		summary.drivenkm = { label: "Total driven Kilometers", value: "n/A", unit: "km" };
+		summary.drivenkm = { label: "Total driven Kilometers this month", value: "n/A", unit: "km" };
 		summary.totalKm = { label: "Total driven Kilometers", value: "n/A", unit: "km" };
 		summary.kmPerYear = { label: "Avg. Kilometers per Year", value: "n/A", unit: "km" };
 		summary.kmPerMonth = { label: "Avg. Kilometers per Month", value: "n/A", unit: "km" };
 		summary.avgThrottle = { label: "Avg. Throttle Position", value: "n/A", unit: "%" };
+		summary.avgcommandedThrottle = { label: "Avg. Commanded Throttle Position", value: "n/A", unit: "%" };
 		summary.avgGear = { label: "Avg. Gear", value: "n/A", unit: "" };
 		summary.avgVelocity = { label: "Avg. velocity", value: "n/A", unit: " km/h" };
 		summary.avgRPM = { label: "Avg. Rotations Per Mintute", value: "n/A", unit: "rpm" };
@@ -125,6 +129,8 @@ var Details = React.createClass({
 			}
 			if(approx[throttle])
 				summary.avgThrottle.value = approx[throttle].value1.toFixed(2);
+			if(approx[commandedthrottle])
+				summary.avgcommandedThrottle.value = approx[commandedthrottle].value1.toFixed(2);
 			if(approx[gear] && approx[gear].value1 !== 0)
 				summary.avgGear.value = approx[gear].value1.toFixed(2);
 			if(approx[kph])

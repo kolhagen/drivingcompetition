@@ -64,11 +64,13 @@ SAP.LOAD = {
 							var rpmmalus = 0;
 							var pedaldmalus = 0;
 							var pedalemalus = 0;
+							var throttlemalus = 0;
 
 							var kmhmax = 0;
 							var rpmmax = 0;
 							var pedaldmax = 0;
 							var pedalemax = 0;
+							var throttlemax = 0;
 
 							var score = 100;
 							for(telemetrydata of data.d.results){
@@ -98,6 +100,24 @@ SAP.LOAD = {
 									pedalemax+=1;
 								}
 								if(telemetrydata['Property.ID'] === "sap.ctex::sap.vean::Vehicle__sap.ctex__absThrottlePos_sap.bc.ar::Percent"){
+									if(telemetrydata.NumericValue >= 85){
+										throttlemalus += 1;
+									}
+									throttlemax += 1;
+								}
+								if(telemetrydata['Property.ID'] === "sap.ctex::sap.vean::Vehicle__sap.ctex__absThrottlePos_sap.bc.ar::Percent"){
+									if(!detailinfos[vid][year])
+										detailinfos[vid][year] = {};
+									if(!detailinfos[vid][year][month])
+										detailinfos[vid][year][month] = {};
+									if(!detailinfos[vid][year][month][telemetrydata['Property.ID']])
+										detailinfos[vid][year][month][telemetrydata['Property.ID']] = [];
+									var entry = {};
+									entry.value = telemetrydata.NumericValue;
+									entry.date = telemetrydata.PointInTime;
+									detailinfos[vid][year][month][telemetrydata['Property.ID']].push(entry);
+								}
+								if(telemetrydata['Property.ID'] === "sap.ctex::sap.vean::Vehicle__sap.ctex__commandedThrottle_sap.bc.ar::Percent"){
 									if(!detailinfos[vid][year])
 										detailinfos[vid][year] = {};
 									if(!detailinfos[vid][year][month])
@@ -190,6 +210,7 @@ SAP.LOAD = {
 							var rpmp = 0;
 							var pedaldp = 0;
 							var pedalep = 0;
+							var throttle = 0;
 
 							if(kmhmax !== 0 && kmhmalus !== 0){
 								kmhp =  kmhmalus / kmhmax * 100;}
@@ -199,8 +220,10 @@ SAP.LOAD = {
 								pedaldp = pedaldmalus / pedaldmax * 100;}
 							if(pedalemax !== 0 && pedalemalus !== 0){
 								pedalep = pedalemalus / pedalemax * 100;}
-							//console.log(kmhp + " " + rpmp + " " + pedaldp + " " + pedalep);
-							score = score - kmhp - rpmp - pedaldp - pedalep;
+							if(throttlemax !== 0 && throttlemalus !== 0){
+								throttle = throttlemalus / throttlemax * 100;}
+							//console.log(score +" " + kmhp + " " + rpmp + " " + pedaldp + " " + pedalep + " " + throttle);
+							score = score - kmhp - rpmp - pedaldp - pedalep - throttle;
 
 							//var year = parseODataDate(trip.EndPointInTime).getFullYear();
 							//var month = parseODataDate(trip.EndPointInTime).getMonth()+1;
@@ -208,12 +231,13 @@ SAP.LOAD = {
 							if(!allscore[vid][year])
 								allscore[vid][year] = {};
 							if(!allscore[vid][year][month])
-								allscore[vid][year][month] = {accumulated: 0.0, count: 0, kmhmahlus: 0.0, rpmmalus: 0.0, pedaldmalus: 0.0, pedalemalus: 0.0};
+								allscore[vid][year][month] = {accumulated: 0.0, count: 0, kmhmahlus: 0.0, rpmmalus: 0.0, pedaldmalus: 0.0, pedalemalus: 0.0, throttlemalus: 0.0};
 							allscore[vid][year][month].accumulated += score;
 							allscore[vid][year][month].kmhmahlus += kmhp;
 							allscore[vid][year][month].rpmmalus += rpmp;
 							allscore[vid][year][month].pedaldmalus += pedaldp;
 							allscore[vid][year][month].pedalemalus += pedalep;
+							allscore[vid][year][month].throttlemalus = throttle;
 							allscore[vid][year][month].count++;
 							apiRequestsResponded++;
 							checkDone();
@@ -249,13 +273,14 @@ for(vehicle in scoreTable){
 			if(!finalscore[vehicle][year][month])
 				finalscore[vehicle][year][month] = 0.0;
 			if(!detailscore[vehicle][year][month])
-				detailscore[vehicle][year][month] = {score: 0.0, kmhmalus: 0.0, rpmmalus: 0.0, pedaldmalus: 0.0, pedalemalus: 0.0};
+				detailscore[vehicle][year][month] = {score: 0.0, kmhmalus: 0.0, rpmmalus: 0.0, pedaldmalus: 0.0, pedalemalus: 0.0, throttlemalus: 0.0};
 			finalscore[vehicle][year][month] = scoreTable[vehicle][year][month].accumulated / scoreTable[vehicle][year][month].count;
 			detailscore[vehicle][year][month].score =  scoreTable[vehicle][year][month].accumulated / scoreTable[vehicle][year][month].count;
 			detailscore[vehicle][year][month].kmhmalus =  scoreTable[vehicle][year][month].kmhmahlus / scoreTable[vehicle][year][month].count;
 			detailscore[vehicle][year][month].rpmmalus =  scoreTable[vehicle][year][month].rpmmalus / scoreTable[vehicle][year][month].count;
 			detailscore[vehicle][year][month].pedaldmalus =  scoreTable[vehicle][year][month].pedaldmalus / scoreTable[vehicle][year][month].count;
 			detailscore[vehicle][year][month].pedalemalus =  scoreTable[vehicle][year][month].pedalemalus / scoreTable[vehicle][year][month].count;
+			detailscore[vehicle][year][month].throttlemalus = scoreTable[vehicle][year][month].throttlemalus / scoreTable[vehicle][year][month].count;
 		}
 	}
 }
@@ -347,49 +372,68 @@ function getapproximatetoMonth(detailTable){
 					if(telemtrydata === "sap.ctex::sap.vean::Vehicle__sap.ctex__absThrottlePos_sap.bc.ar::Percent"){
 						approximatetoMonth[vehicle][year][month][telemtrydata].propertyID = telemtrydata;
 						if(element.accumulated === 0.0 || element.count === 0.0)
-							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = 0.0;
+							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = -1 ;
 						else
 							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.accumulated / element.count;
-						approximatetoMonth[vehicle][year][month][telemtrydata].value2 = 0.0;
+						approximatetoMonth[vehicle][year][month][telemtrydata].value2 = -1 ;
+					}
+					if(telemtrydata === "sap.ctex::sap.vean::Vehicle__sap.ctex__commandedThrottle_sap.bc.ar::Percent"){
+						approximatetoMonth[vehicle][year][month][telemtrydata].propertyID = telemtrydata;
+						if(element.accumulated === 0.0 || element.count === 0.0)
+							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = -1;
+						else
+							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.accumulated / element.count;
+						approximatetoMonth[vehicle][year][month][telemtrydata].value2 = -1;
 					}
 					if(telemtrydata === "sap.vean::Vehicle__sap.vean__Gear"){
 						approximatetoMonth[vehicle][year][month][telemtrydata].propertyID = telemtrydata;
 						if(element.accumulated === 0.0 || element.count === 0.0)
-							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = 0.0;
+							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = -1;
 						else
 							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.accumulated / element.count;
-						approximatetoMonth[vehicle][year][month][telemtrydata].value2 = 0.0;
+						approximatetoMonth[vehicle][year][month][telemtrydata].value2 = -1;
 					}
 					if(telemtrydata === "sap.vean::Vehicle__sap.vean__vehicleSpeed_sap.bc.ar::KilometerPerHour"){
 						approximatetoMonth[vehicle][year][month][telemtrydata].propertyID = telemtrydata;
-						approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.accumulated / element.count;
-						approximatetoMonth[vehicle][year][month][telemtrydata].value2 = 0.0;
+						if(element.accumulated === 0.0 || element.count === 0.0)
+							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = -1;
+						else
+							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.accumulated / element.count;
+						approximatetoMonth[vehicle][year][month][telemtrydata].value2 = -1;
 					}
 					if(telemtrydata === "sap.vean::Vehicle__sap.vean__engineSpeed_sap.bc.ar::RevolutionsPerMinute"){
 						approximatetoMonth[vehicle][year][month][telemtrydata].propertyID = telemtrydata;
-						approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.accumulated / element.count;
-						approximatetoMonth[vehicle][year][month][telemtrydata].value2 = 0.0;
+						if(element.accumulated === 0.0 || element.count === 0.0)
+							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = -1;
+						else
+							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.accumulated / element.count;
+						approximatetoMonth[vehicle][year][month][telemtrydata].value2 = -1;
 					}
 					if(telemtrydata === "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionD_sap.bc.ar::Percent"){
 						approximatetoMonth[vehicle][year][month][telemtrydata].propertyID = telemtrydata;
 						if(element.accumulated === 0.0 || element.count === 0.0)
-							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = 0.0;
+							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = -1;
 						else
 							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.accumulated / element.count;
-						approximatetoMonth[vehicle][year][month][telemtrydata].value2 = 0.0;
+						approximatetoMonth[vehicle][year][month][telemtrydata].value2 = -1;
 					}
 					if(telemtrydata === "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionE_sap.bc.ar::Percent"){
 						approximatetoMonth[vehicle][year][month][telemtrydata].propertyID = telemtrydata;
 						if(element.accumulated === 0.0 || element.count === 0.0)
-							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = 0.0;
+							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = -1;
 						else
 							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.accumulated / element.count;
-						approximatetoMonth[vehicle][year][month][telemtrydata].value2 = 0.0;
+						approximatetoMonth[vehicle][year][month][telemtrydata].value2 = -1;
 					}
 					if(telemtrydata === "sap.vean::Vehicle__sap.vean__mileage_sap.bc.ar::Kilometer"){
 						approximatetoMonth[vehicle][year][month][telemtrydata].propertyID = telemtrydata;
-						approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.last - element.first;
-						approximatetoMonth[vehicle][year][month][telemtrydata].value2 = element.last;
+							if(element.last === 0.0 || element.first === 0.0){
+							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = -1;
+							approximatetoMonth[vehicle][year][month][telemtrydata].value2 = -1;}
+						else{
+							approximatetoMonth[vehicle][year][month][telemtrydata].value1 = element.last - element.first;
+							approximatetoMonth[vehicle][year][month][telemtrydata].value2 = element.last;
+						}
 					}
 				}
 			}
