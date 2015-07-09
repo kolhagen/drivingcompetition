@@ -201,9 +201,6 @@ SAP.SCORE = {
 				previousYear = year - 1;
 			}
 
-			console.log(previousMonth + " in " + previousYear);
-			console.log(month + " in " + year);
-
 			SAP.SCORE.calculate(previousYear, previousMonth);
 			var previousRank = {};
 			var i = 0;

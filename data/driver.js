@@ -9,35 +9,35 @@ data.driver = [
 	},
 	{
 		name: "Young-Hwan Kim",
-		department: "IT",
+		department: "Accounting",
 		car: "system-local::WWWBETA2222222222",
 		picture: "images/youngi.jpg",
 		quote: "Man kann ein Auto nicht wie ein menschliches Wesen behandeln - ein Auto braucht Liebe."
 	},
 	{
 		name: "Max Kolhagen",
-		department: "Accounting",
+		department: "IT",
 		car: "system-local::WWWDELTA444444444",
 		picture: "images/max.png",
 		quote: "Gute Fahrer haben die Fliegenreste auf den Seitenscheiben."
 	},
 	{
 		name: "Super Mario",
-		department: "Archive",
+		department: "Acquisitions",
 		car: "system-local::WWWALPHA111111111",
 		picture: "images/mario.png",
 		quote: "Auch ein blauer Panzer kann mich nicht aufhalten."
 	},
 	{
 		name: "Sebastian Vettel",
-		department: "Acquisitions",
+		department: "Archive",
 		car: "system-local::WWWGAMMA333333333",
 		picture: "images/vettel.png",
 		quote: "Beim Beschleunigen müssen die Tränen der Ergriffenheit waagrecht zum Ohr hin abfließen."
 	},
 	{
 		name: "Marco Reus",
-		department: "Acquisitions",
+		department: "Support",
 		car: "system-local::WWWZETA6666666666",
 		picture: "images/marco.png",
 		quote: "Wer braucht schon einen Führerschein?"
