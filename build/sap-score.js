@@ -139,8 +139,15 @@ SAP.SCORE = {
 		}
 
 		data.driver.sort(function (driver1, driver2) {
-			if (driver1.scores[year][month] === -1 && driver2.scores[year][month] === -1)
+			if (driver1.scores[year][month] === driver2.scores[year][month]) {
+				// sort alphabetically
+				var name1 = driver1.name.toLowerCase()
+				var name2 = driver2.name.toLowerCase();
+
+				if (name1 < name2) return -1;
+				if (name1 > name2) return 1;
 				return 0;
+			}
 
 			if (driver1.scores[year][month] === -1)
 				return driver2.scores[year][month];
@@ -150,6 +157,11 @@ SAP.SCORE = {
 
 			return driver2.scores[year][month] - driver1.scores[year][month];
 		});
+
+		console.log("### CALC " + year + " " + month);
+		for (var driver of data.driver) {
+			console.log(driver.name + ": " + driver.scores[year][month]);
+		}
 	},
 
 	// calculate trend in rank compared to previous timespan
@@ -188,6 +200,9 @@ SAP.SCORE = {
 				previousMonth = month;
 				previousYear = year - 1;
 			}
+
+			console.log(previousMonth + " in " + previousYear);
+			console.log(month + " in " + year);
 
 			SAP.SCORE.calculate(previousYear, previousMonth);
 			var previousRank = {};
