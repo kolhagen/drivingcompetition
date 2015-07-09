@@ -112,8 +112,7 @@ var Details = React.createClass({
 		var summary = {};
 		summary.drivenkm = { label: "Total driven Kilometers this month", value: "n/A", unit: "km" };
 		summary.totalKm = { label: "Total driven Kilometers", value: "n/A", unit: "km" };
-		summary.kmPerYear = { label: "Avg. Kilometers per Year", value: "n/A", unit: "km" };
-		summary.kmPerMonth = { label: "Avg. Kilometers per Month", value: "n/A", unit: "km" };
+		summary.kmPerYear = { label: "Avg. Kilometers", value: "n/A", unit: "km" };
 		summary.avgThrottle = { label: "Avg. Throttle Position", value: "n/A", unit: "%" };
 		summary.avgcommandedThrottle = { label: "Avg. Commanded Throttle Position", value: "n/A", unit: "%" };
 		summary.avgGear = { label: "Avg. Gear", value: "n/A", unit: "" };
@@ -124,8 +123,14 @@ var Details = React.createClass({
 
 		if (approx) {
 			if(approx[kilometer]){
-				summary.drivenkm.value = approx[kilometer].value1;
-				summary.totalKm.value = approx[kilometer].value2;
+				console.log(approx[kilometer]);				
+				if(typeof approx[kilometer].value2 == "string"){
+					summary.drivenkm.value = approx[kilometer].value1.toFixed(3);
+					summary.totalKm.value = approx[kilometer].value2;
+				}else{
+					summary.totalKm.value = approx[kilometer].value2.toFixed(3);
+					summary.kmPerYear.value = approx[kilometer].value1.toFixed(3);
+				}
 			}
 			if(approx[throttle])
 				summary.avgThrottle.value = approx[throttle].value1.toFixed(2);
