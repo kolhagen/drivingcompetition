@@ -36,21 +36,23 @@ var Details = React.createClass({
 		// time span)
 		// - this.props.driver (here, every other generic data can be found for
 		// the selected driver)
-		console.log(this.state.score);
-		console.log(this.state.extra);
-		console.log(this.props.driver);
+		//console.log(this.state.score);
+		//console.log(this.state.extra);
+		//console.log(this.props.driver);
 
 		//shortcuts to extra data
-		var approx = this.state.extra.approx;
+		approx = this.state.extra.approx;
 		detailscore = this.state.extra.score;
-		numberOfTrips = this.state.extra.score;
+		numberOfTrips = this.state.extra.trips;
 
 		var carImage = "images/"+this.props.driver.car.substring(14)+".png";
 
 		var car = this.state.extra.cars.make + " " + this.state.extra.cars.model;
 		var driverquote = this.props.driver.quote;
 
-
+		/*
+		*Detail Veriables
+		*/
 		var score = 100;
 		var malus = 0;
 		var kmhmalus = 0;
@@ -59,35 +61,58 @@ var Details = React.createClass({
 		var rpmmalus = 0;
 
 		if (detailscore) {
-			score = Math.round(detailscore.score);
-			malus = Math.round(detailscore.kmhmalus + detailscore.pedaldmalus + detailscore.pedalemalus + detailscore.rpmmalus);
-			kmhmalus = Math.round(detailscore.kmhmalus);
-			pedaldmalus = Math.round(detailscore.pedaldmalus);
-			pedalemalus = Math.round(detailscore.pedaldmalus);
-			rpmmalus = Math.round(detailscore.pedaldmalus);
+			score = detailscore.score.toFixed(2);
+			malus = (detailscore.kmhmalus + detailscore.pedaldmalus + detailscore.pedalemalus + detailscore.rpmmalus).toFixed(2);
+			kmhmalus = detailscore.kmhmalus.toFixed(2);
+			pedaldmalus = detailscore.pedaldmalus.toFixed(2);
+			pedalemalus = detailscore.pedaldmalus.toFixed(2);
+			rpmmalus = detailscore.pedaldmalus.toFixed(2);
 		}
+		trips = "n/A";
+		if(numberOfTrips)
+			trips = numberOfTrips.numberOfTrips;
 
 		/*
 		 * Block of name Variables as shortcut
 		 */
-		var throttle = "sap.ctex::sap.vean::Vehicle__sap.ctex__absThrottlePos_sap.bc.ar::Percent";
-		var posD = "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionD_sap.bc.ar::Percent";
-		var posE = "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionE_sap.bc.ar::Percent";
-		var rpm = "sap.vean::Vehicle__sap.vean__engineSpeed_sap.bc.ar::RevolutionsPerMinute";
-		var kilometer = "sap.vean::Vehicle__sap.vean__mileage_sap.bc.ar::Kilometer";
-		var kph = "sap.vean::Vehicle__sap.vean__vehicleSpeed_sap.bc.ar::KilometerPerHour";
+		throttle = "sap.ctex::sap.vean::Vehicle__sap.ctex__absThrottlePos_sap.bc.ar::Percent";
+		posD = "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionD_sap.bc.ar::Percent";
+		posE = "sap.ctex::sap.vean::Vehicle__sap.ctex__pedalPositionE_sap.bc.ar::Percent";
+		rpm = "sap.vean::Vehicle__sap.vean__engineSpeed_sap.bc.ar::RevolutionsPerMinute";
+		kilometer = "sap.vean::Vehicle__sap.vean__mileage_sap.bc.ar::Kilometer";
+		kph = "sap.vean::Vehicle__sap.vean__vehicleSpeed_sap.bc.ar::KilometerPerHour";
+		gear = "sap.vean::Vehicle__sap.vean__Gear"
 		/*
 		 * Summary Variables
 		 */
-		var totalKm = 100;
-		var kmPerYear = 4800;
-		var kmPerMonth = 400;
-		var avgThrottle = 35;
-		var avgGear = 4;
-		var avgVelocity = 87;
-		var avgRPM = 2500;
-		var pedalD = 50;
-		var pedalE = 50;
+		var drivenkm = "n/A";
+		var totalKm = "n/A";
+		var kmPerYear = "n/A";
+		var kmPerMonth = "n/A";
+		var avgThrottle = "n/A";
+		var avgGear = "n/A";
+		var avgVelocity = "n/A";
+		var avgRPM = "n/A";
+		var pedalD = "n/A";
+		var pedalE = "n/A";
+		if (approx) {
+			if(approx[kilometer]){
+				drivenkm = approx[kilometer].value1 + " km";
+				totalKm = approx[kilometer].value2 + " km";
+			}
+			if(approx[throttle])
+				avgThrottle = approx[throttle].value1.toFixed(2) + " %";
+			if(approx[gear] && approx[gear].value1 !== 0)
+				avgGear = Math.round(approx[gear].value1);
+			if(approx[kph])
+				avgVelocity = approx[kph].value1.toFixed(2) + " kmh";
+			if(approx[rpm])
+				avgRPM = approx[rpm].value1.toFixed(2) + " RPM";
+			if(approx[posD])
+				pedalD = approx[posD].value1.toFixed(2) + " %";
+			if(approx[posE])
+				pedalE = approx[posE].value1.toFixed(2) + " %";
+		}
 
 		return (
 			<div className="col-md-8">
@@ -145,6 +170,12 @@ var Details = React.createClass({
 
 								<table className="table table-hover">
 									<tr>
+										<th> Number of Trips</th><td>{trips}</td>
+								  </tr>
+								  <tr>
+										<th>Driven Kilometers in this month</th><td>{drivenkm}</td>
+									</tr>
+									<tr>
 										<th>Total driven Kilometers</th><td>{totalKm}</td>
 									</tr>
 									<tr>
@@ -160,16 +191,16 @@ var Details = React.createClass({
 										<th>Avg. Gear</th><td>{avgGear}</td>
 									</tr>
 									<tr>
-										<th>Avg. velocity</th><td>{avgVelocity} km/h</td>
+										<th>Avg. velocity</th><td>{avgVelocity}</td>
 									</tr>
 									<tr>
-										<th>Avg. Rotations Per Mintute</th><td>{avgRPM} rpm</td>
+										<th>Avg. Rotations Per Mintute</th><td>{avgRPM}</td>
 									</tr>
 									<tr>
-										<th>Pedal Postion D</th><td>{pedalD} %</td>
+										<th>Pedal Postion D</th><td>{pedalD}</td>
 									</tr>
 									<tr>
-										<th>Pedal Postion E</th><td>{pedalE} %</td>
+										<th>Pedal Postion E</th><td>{pedalE}</td>
 									</tr>
 								</table>
 							</div>
