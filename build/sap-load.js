@@ -117,7 +117,7 @@ SAP.LOAD = {
 									if(!detailinfos[vid][year][month][telemetrydata['Property.ID']])
 										detailinfos[vid][year][month][telemetrydata['Property.ID']] = [];
 									var entry = {};
-									entry.value = telemetrydata.NumericValue;
+									entry.value = telemetrydata.IntegerValue;
 									entry.date = telemetrydata.PointInTime;
 									detailinfos[vid][year][month][telemetrydata['Property.ID']].push(entry);
 								}

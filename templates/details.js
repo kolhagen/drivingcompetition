@@ -36,21 +36,23 @@ var Details = React.createClass({
 		// time span)
 		// - this.props.driver (here, every other generic data can be found for
 		// the selected driver)
-		console.log(this.state.score);
-		console.log(this.state.extra);
-		console.log(this.props.driver);
+		//console.log(this.state.score);
+		//console.log(this.state.extra);
+		//console.log(this.props.driver);
 
 		//shortcuts to extra data
-		var approx = this.state.extra.approx;
+		approx = this.state.extra.approx;
 		detailscore = this.state.extra.score;
-		numberOfTrips = this.state.extra.score;
+		numberOfTrips = this.state.extra.trips;
 
 		var carImage = "images/"+this.props.driver.car.substring(14)+".png";
 
 		var car = this.state.extra.cars.make + " " + this.state.extra.cars.model;
 		var driverquote = this.props.driver.quote;
 
-
+		/*
+		*Detail Veriables
+		*/
 		var score = 100;
 		var malus = 0;
 
@@ -61,12 +63,13 @@ var Details = React.createClass({
 		penalties.rpmmalus = { label:"Exceeding RPM", value: 0 };
 
 		if (detailscore) {
-			score = Math.round(detailscore.score);
-			malus = Math.round(detailscore.kmhmalus + detailscore.pedaldmalus + detailscore.pedalemalus + detailscore.rpmmalus);
-			penalties.kmhmalus.value = Math.round(detailscore.kmhmalus);
-			penalties.pedaldmalus.value = Math.round(detailscore.pedaldmalus);
-			penalties.pedalemalus.value = Math.round(detailscore.pedaldmalus);
-			penalties.rpmmalus.value = Math.round(detailscore.pedaldmalus);
+			score = detailscore.score.toFixed(2);
+			malus = (detailscore.kmhmalus + detailscore.pedaldmalus + detailscore.pedalemalus + detailscore.rpmmalus).toFixed(2);
+
+			penalties.kmhmalus.value = detailscore.kmhmalus.toFixed(2);
+			penalties.pedaldmalus.value = detailscore.pedaldmalus.toFixed(2);
+			penalties.pedalemalus.value = detailscore.pedaldmalus.toFixed(2);
+			penalties.rpmmalus.value = detailscore.pedaldmalus.toFixed(2);
 		}
 
 		var penaltyNodes = [];
@@ -83,6 +86,10 @@ var Details = React.createClass({
 			));
 		}
 
+		trips = "n/A";
+		if(numberOfTrips)
+			trips = numberOfTrips.numberOfTrips;
+
 		/*
 		 * Block of name Variables as shortcut
 		 */
@@ -92,20 +99,41 @@ var Details = React.createClass({
 		var rpm = "sap.vean::Vehicle__sap.vean__engineSpeed_sap.bc.ar::RevolutionsPerMinute";
 		var kilometer = "sap.vean::Vehicle__sap.vean__mileage_sap.bc.ar::Kilometer";
 		var kph = "sap.vean::Vehicle__sap.vean__vehicleSpeed_sap.bc.ar::KilometerPerHour";
+		var gear = "sap.vean::Vehicle__sap.vean__Gear"
 
 		/*
 		 * Summary Variables
 		 */
 		var summary = {};
-		summary.totalKm = { label: "Total driven Kilometers", value: 100, unit: "km" };
-		summary.kmPerYear = { label: "Avg. Kilometers per Year", value: 4800, unit: "km" };
-		summary.kmPerMonth = { label: "Avg. Kilometers per Month", value: 400, unit: "km" };
-		summary.avgThrottle = { label: "Avg. Throttle Position", value: 35, unit: "%" };
-		summary.avgGear = { label: "Avg. Gear", value: 4, unit: "%" };
-		summary.avgVelocity = { label: "Avg. velocity", value: 87, unit: " km/h" };
-		summary.avgRPM = { label: "Avg. Rotations Per Mintute", value: 2500, unit: "rpm" };
-		summary.pedalD = { label: "Pedal Postion D", value: 50, unit: "%" };
-		summary.pedalE = { label: "Pedal Postion E", value: 50, unit: "%" };
+		summary.drivenkm = { label: "Total driven Kilometers", value: "n/A", unit: "km" };
+		summary.totalKm = { label: "Total driven Kilometers", value: "n/A", unit: "km" };
+		summary.kmPerYear = { label: "Avg. Kilometers per Year", value: "n/A", unit: "km" };
+		summary.kmPerMonth = { label: "Avg. Kilometers per Month", value: "n/A", unit: "km" };
+		summary.avgThrottle = { label: "Avg. Throttle Position", value: "n/A", unit: "%" };
+		summary.avgGear = { label: "Avg. Gear", value: "n/A", unit: "%" };
+		summary.avgVelocity = { label: "Avg. velocity", value: "n/A", unit: " km/h" };
+		summary.avgRPM = { label: "Avg. Rotations Per Mintute", value: "n/A", unit: "rpm" };
+		summary.pedalD = { label: "Pedal Postion D", value: "n/A", unit: "%" };
+		summary.pedalE = { label: "Pedal Postion E", value: "n/A", unit: "%" };
+
+		if (approx) {
+			if(approx[kilometer]){
+				summary.drivenkm.value = approx[kilometer].value1;
+				summary.totalKm.value = approx[kilometer].value2;
+			}
+			if(approx[throttle])
+				summary.avgThrottle.value = approx[throttle].value1.toFixed(2);
+			if(approx[gear] && approx[gear].value1 !== 0)
+				summary.avgGear.value = Math.round(approx[gear].value1);
+			if(approx[kph])
+				summary.avgVelocity.value = approx[kph].value1.toFixed(2);
+			if(approx[rpm])
+				summary.avgRPM.value = approx[rpm].value1.toFixed(2);
+			if(approx[posD])
+				summary.pedalD.value = approx[posD].value1.toFixed(2);
+			if(approx[posE])
+				summary.pedalE.value = approx[posE].value1.toFixed(2);
+		}
 
 		var summaryNodes = Object.keys(summary).map(function(key, i) {
 			var entry = summary[key];
@@ -116,7 +144,6 @@ var Details = React.createClass({
 				</tr>
 			)
 		});
-		console.log(summaryNodes);
 
 		return (
 			<div className="col-md-8">
