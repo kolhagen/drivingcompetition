@@ -36,38 +36,35 @@ var Details = React.createClass({
 		// time span)
 		// - this.props.driver (here, every other generic data can be found for
 		// the selected driver)
-		//console.log(this.state.score);
-		//console.log(this.state.extra);
-		//console.log(this.props.driver);
+		console.log(this.state.score);
+		console.log(this.state.extra);
+		console.log(this.props.driver);
 
 		//shortcuts to extra data
 		var approx = this.state.extra.approx;
-		car = this.state.extra.cars;
 		detailscore = this.state.extra.score;
 		numberOfTrips = this.state.extra.score;
 
 		var carImage = "images/"+this.props.driver.car.substring(14)+".png";
 
-		var detailmessage = "Details for: " + this.props.driver.name;
-		var vehiclemessage = "Vehicle: " + car.make + " " + car.model;
+		var car = this.state.extra.cars.make + " " + this.state.extra.cars.model;
 		var driverquote = this.props.driver.quote;
 
 
-		if(!detailscore){
-			score = "100%";
-			malus = "0%";
-			kmhmalus = "0%";
-			pedaldmalus = "0%";
-			pedalemalus = "0%";
-			rpmmalus = "0%";
-		}else{
-			console.log(detailscore);
-		score = Math.round(detailscore.score) + "%";
-		malus = Math.round(detailscore.kmhmalus + detailscore.pedaldmalus + detailscore.pedalemalus + detailscore.rpmmalus) + "%";
-		kmhmalus = Math.round(detailscore.kmhmalus) +"%";
-		pedaldmalus = Math.round(detailscore.pedaldmalus) +"%";
-		pedalemalus = Math.round(detailscore.pedaldmalus) +"%";
-		rpmmalus = Math.round(detailscore.pedaldmalus) +"%";
+		var score = 100;
+		var malus = 0;
+		var kmhmalus = 0;
+		var pedaldmalus = 0;
+		var pedalemalus = 0;
+		var rpmmalus = 0;
+
+		if (detailscore) {
+			score = Math.round(detailscore.score);
+			malus = Math.round(detailscore.kmhmalus + detailscore.pedaldmalus + detailscore.pedalemalus + detailscore.rpmmalus);
+			kmhmalus = Math.round(detailscore.kmhmalus);
+			pedaldmalus = Math.round(detailscore.pedaldmalus);
+			pedalemalus = Math.round(detailscore.pedaldmalus);
+			rpmmalus = Math.round(detailscore.pedaldmalus);
 		}
 
 		/*
@@ -82,17 +79,15 @@ var Details = React.createClass({
 		/*
 		 * Summary Variables
 		 */
-		var totalKm = "Total driven Kilometers: ";
-		var kmPerYear = "Avg. Kilometers per Month: " +4800;
-		var kmPerMonth = "Avg. Kilometers per Month: " +400;
+		var totalKm = 100;
+		var kmPerYear = 4800;
+		var kmPerMonth = 400;
 		var avgThrottle = 35;
-		var avgThrottleStyle = {};
-		avgThrottleStyle.width=avgThrottle+"%";
-		var avgGear = "Avg Gear: "+ 4;
-		var avgVelocity = "Avg velocity: "+87+ "km/h";
-		var avgRPM = "Avg Rotations Per Mintute: "+2500+"rpm";
-		var pedalD = "Pedal Postion D: "+50+"%";
-		var pedalE = "Pedal Postion E: "+50+"%";
+		var avgGear = 4;
+		var avgVelocity = 87;
+		var avgRPM = 2500;
+		var pedalD = 50;
+		var pedalE = 50;
 
 		return (
 			<div className="col-md-8">
@@ -104,16 +99,16 @@ var Details = React.createClass({
 
 						<div className="media">
 							<div className="media-left">
-								<img className="media-object" style={{ width: "128px", height: "128px" }} src={carImage} />
+								<img className="media-object img-thumbnail" style={{ width: "128px", height: "128px" }} src={carImage} />
 							</div>
 							<div className="media-body">
-								<h4 className="media-heading">Media heading</h4>
-								{ detailmessage }
+								<h3 className="media-heading">{ this.props.driver.name }</h3>
 								<div className="media-body">
-								{ vehiclemessage }
-									<blockquote className="blockquote-reverse">
-									{driverquote}
-									</blockquote>
+									<p>Drives a { car }</p>
+									<div className="alert alert-warning quote">
+										<div style={{ float: "left" }}>&raquo;</div><div style={{ float: "right" }}>&laquo;</div><div style={{ textAlign: "center" }}>{driverquote}</div>
+										<div className="clear"></div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -122,45 +117,63 @@ var Details = React.createClass({
 							<div className="panel-heading">Scoring</div>
 							<div className="panel-body">
 								<div className="progress">
-									<div className="progress-bar progress-bar-success" role="progressbar" style={{ minWidth: "1em", width: score }}>
-										{ score }
+									<div className="progress-bar progress-bar-success" role="progressbar" style={{ minWidth: "1em", width: score + "%" }}>
+										{ score }%
 									</div>
-									<div className="progress-bar progress-bar-danger" role="progressbar" style={{ minWidth: "1em", width: malus }}>
-										{ malus }
+									<div className="progress-bar progress-bar-danger" role="progressbar" style={{ minWidth: "1em", width: malus + "%" }}>
+										{ malus }%
 									</div>
 								</div>
-								<p>Score: {score}</p>
-								<p>Negativ Effect: {malus}</p>
-								<div className="panel-body">
-								  <p>Minus points with (in %)</p>
-									<p>kmH: {kmhmalus}</p>
-									<p>pedal D: {pedaldmalus}</p>
-									<p>pedal E: {pedalemalus}</p>
-									<p>RPM: {rpmmalus}</p>
-								</div>
+
+								<h4>Penalties:</h4>
+								<dl className="dl-horizontal">
+								  <dt>Exceeding Speed</dt>
+								  <dd>{kmhmalus} %</dd>
+								  <dt>Drive-Pedal Position</dt>
+								  <dd>{pedaldmalus} %</dd>
+								  <dt>Break-Pedal Position</dt>
+								  <dd>{pedalemalus} %</dd>
+								  <dt>Exceeding RPM</dt>
+								  <dd>{rpmmalus} %</dd>
+								</dl>
 							</div>
 						</div>
 
 						<div className="panel panel-default">
 							<div className="panel-heading">Summary</div>
 							<div className="panel-body">
-							<p>{totalKm}</p>
-							<p>{kmPerYear}</p>
-							<p>{kmPerMonth}</p>
-							<p>Avg. Throttle Position:</p>
-							<div className="progress">
-							<div className="progress-bar" role="progressbar" style={avgThrottleStyle}>
-								{avgThrottle}%
-							</div>
-						</div>
-							<p>{avgGear}</p>
-							<p>{avgVelocity}</p>
-							<p>{avgRPM}</p>
-							<p>{pedalD}</p>
-							<p>{pedalE}</p>
-							</div>
-						</div>
 
+								<table className="table table-hover">
+									<tr>
+										<th>Total driven Kilometers</th><td>{totalKm}</td>
+									</tr>
+									<tr>
+										<th>Avg. Kilometers per Year</th><td>{kmPerYear}</td>
+									</tr>
+									<tr>
+										<th>Avg. Kilometers per Month</th><td>{kmPerMonth}</td>
+									</tr>
+									<tr>
+										<th>Avg. Throttle Position</th><td>{avgThrottle}</td>
+									</tr>
+									<tr>
+										<th>Avg. Gear</th><td>{avgGear}</td>
+									</tr>
+									<tr>
+										<th>Avg. velocity</th><td>{avgVelocity} km/h</td>
+									</tr>
+									<tr>
+										<th>Avg. Rotations Per Mintute</th><td>{avgRPM} rpm</td>
+									</tr>
+									<tr>
+										<th>Pedal Postion D</th><td>{pedalD} %</td>
+									</tr>
+									<tr>
+										<th>Pedal Postion E</th><td>{pedalE} %</td>
+									</tr>
+								</table>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
