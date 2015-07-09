@@ -17,7 +17,7 @@ SAP.API = {
 			parChar = "?"
 
 		// prepend API url if useFullUrl is not set or set to false
-		if (typeof useFullUrl === 'undefined' || !useFullUrl)
+		if (typeof useFullUrl === "undefined" || !useFullUrl)
 			url = SAP.API.API_URL + url;
 
 		// check for proxy

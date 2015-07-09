@@ -10,9 +10,9 @@ SAP.INIT = {
 		SAP.INIT.callback = callback;
 		SAP.INIT.progress = 0.0;
 
-		$('#modalLoading').modal({
-		  backdrop: 'static',
-		  keyboard: false
+		$("#modalLoading").modal({
+			backdrop: "static",
+			keyboard: false
 		});
 
 		// TODO: Add real data loading functions

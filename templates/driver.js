@@ -172,13 +172,13 @@ var Driver = React.createClass({
 		return (
 			<a href="#" className={ rootClasses } onClick={ this.props.clickHandler }>
 				<div className="media">
-				  <div className="media-left">
-				    <img className="media-object img-circle" src={picture} style={{ width: "48px", height: "48px" }} />
-				  </div>
-				  <div className="media-body">
-				    <h4 className="media-heading"><b>{ this.props.data.rank }.</b> { this.props.data.driver.name }</h4>
-				    { this.props.data.driver.department }
-				  </div>
+					<div className="media-left">
+						<img className="media-object img-circle" src={picture} style={{ width: "48px", height: "48px" }} />
+					</div>
+					<div className="media-body">
+						<h4 className="media-heading"><b>{ this.props.data.rank }.</b> { this.props.data.driver.name }</h4>
+						{ this.props.data.driver.department }
+					</div>
 				</div>
 				<div className={ ribbonClasses }></div>
 				<div className="driver-score">{ score }</div>

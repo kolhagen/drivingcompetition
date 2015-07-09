@@ -127,14 +127,14 @@ SAP.SCORE = {
 
 	// calculate ranking based on score
 	calculate: function(year, month) {
-		if (typeof month === 'undefined')
-			month = 'average';
+		if (typeof month === "undefined")
+			month = "average";
 
 		if (year < SAP.SCORE.DATE_START.year || year > SAP.SCORE.DATE_END.year ||
-				month !== 'average' && (month < 1 || month > 12 ||
+				month !== "average" && (month < 1 || month > 12 ||
 				(year == SAP.SCORE.DATE_START.year && month < SAP.SCORE.DATE_START.month) ||
 				(year == SAP.SCORE.DATE_END.year && month > SAP.SCORE.DATE_END.month))) {
-			console.error('Invalid Timespan!');
+			console.error("Invalid Timespan!");
 			return;
 		}
 
@@ -166,20 +166,20 @@ SAP.SCORE = {
 
 	// calculate trend in rank compared to previous timespan
 	trend: function(year, month) {
-		if (typeof month === 'undefined')
-			month = 'average';
+		if (typeof month === "undefined")
+			month = "average";
 
 		if (year < SAP.SCORE.DATE_START.year || year > SAP.SCORE.DATE_END.year ||
-				month !== 'average' && (month < 1 || month > 12 ||
+				month !== "average" && (month < 1 || month > 12 ||
 				(year == SAP.SCORE.DATE_START.year && month < SAP.SCORE.DATE_START.month) ||
 				(year == SAP.SCORE.DATE_END.year && month > SAP.SCORE.DATE_END.month))) {
-			console.error('Invalid Timespan!');
+			console.error("Invalid Timespan!");
 			return;
 		}
 
 		if (year == SAP.SCORE.DATE_START.year && (
-					month === 'average' ||
-					month !== 'average' && month == SAP.SCORE.DATE_START.month)) {
+					month === "average" ||
+					month !== "average" && month == SAP.SCORE.DATE_START.month)) {
 			i = 0;
 			for (driver of data.driver) {
 				driver.trend = 0;
@@ -189,7 +189,7 @@ SAP.SCORE = {
 		} else {
 			var previousMonth;
 			var previousYear;
-			if (month !== 'average') {
+			if (month !== "average") {
 				previousMonth = month - 1;
 				previousYear = year;
 				if (previousMonth == 0) {

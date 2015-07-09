@@ -23,23 +23,23 @@
 	border-top-left-radius: 3px;
 }
 
-.list-group-item:last-child .driver-ribbon padding-right:  {
+.list-group-item:last-child .driver-ribbon padding-right:	{
 	border-bottom-left-radius: 3px;
 }
 
 .driver-score {
 	font-size: 12px;
 	position: absolute;
-  margin-right: 8px;
-  margin-top: 8px;
+	margin-right: 8px;
+	margin-top: 8px;
 	top: 0px;
 	right: 0px;
 }
 
 .driver-trend {
-  position: absolute;
-  margin-right: 8px;
-  margin-bottom: 8px;
-  bottom: 0px;
-  right: 0px;
+	position: absolute;
+	margin-right: 8px;
+	margin-bottom: 8px;
+	bottom: 0px;
+	right: 0px;
 }

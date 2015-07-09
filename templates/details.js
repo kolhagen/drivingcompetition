@@ -176,8 +176,8 @@ var Details = React.createClass({
 							<div className="panel-body">
 								<div className="progress">
 									<div className="progress-bar progress-bar-info" role="progressbar" style={{width: noscore + "%" }}>
-	   								n/A
-	  							</div>
+		 								n/A
+									</div>
 									<div className="progress-bar progress-bar-success" role="progressbar" style={{ minWidth: "1em", width: score + "%" }}>
 										{ score }%
 									</div>
