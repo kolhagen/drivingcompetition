@@ -63,16 +63,17 @@ var Details = React.createClass({
 		penalties.pedalemalus = { label:"Pedal E Position", value: 0 };
 		penalties.rpmmalus = { label:"Exceeding RPM", value: 0 };
 		penalties.throttle = { label:"Exceeding Throttle", value: 0 };
-
+		console.log(detailscore);
 		if (detailscore) {
 			noscore = 0 ;
 			score = detailscore.score.toFixed(2);
 			malus = (detailscore.kmhmalus + detailscore.pedaldmalus + detailscore.pedalemalus + detailscore.rpmmalus + detailscore.throttlemalus).toFixed(2);
 
+			console.log(detailscore.kmhmalus+ " " + detailscore.pedaldmalus+ " "  + detailscore.pedalemalus+ " "  + detailscore.rpmmalus+ " "  + detailscore.throttlemalus)
 			penalties.kmhmalus.value = detailscore.kmhmalus.toFixed(2);
 			penalties.pedaldmalus.value = detailscore.pedaldmalus.toFixed(2);
-			penalties.pedalemalus.value = detailscore.pedaldmalus.toFixed(2);
-			penalties.rpmmalus.value = detailscore.pedaldmalus.toFixed(2);
+			penalties.pedalemalus.value = detailscore.pedalemalus.toFixed(2);
+			penalties.rpmmalus.value = detailscore.rpmmalus.toFixed(2);
 			penalties.throttle.value = detailscore.throttlemalus.toFixed(2);
 		}
 
@@ -80,7 +81,6 @@ var Details = React.createClass({
 		for (var entry in penalties) {
 			if (!penalties.hasOwnProperty(entry))
 				continue;
-
 			penaltyNodes.push((
 				<dt>{ penalties[entry].label }</dt>
 			));

@@ -212,18 +212,25 @@ SAP.LOAD = {
 							var pedalep = 0;
 							var throttle = 0;
 
-							if(kmhmax !== 0 && kmhmalus !== 0){
-								kmhp =  kmhmalus / kmhmax * 100;}
-							if(rpmmalus !== 0 && rpmmax !== 0){
-								rpmp = rpmmalus / rpmmax * 100;}
-							if(pedaldmalus !== 0 && pedaldmax !== 0){
-								pedaldp = pedaldmalus / pedaldmax * 100;}
-							if(pedalemax !== 0 && pedalemalus !== 0){
-								pedalep = pedalemalus / pedalemax * 100;}
-							if(throttlemax !== 0 && throttlemalus !== 0){
-								throttle = throttlemalus / throttlemax * 100;}
+							var maxcount = Math.max(kmhmax,rpmmax,pedaldmax,pedalemax,throttlemax);
+							if(kmhmalus !== 0){
+								kmhp =  kmhmalus / maxcount * 100;
+								}
+							if(rpmmalus !== 0){
+								rpmp = rpmmalus / maxcount * 100;
+								}
+							if(pedaldmalus !== 0){
+								pedaldp = pedaldmalus / maxcount * 100;
+								}
+							if(pedalemalus !== 0){
+								pedalep = pedalemalus / maxcount * 100;
+								}
+							if(throttlemalus !== 0){
+								throttle = throttlemalus / maxcount * 100;
+								}
 							//console.log(score +" " + kmhp + " " + rpmp + " " + pedaldp + " " + pedalep + " " + throttle);
-							score = score - kmhp - rpmp - pedaldp - pedalep - throttle;
+							malus = kmhp + rpmp + pedaldp + pedalep + throttle;
+							score = score - malus;
 
 							//var year = parseODataDate(trip.EndPointInTime).getFullYear();
 							//var month = parseODataDate(trip.EndPointInTime).getMonth()+1;
@@ -231,13 +238,14 @@ SAP.LOAD = {
 							if(!allscore[vid][year])
 								allscore[vid][year] = {};
 							if(!allscore[vid][year][month])
-								allscore[vid][year][month] = {accumulated: 0.0, count: 0, kmhmahlus: 0.0, rpmmalus: 0.0, pedaldmalus: 0.0, pedalemalus: 0.0, throttlemalus: 0.0};
+								allscore[vid][year][month] = {accumulated: 0.0, malus: 0.0, count: 0, kmhmahlus: 0.0, rpmmalus: 0.0, pedaldmalus: 0.0, pedalemalus: 0.0, throttlemalus: 0.0};
 							allscore[vid][year][month].accumulated += score;
 							allscore[vid][year][month].kmhmahlus += kmhp;
 							allscore[vid][year][month].rpmmalus += rpmp;
 							allscore[vid][year][month].pedaldmalus += pedaldp;
 							allscore[vid][year][month].pedalemalus += pedalep;
-							allscore[vid][year][month].throttlemalus = throttle;
+							allscore[vid][year][month].throttlemalus += throttle;
+							allscore[vid][year][month].malus += malus;
 							allscore[vid][year][month].count++;
 							apiRequestsResponded++;
 							checkDone();
@@ -273,9 +281,10 @@ for(vehicle in scoreTable){
 			if(!finalscore[vehicle][year][month])
 				finalscore[vehicle][year][month] = 0.0;
 			if(!detailscore[vehicle][year][month])
-				detailscore[vehicle][year][month] = {score: 0.0, kmhmalus: 0.0, rpmmalus: 0.0, pedaldmalus: 0.0, pedalemalus: 0.0, throttlemalus: 0.0};
+				detailscore[vehicle][year][month] = {score: 0.0, malus: 0.0, kmhmalus: 0.0, rpmmalus: 0.0, pedaldmalus: 0.0, pedalemalus: 0.0, throttlemalus: 0.0};
 			finalscore[vehicle][year][month] = scoreTable[vehicle][year][month].accumulated / scoreTable[vehicle][year][month].count;
 			detailscore[vehicle][year][month].score =  scoreTable[vehicle][year][month].accumulated / scoreTable[vehicle][year][month].count;
+			detailscore[vehicle][year][month].malus =  scoreTable[vehicle][year][month].malus / scoreTable[vehicle][year][month].count;
 			detailscore[vehicle][year][month].kmhmalus =  scoreTable[vehicle][year][month].kmhmahlus / scoreTable[vehicle][year][month].count;
 			detailscore[vehicle][year][month].rpmmalus =  scoreTable[vehicle][year][month].rpmmalus / scoreTable[vehicle][year][month].count;
 			detailscore[vehicle][year][month].pedaldmalus =  scoreTable[vehicle][year][month].pedaldmalus / scoreTable[vehicle][year][month].count;
