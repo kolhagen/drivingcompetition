@@ -31,14 +31,12 @@ var DriverList = React.createClass({
 		this.updateRanking(this.state.year, month);
 	},
 	updateRanking: function(year, month) {
-		m = (month !== -1) ? month : "average";
-
 		if (this.state.selected !== -1)
 			var selectedName = this.props.data[this.state.selected].name;
 
 		var newSelectIndex = -1;
 
-		SAP.SCORE.trend(year, m);
+		SAP.SCORE.trend(year, month);
 
 		if (this.state.selected !== -1) {
 			var i = 0;
@@ -119,7 +117,7 @@ var DateSelect = React.createClass({
 		}
 
 		var displayMonth = MONTHS[this.props.date.month-1];
-		if (this.props.date.month === -1)
+		if (this.props.date.month === "average")
 			displayMonth = "All";
 
 		return (
@@ -131,7 +129,7 @@ var DateSelect = React.createClass({
 					<ul className="dropdown-menu">
 						{ monthNodes }
 						<li role="separator" className="divider"></li>
-						<li><a href="#" onClick={ this.props.onChangeMonth.bind(null, -1) }>All</a></li>
+						<li><a href="#" onClick={ this.props.onChangeMonth.bind(null, "average") }>All</a></li>
 					</ul>
 				</div>
 

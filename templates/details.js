@@ -9,8 +9,8 @@ var Details = React.createClass({
 		if (nextProps.driver === null)
 			return;
 
-		var extras = SAP.DATA.getExtras(nextProps.driver, this.props.date.year, this.props.date.month);
-		var score = nextProps.driver.scores[this.props.date.year][this.props.date.month];
+		var extras = SAP.DATA.getExtras(nextProps.driver, nextProps.date.year, nextProps.date.month);
+		var score = nextProps.driver.scores[nextProps.date.year][nextProps.date.month];
 		this.setState({ extra: extras, score: score });
 	},
 	render: function() {
