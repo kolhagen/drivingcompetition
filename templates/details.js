@@ -70,13 +70,13 @@ var Details = React.createClass({
 		penalties.pedalemalus = { label:"Pedal E Position", value: 0 };
 		penalties.rpmmalus = { label:"Exceeding RPM", value: 0 };
 		penalties.throttle = { label:"Exceeding Throttle", value: 0 };
-		console.log(detailscore);
+		//console.log(detailscore);
 		if (detailscore) {
 			noscore = 0 ;
 			score = detailscore.score.toFixed(2);
 			malus = (detailscore.kmhmalus + detailscore.pedaldmalus + detailscore.pedalemalus + detailscore.rpmmalus + detailscore.throttlemalus).toFixed(2);
 
-			console.log(detailscore.kmhmalus+ " " + detailscore.pedaldmalus+ " "  + detailscore.pedalemalus+ " "  + detailscore.rpmmalus+ " "  + detailscore.throttlemalus)
+			//console.log(detailscore.kmhmalus+ " " + detailscore.pedaldmalus+ " "  + detailscore.pedalemalus+ " "  + detailscore.rpmmalus+ " "  + detailscore.throttlemalus)
 			penalties.kmhmalus.value = detailscore.kmhmalus.toFixed(2);
 			penalties.pedaldmalus.value = detailscore.pedaldmalus.toFixed(2);
 			penalties.pedalemalus.value = detailscore.pedalemalus.toFixed(2);
@@ -116,8 +116,10 @@ var Details = React.createClass({
 		var summary = {};
 		summary.numberoftrips = { label: "Total number of trips", value: "n/A", unit: "" };
 		summary.drivenkm = { label: "Total driven Kilometers this month", value: "n/A", unit: "km" };
-		summary.totalKm = { label: "Total driven Kilometers", value: "n/A", unit: "km" };
-		summary.kmPerYear = { label: "Avg. Kilometers this Year per trip", value: "n/A", unit: "km" };
+		summary.totalkmPerYear = { label: "Total driven Kilometers this year", value: "n/A", unit: "km" };
+		summary.totalKm = { label: "Total driven Kilometers (mileage status)", value: "n/A", unit: "km" };
+		summary.kmPerYear = { label: "Avg. Kilometers this Year per month", value: "n/A", unit: "km" };		
+		summary.kmPerTrip = { label: "Avg. Kilometers per trip", value: "n/A", unit: "km" };
 		summary.avgThrottle = { label: "Avg. Throttle Position", value: "n/A", unit: "%" };
 		summary.avgcommandedThrottle = { label: "Avg. Commanded Throttle Position", value: "n/A", unit: "%" };
 		summary.avgGear = { label: "Avg. Gear", value: "n/A", unit: "" };
@@ -142,8 +144,11 @@ var Details = React.createClass({
 				if(typeof approx[kilometer].value2 == "string"){
 					summary.drivenkm.value = Math.round(approx[kilometer].value1);
 					summary.totalKm.value = approx[kilometer].value2;
+					summary.kmPerTrip.value = Math.round(Math.round(approx[kilometer].value1) / numberOfTrips.numberOfTrips);
 				}else{
 					summary.kmPerYear.value = Math.round(approx[kilometer].value1);
+					summary.totalkmPerYear.value = this.props.driver.extra.monthly[this.props.date.year].sum.approx[kilometer].value1
+					summary.kmPerTrip.value = Math.round(Math.round(approx[kilometer].value1) / numberOfTrips.numberOfTrips);
 							//letzer tachostand des jahres
 							if(this.props.date.month === "average"){
 								var lastMonth = 12;
