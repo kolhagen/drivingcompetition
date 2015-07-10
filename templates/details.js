@@ -134,6 +134,7 @@ var Details = React.createClass({
 			summary.numberoftrips.value = numberOfTrips.numberOfTrips;
 		}
 		if(this.props.date.month === "average"){
+			console.log("years view");
 			console.log(this.props.driver.extra.monthly[this.props.date.year].sum.trips.numberOfTrips);
 			summary.numberoftrips.value = this.props.driver.extra.monthly[this.props.date.year].sum.trips.numberOfTrips;
 		}
@@ -141,7 +142,7 @@ var Details = React.createClass({
 		if (approx) {
 			if(approx[kilometer]){
 				console.log(approx[kilometer]);				
-				if(typeof approx[kilometer].value2 == "string"){
+				if(this.props.date.month !== "average"){
 					summary.drivenkm.value = Math.round(approx[kilometer].value1);
 					summary.totalKm.value = approx[kilometer].value2;
 					summary.kmPerTrip.value = Math.round(Math.round(approx[kilometer].value1) / numberOfTrips.numberOfTrips);
