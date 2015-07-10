@@ -125,8 +125,8 @@ var Details = React.createClass({
 		summary.avgGear = { label: "Avg. Gear", value: "n/A", unit: "" };
 		summary.avgVelocity = { label: "Avg. velocity", value: "n/A", unit: " km/h" };
 		summary.avgRPM = { label: "Avg. Rotations Per Mintute", value: "n/A", unit: "rpm" };
-		summary.pedalD = { label: "Pedal Postion D", value: "n/A", unit: "%" };
-		summary.pedalE = { label: "Pedal Postion E", value: "n/A", unit: "%" };
+		summary.pedalD = { label: "Avg. Pedal Postion D", value: "n/A", unit: "%" };
+		summary.pedalE = { label: "Avg. Pedal Postion E", value: "n/A", unit: "%" };
 
 		
 
